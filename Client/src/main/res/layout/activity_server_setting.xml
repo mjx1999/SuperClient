@@ -17,7 +17,6 @@
         android:text="服务器名" />
 
     <EditText
-        android:layout_alignLeft="@id/serverPort"
         android:id="@+id/serverName"
         style="@style/settingEdit"
         android:layout_width="wrap_content"

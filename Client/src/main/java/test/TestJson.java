@@ -26,12 +26,12 @@ public class TestJson {
         respAccset.setErrNo("0");
         respAccset.setErrMessage("错误的帐号.");
         Accset accset1 = new Accset();
-        accset1.setAccsetID("1");
+        accset1.setAccsetID(1);
         accset1.setAccsetCode("hehehe");
         accset1.setAccsetName("测试帐号001");
 
         Accset accset2 = new Accset();
-        accset2.setAccsetID("2");
+        accset2.setAccsetID(2);
         accset2.setAccsetCode("ahahahaha");
         accset2.setAccsetName("ceshizhanghao002");
 
@@ -44,7 +44,7 @@ public class TestJson {
         System.out.println(json);
         System.out.println(respJson);
 
-        String jsonResp = "{\"Data\":[{\"AccsetID\":\"1\",\"AccsetCode\":\"hehehe\",\"AccsetName\":\"测试帐号001\"},{\"AccsetID\":\"2\",\"AccsetCode\":\"ahahahaha\",\"AccsetName\":\"ceshizhanghao002\"}],\"ErrNo\":\"0\",\"ErrMessage\":\"错误的帐号.\"}\n";
+        String jsonResp = "{\"ResultData\":[{\"AccsetID\":\"1\",\"AccsetCode\":\"hehehe\",\"AccsetName\":\"测试帐号001\"},{\"AccsetID\":\"2\",\"AccsetCode\":\"ahahahaha\",\"AccsetName\":\"ceshizhanghao002\"}],\"ErrNo\":\"0\",\"ErrMessage\":\"错误的帐号.\"}\n";
         System.out.println(gson.fromJson(jsonResp,RespAccset.class));
 
 
