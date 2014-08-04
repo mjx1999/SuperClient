@@ -3,7 +3,7 @@ package test;
 import com.google.gson.Gson;
 import com.twisty.superclient.bean.Accset;
 import com.twisty.superclient.bean.Params;
-import com.twisty.superclient.bean.RequestParams;
+import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.bean.RespAccset;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class TestJson {
     public static void main(String[] args) {
         Gson gson = new Gson();
-        RequestParams requestParams = new RequestParams();
+        Request requestParams = new Request();
         requestParams.setMethod("GetAccount");
         Params params = new Params();
         params.setClientVer("1.2");
@@ -38,7 +38,7 @@ public class TestJson {
         ArrayList<Accset> accsets = new ArrayList<Accset>();
         accsets.add(accset1);
         accsets.add(accset2);
-        respAccset.setData(accsets);
+        respAccset.setResultData(accsets);
 
         String respJson = gson.toJson(respAccset);
         System.out.println(json);

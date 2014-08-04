@@ -1,12 +1,12 @@
 package com.twisty.superclient.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.twisty.superclient.R;
 
-public class Login extends Activity {
+public class Login extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,8 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="settingLabel">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="settingEdit">
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

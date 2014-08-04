@@ -3,7 +3,7 @@ package com.twisty.superclient.bean;
 /**
  * Created by twisty on 14-8-3.
  */
-public class RequestParams {
+public class Request {
     private String Method;
     private Params Params;
 

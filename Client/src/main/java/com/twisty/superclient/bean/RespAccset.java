@@ -6,14 +6,14 @@ import java.util.ArrayList;
  * Created by twisty on 14-8-3.
  */
 public class RespAccset extends Response {
-    private ArrayList<Accset> Data;
+    private ArrayList<Accset> ResultData;
 
-    public ArrayList<Accset> getData() {
-        return Data;
+    public ArrayList<Accset> getResultData() {
+        return ResultData;
     }
 
-    public void setData(ArrayList<Accset> data) {
-        Data = data;
+    public void setResultData(ArrayList<Accset> resultData) {
+        ResultData = resultData;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class RespAccset extends Response {
         return "RespAccset{" +
                 "ErrNo="+super.getErrNo()+
                 ",ErrMessage="+super.getErrMessage()+
-                ",Data=" + Data +
+                ",ResultData=" + ResultData +
                 '}';
     }
 }

@@ -4,15 +4,15 @@ package com.twisty.superclient.bean;
  * Created by twisty on 14-8-3.
  */
 public class Accset {
-    private String AccsetID;
+    private long AccsetID;
     private String AccsetCode;
     private String AccsetName;
 
-    public String getAccsetID() {
+    public long getAccsetID() {
         return AccsetID;
     }
 
-    public void setAccsetID(String accsetID) {
+    public void setAccsetID(long accsetID) {
         AccsetID = accsetID;
     }
 
