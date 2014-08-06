@@ -1,8 +1,10 @@
 package com.twisty.superclient.view;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.util.CommonLog;
@@ -14,6 +16,14 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getActionBar();
+        if(actionBar!=null)actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home)finish();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

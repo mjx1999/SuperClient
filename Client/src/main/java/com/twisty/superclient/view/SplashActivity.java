@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import com.twisty.superclient.R;
 
 
-public class Splash extends Activity {
+public class SplashActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +17,9 @@ public class Splash extends Activity {
         boolean isFirst = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isFirst", true);
         Intent intent;
         if (isFirst) {
-            intent = new Intent(this, ServerSetting.class);
+            intent = new Intent(this, ServerActivity.class);
         } else {
-            intent = new Intent(this, Login.class);
+            intent = new Intent(this, LoginActivity.class);
         }
         startActivity(intent);
     }

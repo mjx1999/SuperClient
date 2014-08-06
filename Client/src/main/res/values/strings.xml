@@ -6,4 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">登录</string>
     <string name="title_activity_server_setting">连接服务器</string>
+    <string name="title_activity_accset">AccsetActivity</string>
+
 </resources>
