@@ -5,22 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.Operator;
+import com.twisty.superclient.bean.Module;
 
 import java.util.List;
 
 /**
  * Created by twisty on 14-8-10.
  */
-public class OperatorAdapter extends BaseAdapter {
-    private List<Operator> data;
+public class ModuleAdapter extends BaseAdapter {
+    private List<Module> data;
     private Context context;
     private LayoutInflater inflater;
 
-    public OperatorAdapter(List<Operator> data, Context context) {
+    public ModuleAdapter(List<Module> data, Context context) {
         this.data = data;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -38,14 +39,17 @@ public class OperatorAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return data.get(position).getOpID();
+        return data.get(position).getModuleID();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.dropdown_item,null);
-        TextView opNameView = (TextView) view.findViewById(R.id.dropName);
-        opNameView.setText(data.get(position).getOpName());
+        View view = inflater.inflate(R.layout.module_item,null);
+        ImageView moduleIconView = (ImageView) view.findViewById(R.id.moduleIcon);
+        TextView moduleNameView = (TextView) view.findViewById(R.id.moduleName);
+        moduleIconView.setImageResource(data.get(position).getModuleIcon());
+        moduleNameView.setText(data.get(position).getModuleName());
+
         return view;
     }
 }
