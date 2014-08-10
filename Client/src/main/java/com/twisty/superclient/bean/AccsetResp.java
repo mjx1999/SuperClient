@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-3.
  */
-public class RespAccset extends Response {
+public class AccsetResp extends Response {
     private ArrayList<Accset> ResultData;
 
     public ArrayList<Accset> getResultData() {

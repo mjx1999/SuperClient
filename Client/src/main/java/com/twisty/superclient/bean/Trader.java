@@ -10,8 +10,8 @@ public class Trader implements java.io.Serializable {
     private String TraderCode;
     private String TraderName;
     private String FullName;
-    private Boolean IsClient;
-    private Boolean IsVendor;
+    private Integer IsClient;
+    private Integer IsVendor;
     private Long TraderTypeID;
     private Long AreaID;
     private String Lev;
@@ -31,15 +31,15 @@ public class Trader implements java.io.Serializable {
     private String Bank;
     private String BankAccno;
     private String TaxNo;
-    private String CreditDay;
-    private String Credit;
-    private Boolean Closed;
-    private Boolean AccTrader;
+    private Integer CreditDay;
+    private Double Credit;
+    private Integer Closed;
+    private Integer AccTrader;
 
     public Trader() {
     }
 
-    public Trader(Long TraderID, String TraderCode, String TraderName, String FullName, Boolean IsClient, Boolean IsVendor, Long TraderTypeID, Long AreaID, String Lev, Long EmpID, Long DepartmentID, Long Legalrep, Long Contactor, String Phone, String Tel1, String Tel2, String Fax, String Zip, String Address, String ShipTo, String EMail, String Url, String Bank, String BankAccno, String TaxNo, String CreditDay, String Credit, Boolean Closed, Boolean AccTrader) {
+    public Trader(Long TraderID, String TraderCode, String TraderName, String FullName, Integer IsClient, Integer IsVendor, Long TraderTypeID, Long AreaID, String Lev, Long EmpID, Long DepartmentID, Long Legalrep, Long Contactor, String Phone, String Tel1, String Tel2, String Fax, String Zip, String Address, String ShipTo, String EMail, String Url, String Bank, String BankAccno, String TaxNo, Integer CreditDay, Double Credit, Integer Closed, Integer AccTrader) {
         this.TraderID = TraderID;
         this.TraderCode = TraderCode;
         this.TraderName = TraderName;
@@ -103,19 +103,19 @@ public class Trader implements java.io.Serializable {
         this.FullName = FullName;
     }
 
-    public Boolean getIsClient() {
+    public Integer getIsClient() {
         return IsClient;
     }
 
-    public void setIsClient(Boolean IsClient) {
+    public void setIsClient(Integer IsClient) {
         this.IsClient = IsClient;
     }
 
-    public Boolean getIsVendor() {
+    public Integer getIsVendor() {
         return IsVendor;
     }
 
-    public void setIsVendor(Boolean IsVendor) {
+    public void setIsVendor(Integer IsVendor) {
         this.IsVendor = IsVendor;
     }
 
@@ -271,35 +271,35 @@ public class Trader implements java.io.Serializable {
         this.TaxNo = TaxNo;
     }
 
-    public String getCreditDay() {
+    public Integer getCreditDay() {
         return CreditDay;
     }
 
-    public void setCreditDay(String CreditDay) {
+    public void setCreditDay(Integer CreditDay) {
         this.CreditDay = CreditDay;
     }
 
-    public String getCredit() {
+    public Double getCredit() {
         return Credit;
     }
 
-    public void setCredit(String Credit) {
+    public void setCredit(Double Credit) {
         this.Credit = Credit;
     }
 
-    public Boolean getClosed() {
+    public Integer getClosed() {
         return Closed;
     }
 
-    public void setClosed(Boolean Closed) {
+    public void setClosed(Integer Closed) {
         this.Closed = Closed;
     }
 
-    public Boolean getAccTrader() {
+    public Integer getAccTrader() {
         return AccTrader;
     }
 
-    public void setAccTrader(Boolean AccTrader) {
+    public void setAccTrader(Integer AccTrader) {
         this.AccTrader = AccTrader;
     }
 

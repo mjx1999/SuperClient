@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-4.
  */
-public class RespOperator extends Response{
+public class OperatorResp extends Response{
     private ArrayList<Operator> ResultData;
 
     public ArrayList<Operator> getResultData() {

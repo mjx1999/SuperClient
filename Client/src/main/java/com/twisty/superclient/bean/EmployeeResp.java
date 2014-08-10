@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-4.
  */
-public class RespEmployee {
+public class EmployeeResp {
     private ArrayList<Employee> ResultData;
 
     public ArrayList<Employee> getResultData() {

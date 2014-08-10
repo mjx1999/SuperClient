@@ -2,10 +2,10 @@ package test;
 
 import com.google.gson.Gson;
 import com.twisty.superclient.bean.Accset;
+import com.twisty.superclient.bean.AccsetResp;
 import com.twisty.superclient.bean.Department;
 import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.bean.Request;
-import com.twisty.superclient.bean.RespAccset;
 
 import java.util.ArrayList;
 
@@ -23,8 +23,8 @@ public class TestJson {
         String json = gson.toJson(requestParams);
 
 
-        RespAccset respAccset = new RespAccset();
-        respAccset.setErrNo("0");
+        AccsetResp respAccset = new AccsetResp();
+        respAccset.setErrNo(0);
         respAccset.setErrMessage("错误的帐号.");
         Accset accset1 = new Accset();
         accset1.setAccsetID(1L);
@@ -46,7 +46,7 @@ public class TestJson {
         System.out.println(respJson);
 
         String jsonResp = "{\"ResultData\":[{\"AccsetID\":\"1\",\"AccsetCode\":\"hehehe\",\"AccsetName\":\"测试帐号001\"},{\"AccsetID\":\"2\",\"AccsetCode\":\"ahahahaha\",\"AccsetName\":\"ceshizhanghao002\"}],\"ErrNo\":\"0\",\"ErrMessage\":\"错误的帐号.\"}\n";
-        System.out.println(gson.fromJson(jsonResp,RespAccset.class));
+        System.out.println(gson.fromJson(jsonResp,AccsetResp.class));
 
         Department department = new Department();
         department.setClose(false);

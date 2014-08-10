@@ -10,7 +10,7 @@ public class Params {
     private String AccsetCode;
 
 
-    private String OpID;               /*操作员ID*/
+    private long OpID;               /*操作员ID*/
     private String OpPassword;       /*操作员密码*/
     private String DefaultStoreCode;
 
@@ -32,11 +32,11 @@ public class Params {
         AccsetCode = accsetCode;
     }
 
-    public String getOpID() {
+    public long getOpID() {
         return OpID;
     }
 
-    public void setOpID(String opID) {
+    public void setOpID(long opID) {
         OpID = opID;
     }
 
@@ -54,5 +54,16 @@ public class Params {
 
     public void setDefaultStoreCode(String defaultStoreCode) {
         DefaultStoreCode = defaultStoreCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Params{" +
+                "ClientVer='" + ClientVer + '\'' +
+                ", AccsetCode='" + AccsetCode + '\'' +
+                ", OpID=" + OpID +
+                ", OpPassword='" + OpPassword + '\'' +
+                ", DefaultStoreCode='" + DefaultStoreCode + '\'' +
+                '}';
     }
 }

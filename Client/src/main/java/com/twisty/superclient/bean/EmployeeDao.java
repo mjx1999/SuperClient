@@ -28,7 +28,7 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
         public final static Property EmpName = new Property(2, String.class, "EmpName", false, "EMP_NAME");
         public final static Property DepartmentID = new Property(3, Long.class, "DepartmentID", false, "DEPARTMENT_ID");
         public final static Property Sex = new Property(4, String.class, "Sex", false, "SEX");
-        public final static Property Close = new Property(5, Boolean.class, "Close", false, "CLOSE");
+        public final static Property Close = new Property(5, Integer.class, "Close", false, "CLOSE");
     };
 
 
@@ -93,9 +93,9 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
             stmt.bindString(5, Sex);
         }
  
-        Boolean Close = entity.getClose();
+        Integer Close = entity.getClose();
         if (Close != null) {
-            stmt.bindLong(6, Close ? 1l: 0l);
+            stmt.bindLong(6, Close);
         }
     }
 
@@ -114,7 +114,7 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // EmpName
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // DepartmentID
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // Sex
-            cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0 // Close
+            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5) // Close
         );
         return entity;
     }
@@ -127,7 +127,7 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
         entity.setEmpName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setDepartmentID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
         entity.setSex(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setClose(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
+        entity.setClose(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
      }
     
     /** @inheritdoc */

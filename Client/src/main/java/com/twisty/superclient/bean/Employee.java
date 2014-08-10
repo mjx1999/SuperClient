@@ -11,12 +11,12 @@ public class Employee implements java.io.Serializable {
     private String EmpName;
     private Long DepartmentID;
     private String Sex;
-    private Boolean Close;
+    private Integer Close;
 
     public Employee() {
     }
 
-    public Employee(Long EmpID, String EmpCode, String EmpName, Long DepartmentID, String Sex, Boolean Close) {
+    public Employee(Long EmpID, String EmpCode, String EmpName, Long DepartmentID, String Sex, Integer Close) {
         this.EmpID = EmpID;
         this.EmpCode = EmpCode;
         this.EmpName = EmpName;
@@ -65,11 +65,11 @@ public class Employee implements java.io.Serializable {
         this.Sex = Sex;
     }
 
-    public Boolean getClose() {
+    public Integer getClose() {
         return Close;
     }
 
-    public void setClose(Boolean Close) {
+    public void setClose(Integer Close) {
         this.Close = Close;
     }
 

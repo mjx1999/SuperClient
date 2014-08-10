@@ -4,14 +4,14 @@ package com.twisty.superclient.bean;
  * Created by twisty on 14-8-3.
  */
 public class Response {
-    private String ErrNo;
+    private int ErrNo;
     private String ErrMessage;
 
-    public String getErrNo() {
+    public int getErrNo() {
         return ErrNo;
     }
 
-    public void setErrNo(String errNo) {
+    public void setErrNo(int errNo) {
         ErrNo = errNo;
     }
 
@@ -30,4 +30,9 @@ public class Response {
                 ", ErrMessage='" + ErrMessage + '\'' +
                 '}';
     }
+
+    public boolean isCorrect(){
+        return ErrNo ==0;
+    }
+
 }

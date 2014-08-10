@@ -34,7 +34,7 @@ public class DaoGerner {
         employee.addStringProperty("EmpName");
         employee.addLongProperty("DepartmentID").index();
         employee.addStringProperty("Sex");
-        employee.addBooleanProperty("Close");
+        employee.addIntProperty("Close");
         employee.implementsSerializable();
 
         Entity operator = schema.addEntity("Operator");
@@ -51,8 +51,8 @@ public class DaoGerner {
         trader.addStringProperty("TraderCode").index();
         trader.addStringProperty("TraderName");
         trader.addStringProperty("FullName");
-        trader.addBooleanProperty("IsClient");
-        trader.addBooleanProperty("IsVendor");
+        trader.addIntProperty("IsClient");
+        trader.addIntProperty("IsVendor");
         trader.addLongProperty("TraderTypeID");
         trader.addLongProperty("AreaID").index();
         trader.addStringProperty("Lev");
@@ -72,10 +72,10 @@ public class DaoGerner {
         trader.addStringProperty("Bank");
         trader.addStringProperty("BankAccno");
         trader.addStringProperty("TaxNo");
-        trader.addStringProperty("CreditDay");
-        trader.addStringProperty("Credit");
-        trader.addBooleanProperty("Closed");
-        trader.addBooleanProperty("AccTrader");
+        trader.addIntProperty("CreditDay");
+        trader.addDoubleProperty("Credit");
+        trader.addIntProperty("Closed");
+        trader.addIntProperty("AccTrader");
         trader.implementsSerializable();
 
         Entity tradeType = schema.addEntity("TradeType");
@@ -86,6 +86,144 @@ public class DaoGerner {
         tradeType.addLongProperty("ParentID");
         tradeType.implementsSerializable();
 
+
+        Entity ioType = schema.addEntity("IoType");
+        ioType.addLongProperty("IoTypeID").index();
+        ioType.addStringProperty("IoTypeCode");
+        ioType.addStringProperty("IoTypeName");
+        ioType.addIntProperty("IoFlag");
+        ioType.addIntProperty("Closed");
+        ioType.implementsSerializable();
+
+        Entity store = schema.addEntity("Store");
+        store.addLongProperty("StoreID").index();
+        store.addStringProperty("StoreCode");
+        store.addStringProperty("StoreName");
+        store.addStringProperty("Location");
+        store.addIntProperty("Closed");
+        store.implementsSerializable();
+
+        Entity gdType = schema.addEntity("GDType");
+        gdType.addLongProperty("GDTypeID").index();
+        gdType.addStringProperty("GDTypeCode");
+        gdType.addStringProperty("GDTypeName");
+        gdType.addLongProperty("ParentID");
+        gdType.addStringProperty("LCode");
+        gdType.addIntProperty("Closed");
+        gdType.implementsSerializable();
+
+        Entity goods = schema.addEntity("Goods");
+        goods.addLongProperty("GoodsID");
+        goods.addStringProperty("GoodsCode");
+        goods.addStringProperty("GoodsName");
+        goods.addStringProperty("ShortName");
+        goods.addStringProperty("Specs");
+        goods.addLongProperty("GDTypeID").index();
+        goods.addStringProperty("GDUserDef1");
+        goods.addStringProperty("GDUserDef2");
+        goods.addStringProperty("GDUserDef3");
+        goods.addStringProperty("GDUserDef4");
+        goods.addStringProperty("GDUserDef5");
+        goods.addStringProperty("GDUserDef6");
+        goods.addStringProperty("GDUserDef7");
+        goods.addStringProperty("GDUserDef8");
+        goods.addStringProperty("GDUserDef9");
+        goods.addStringProperty("GDUserDef10");
+        goods.implementsSerializable();
+
+
+        Entity goodsUtil = schema.addEntity("Unit");
+        goodsUtil.addLongProperty("UnitID").index();
+        goodsUtil.addLongProperty("GoodsID").index();
+        goodsUtil.addStringProperty("UnitName");
+        goodsUtil.addStringProperty("BarCode");
+        goodsUtil.addFloatProperty("Rate");
+        goodsUtil.addIntProperty("IsBase");
+        goodsUtil.addDoubleProperty("SPrice");
+        goodsUtil.addDoubleProperty("PPrice");
+        goodsUtil.addDoubleProperty("HighPrice");
+        goodsUtil.addDoubleProperty("LowPrice");
+        goodsUtil.addDoubleProperty("VipPrice");
+        goodsUtil.addDoubleProperty("LPrice1");
+        goodsUtil.addDoubleProperty("LPrice2");
+        goodsUtil.addDoubleProperty("LPrice3");
+        goodsUtil.addDoubleProperty("LPrice4");
+        goodsUtil.addDoubleProperty("LPrice5");
+        goodsUtil.addIntProperty("IsSale");
+        goodsUtil.addIntProperty("IsPurchase");
+        goodsUtil.addIntProperty("IsStore");
+        goodsUtil.implementsSerializable();
+
+
+
+        Entity traderType = schema.addEntity("TraderPrice");
+        traderType.addLongProperty("ID").index();
+        traderType.addLongProperty("TraderID").index();
+        traderType.addLongProperty("GoodsID").index();
+        traderType.addLongProperty("UnitID").index();
+        traderType.addDoubleProperty("Price");
+        traderType.addDoubleProperty("APrice");
+
+
+        Entity goodsPicture = schema.addEntity("GoodsPicture");
+        goodsPicture.addLongProperty("ID").index();
+        goodsPicture.addStringProperty("Picture");
+        goodsPicture.addStringProperty("PictureExt");
+        goodsPicture.implementsSerializable();
+
+        Entity onHand = schema.addEntity("OnHand");
+        onHand.addLongProperty("StoreID").index();
+        onHand.addLongProperty("GoodsID").index();
+        onHand.addDoubleProperty("Quantity");
+        onHand.addDoubleProperty("RealQty");
+        onHand.implementsSerializable();
+
+
+        Entity account = schema.addEntity("Account");
+        account.addLongProperty("AccountID").index();
+        account.addStringProperty("AccountName");
+        account.addLongProperty("MoneyID");
+        account.addLongProperty("MoneyName");
+        account.addLongProperty("BankID");
+        account.addStringProperty("BankName");
+        account.addStringProperty("AccountNo");
+        account.addIntProperty("Closed");
+        account.implementsSerializable();
+
+
+
         new DaoGenerator().generateAll(schema,"./DaoGerner/Gen");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

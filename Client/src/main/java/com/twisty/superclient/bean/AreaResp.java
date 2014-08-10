@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-4.
  */
-public class RespArea {
+public class AreaResp {
     private ArrayList<Area> ResultData;
 
     public ArrayList<Area> getResultData() {

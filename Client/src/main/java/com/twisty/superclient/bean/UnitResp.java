@@ -3,22 +3,22 @@ package com.twisty.superclient.bean;
 import java.util.ArrayList;
 
 /**
- * Created by twisty on 14-8-5.
+ * Created by twisty on 14-8-10.
  */
-public class RespTrader {
-    private ArrayList<Trader> ResultData;
+public class UnitResp extends Response {
+    private ArrayList<Unit> ResultData;
 
-    public ArrayList<Trader> getResultData() {
+    public ArrayList<Unit> getResultData() {
         return ResultData;
     }
 
-    public void setResultData(ArrayList<Trader> resultData) {
+    public void setResultData(ArrayList<Unit> resultData) {
         ResultData = resultData;
     }
 
     @Override
     public String toString() {
-        return "RespTrader{" +
+        return "UnitResp{" +
                 "ResultData=" + ResultData +
                 '}';
     }

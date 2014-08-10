@@ -27,8 +27,8 @@ public class TraderDao extends AbstractDao<Trader, Void> {
         public final static Property TraderCode = new Property(1, String.class, "TraderCode", false, "TRADER_CODE");
         public final static Property TraderName = new Property(2, String.class, "TraderName", false, "TRADER_NAME");
         public final static Property FullName = new Property(3, String.class, "FullName", false, "FULL_NAME");
-        public final static Property IsClient = new Property(4, Boolean.class, "IsClient", false, "IS_CLIENT");
-        public final static Property IsVendor = new Property(5, Boolean.class, "IsVendor", false, "IS_VENDOR");
+        public final static Property IsClient = new Property(4, Integer.class, "IsClient", false, "IS_CLIENT");
+        public final static Property IsVendor = new Property(5, Integer.class, "IsVendor", false, "IS_VENDOR");
         public final static Property TraderTypeID = new Property(6, Long.class, "TraderTypeID", false, "TRADER_TYPE_ID");
         public final static Property AreaID = new Property(7, Long.class, "AreaID", false, "AREA_ID");
         public final static Property Lev = new Property(8, String.class, "Lev", false, "LEV");
@@ -48,10 +48,10 @@ public class TraderDao extends AbstractDao<Trader, Void> {
         public final static Property Bank = new Property(22, String.class, "Bank", false, "BANK");
         public final static Property BankAccno = new Property(23, String.class, "BankAccno", false, "BANK_ACCNO");
         public final static Property TaxNo = new Property(24, String.class, "TaxNo", false, "TAX_NO");
-        public final static Property CreditDay = new Property(25, String.class, "CreditDay", false, "CREDIT_DAY");
-        public final static Property Credit = new Property(26, String.class, "Credit", false, "CREDIT");
-        public final static Property Closed = new Property(27, Boolean.class, "Closed", false, "CLOSED");
-        public final static Property AccTrader = new Property(28, Boolean.class, "AccTrader", false, "ACC_TRADER");
+        public final static Property CreditDay = new Property(25, Integer.class, "CreditDay", false, "CREDIT_DAY");
+        public final static Property Credit = new Property(26, Double.class, "Credit", false, "CREDIT");
+        public final static Property Closed = new Property(27, Integer.class, "Closed", false, "CLOSED");
+        public final static Property AccTrader = new Property(28, Integer.class, "AccTrader", false, "ACC_TRADER");
     };
 
 
@@ -92,8 +92,8 @@ public class TraderDao extends AbstractDao<Trader, Void> {
                 "'BANK' TEXT," + // 22: Bank
                 "'BANK_ACCNO' TEXT," + // 23: BankAccno
                 "'TAX_NO' TEXT," + // 24: TaxNo
-                "'CREDIT_DAY' TEXT," + // 25: CreditDay
-                "'CREDIT' TEXT," + // 26: Credit
+                "'CREDIT_DAY' INTEGER," + // 25: CreditDay
+                "'CREDIT' REAL," + // 26: Credit
                 "'CLOSED' INTEGER," + // 27: Closed
                 "'ACC_TRADER' INTEGER);"); // 28: AccTrader
         // Add Indexes
@@ -140,14 +140,14 @@ public class TraderDao extends AbstractDao<Trader, Void> {
             stmt.bindString(4, FullName);
         }
  
-        Boolean IsClient = entity.getIsClient();
+        Integer IsClient = entity.getIsClient();
         if (IsClient != null) {
-            stmt.bindLong(5, IsClient ? 1l: 0l);
+            stmt.bindLong(5, IsClient);
         }
  
-        Boolean IsVendor = entity.getIsVendor();
+        Integer IsVendor = entity.getIsVendor();
         if (IsVendor != null) {
-            stmt.bindLong(6, IsVendor ? 1l: 0l);
+            stmt.bindLong(6, IsVendor);
         }
  
         Long TraderTypeID = entity.getTraderTypeID();
@@ -245,24 +245,24 @@ public class TraderDao extends AbstractDao<Trader, Void> {
             stmt.bindString(25, TaxNo);
         }
  
-        String CreditDay = entity.getCreditDay();
+        Integer CreditDay = entity.getCreditDay();
         if (CreditDay != null) {
-            stmt.bindString(26, CreditDay);
+            stmt.bindLong(26, CreditDay);
         }
  
-        String Credit = entity.getCredit();
+        Double Credit = entity.getCredit();
         if (Credit != null) {
-            stmt.bindString(27, Credit);
+            stmt.bindDouble(27, Credit);
         }
  
-        Boolean Closed = entity.getClosed();
+        Integer Closed = entity.getClosed();
         if (Closed != null) {
-            stmt.bindLong(28, Closed ? 1l: 0l);
+            stmt.bindLong(28, Closed);
         }
  
-        Boolean AccTrader = entity.getAccTrader();
+        Integer AccTrader = entity.getAccTrader();
         if (AccTrader != null) {
-            stmt.bindLong(29, AccTrader ? 1l: 0l);
+            stmt.bindLong(29, AccTrader);
         }
     }
 
@@ -280,8 +280,8 @@ public class TraderDao extends AbstractDao<Trader, Void> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // TraderCode
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // TraderName
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // FullName
-            cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0, // IsClient
-            cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0, // IsVendor
+            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // IsClient
+            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // IsVendor
             cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // TraderTypeID
             cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // AreaID
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // Lev
@@ -301,10 +301,10 @@ public class TraderDao extends AbstractDao<Trader, Void> {
             cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // Bank
             cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // BankAccno
             cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // TaxNo
-            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // CreditDay
-            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // Credit
-            cursor.isNull(offset + 27) ? null : cursor.getShort(offset + 27) != 0, // Closed
-            cursor.isNull(offset + 28) ? null : cursor.getShort(offset + 28) != 0 // AccTrader
+            cursor.isNull(offset + 25) ? null : cursor.getInt(offset + 25), // CreditDay
+            cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26), // Credit
+            cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27), // Closed
+            cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28) // AccTrader
         );
         return entity;
     }
@@ -316,8 +316,8 @@ public class TraderDao extends AbstractDao<Trader, Void> {
         entity.setTraderCode(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setTraderName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setFullName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setIsClient(cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0);
-        entity.setIsVendor(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
+        entity.setIsClient(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setIsVendor(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
         entity.setTraderTypeID(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
         entity.setAreaID(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
         entity.setLev(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
@@ -337,10 +337,10 @@ public class TraderDao extends AbstractDao<Trader, Void> {
         entity.setBank(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
         entity.setBankAccno(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
         entity.setTaxNo(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
-        entity.setCreditDay(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
-        entity.setCredit(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
-        entity.setClosed(cursor.isNull(offset + 27) ? null : cursor.getShort(offset + 27) != 0);
-        entity.setAccTrader(cursor.isNull(offset + 28) ? null : cursor.getShort(offset + 28) != 0);
+        entity.setCreditDay(cursor.isNull(offset + 25) ? null : cursor.getInt(offset + 25));
+        entity.setCredit(cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26));
+        entity.setClosed(cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27));
+        entity.setAccTrader(cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28));
      }
     
     /** @inheritdoc */
