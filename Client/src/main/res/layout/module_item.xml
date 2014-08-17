@@ -8,12 +8,12 @@
     <ImageView
         android:id="@+id/moduleIcon"
         android:src="@android:drawable/ic_menu_compass"
-        android:layout_width="120dp"
-        android:layout_height="120dp" />
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
     <TextView
         android:text="单据管理"
         android:gravity="center"
         android:id="@+id/moduleName"
-        android:layout_width="120dp"
-        android:layout_height="30dp" />
+        android:layout_width="80dp"
+        android:layout_height="20dp" />
 </LinearLayout>

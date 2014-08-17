@@ -3,6 +3,8 @@
     package="com.twisty.superclient" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +34,32 @@
         <activity
             android:name=".view.MainActivity"
             android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name=".view.SellOrderActivity"
+            android:label="@string/title_activity_order_module" >
+        </activity>
+        <activity
+            android:name=".view.BluetoothListActivity"
+            android:label="@string/title_activity_bluetooth_list"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog" >
+        </activity>
+        <activity
+            android:name=".view.ModuleOrderActivity"
+            android:label="@string/title_activity_module_order" >
+        </activity>
+        <activity
+            android:name=".view.OrderListActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:label="@string/title_activity_order_list" >
+        </activity>
+        <activity
+            android:name=".view.filter.FilterActivity"
+            android:label="@string/title_activity_filter" >
+        </activity>
+        <activity
+            android:name=".view.filter.TraderFilterActivity"
+            android:label="@string/title_activity_trader_filter" >
         </activity>
     </application>
 

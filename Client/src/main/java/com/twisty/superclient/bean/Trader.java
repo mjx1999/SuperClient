@@ -7,6 +7,7 @@ package com.twisty.superclient.bean;
 public class Trader implements java.io.Serializable {
 
     private Long TraderID;
+    private Long ShopID;
     private String TraderCode;
     private String TraderName;
     private String FullName;
@@ -17,8 +18,8 @@ public class Trader implements java.io.Serializable {
     private String Lev;
     private Long EmpID;
     private Long DepartmentID;
-    private Long Legalrep;
-    private Long Contactor;
+    private String Legalrep;
+    private String Contactor;
     private String Phone;
     private String Tel1;
     private String Tel2;
@@ -39,8 +40,9 @@ public class Trader implements java.io.Serializable {
     public Trader() {
     }
 
-    public Trader(Long TraderID, String TraderCode, String TraderName, String FullName, Integer IsClient, Integer IsVendor, Long TraderTypeID, Long AreaID, String Lev, Long EmpID, Long DepartmentID, Long Legalrep, Long Contactor, String Phone, String Tel1, String Tel2, String Fax, String Zip, String Address, String ShipTo, String EMail, String Url, String Bank, String BankAccno, String TaxNo, Integer CreditDay, Double Credit, Integer Closed, Integer AccTrader) {
+    public Trader(Long TraderID, Long ShopID, String TraderCode, String TraderName, String FullName, Integer IsClient, Integer IsVendor, Long TraderTypeID, Long AreaID, String Lev, Long EmpID, Long DepartmentID, String Legalrep, String Contactor, String Phone, String Tel1, String Tel2, String Fax, String Zip, String Address, String ShipTo, String EMail, String Url, String Bank, String BankAccno, String TaxNo, Integer CreditDay, Double Credit, Integer Closed, Integer AccTrader) {
         this.TraderID = TraderID;
+        this.ShopID = ShopID;
         this.TraderCode = TraderCode;
         this.TraderName = TraderName;
         this.FullName = FullName;
@@ -77,6 +79,14 @@ public class Trader implements java.io.Serializable {
 
     public void setTraderID(Long TraderID) {
         this.TraderID = TraderID;
+    }
+
+    public Long getShopID() {
+        return ShopID;
+    }
+
+    public void setShopID(Long ShopID) {
+        this.ShopID = ShopID;
     }
 
     public String getTraderCode() {
@@ -159,19 +169,19 @@ public class Trader implements java.io.Serializable {
         this.DepartmentID = DepartmentID;
     }
 
-    public Long getLegalrep() {
+    public String getLegalrep() {
         return Legalrep;
     }
 
-    public void setLegalrep(Long Legalrep) {
+    public void setLegalrep(String Legalrep) {
         this.Legalrep = Legalrep;
     }
 
-    public Long getContactor() {
+    public String getContactor() {
         return Contactor;
     }
 
-    public void setContactor(Long Contactor) {
+    public void setContactor(String Contactor) {
         this.Contactor = Contactor;
     }
 

@@ -1,5 +1,10 @@
 package com.twisty.superclient.bean;
 
+import android.content.Context;
+import android.os.Looper;
+
+import com.twisty.superclient.util.CommonUtil;
+
 /**
  * Created by twisty on 14-8-3.
  */
@@ -35,4 +40,11 @@ public class Response {
         return ErrNo ==0;
     }
 
+    public void catchException(Context context){
+        if(ErrNo<0){
+            Looper.prepare();
+            CommonUtil.showToastError(context,ErrMessage);
+            Looper.loop();
+        }
+    }
 }

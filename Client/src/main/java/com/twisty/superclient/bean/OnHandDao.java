@@ -25,8 +25,9 @@ public class OnHandDao extends AbstractDao<OnHand, Void> {
     public static class Properties {
         public final static Property StoreID = new Property(0, Long.class, "StoreID", false, "STORE_ID");
         public final static Property GoodsID = new Property(1, Long.class, "GoodsID", false, "GOODS_ID");
-        public final static Property Quantity = new Property(2, Double.class, "Quantity", false, "QUANTITY");
-        public final static Property RealQty = new Property(3, Double.class, "RealQty", false, "REAL_QTY");
+        public final static Property ShopID = new Property(2, Long.class, "ShopID", false, "SHOP_ID");
+        public final static Property Quantity = new Property(3, Double.class, "Quantity", false, "QUANTITY");
+        public final static Property RealQty = new Property(4, Double.class, "RealQty", false, "REAL_QTY");
     };
 
 
@@ -44,13 +45,16 @@ public class OnHandDao extends AbstractDao<OnHand, Void> {
         db.execSQL("CREATE TABLE " + constraint + "'ON_HAND' (" + //
                 "'STORE_ID' INTEGER," + // 0: StoreID
                 "'GOODS_ID' INTEGER," + // 1: GoodsID
-                "'QUANTITY' REAL," + // 2: Quantity
-                "'REAL_QTY' REAL);"); // 3: RealQty
+                "'SHOP_ID' INTEGER," + // 2: ShopID
+                "'QUANTITY' REAL," + // 3: Quantity
+                "'REAL_QTY' REAL);"); // 4: RealQty
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_ON_HAND_STORE_ID ON ON_HAND" +
                 " (STORE_ID);");
         db.execSQL("CREATE INDEX " + constraint + "IDX_ON_HAND_GOODS_ID ON ON_HAND" +
                 " (GOODS_ID);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_ON_HAND_SHOP_ID ON ON_HAND" +
+                " (SHOP_ID);");
     }
 
     /** Drops the underlying database table. */
@@ -74,14 +78,19 @@ public class OnHandDao extends AbstractDao<OnHand, Void> {
             stmt.bindLong(2, GoodsID);
         }
  
+        Long ShopID = entity.getShopID();
+        if (ShopID != null) {
+            stmt.bindLong(3, ShopID);
+        }
+ 
         Double Quantity = entity.getQuantity();
         if (Quantity != null) {
-            stmt.bindDouble(3, Quantity);
+            stmt.bindDouble(4, Quantity);
         }
  
         Double RealQty = entity.getRealQty();
         if (RealQty != null) {
-            stmt.bindDouble(4, RealQty);
+            stmt.bindDouble(5, RealQty);
         }
     }
 
@@ -97,8 +106,9 @@ public class OnHandDao extends AbstractDao<OnHand, Void> {
         OnHand entity = new OnHand( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // StoreID
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // GoodsID
-            cursor.isNull(offset + 2) ? null : cursor.getDouble(offset + 2), // Quantity
-            cursor.isNull(offset + 3) ? null : cursor.getDouble(offset + 3) // RealQty
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // ShopID
+            cursor.isNull(offset + 3) ? null : cursor.getDouble(offset + 3), // Quantity
+            cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4) // RealQty
         );
         return entity;
     }
@@ -108,8 +118,9 @@ public class OnHandDao extends AbstractDao<OnHand, Void> {
     public void readEntity(Cursor cursor, OnHand entity, int offset) {
         entity.setStoreID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setGoodsID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setQuantity(cursor.isNull(offset + 2) ? null : cursor.getDouble(offset + 2));
-        entity.setRealQty(cursor.isNull(offset + 3) ? null : cursor.getDouble(offset + 3));
+        entity.setShopID(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setQuantity(cursor.isNull(offset + 3) ? null : cursor.getDouble(offset + 3));
+        entity.setRealQty(cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4));
      }
     
     /** @inheritdoc */

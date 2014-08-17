@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Client/Client.iml" filepath="$PROJECT_DIR$/Client/Client.iml" />
       <module fileurl="file://$PROJECT_DIR$/DaoGerner/DaoGerner.iml" filepath="$PROJECT_DIR$/DaoGerner/DaoGerner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HeaderListView/HeaderListView.iml" filepath="$PROJECT_DIR$/HeaderListView/HeaderListView.iml" />
       <module fileurl="file://$PROJECT_DIR$/SuperClient.iml" filepath="$PROJECT_DIR$/SuperClient.iml" />
     </modules>
   </component>

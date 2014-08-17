@@ -24,11 +24,12 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
     */
     public static class Properties {
         public final static Property EmpID = new Property(0, Long.class, "EmpID", false, "EMP_ID");
-        public final static Property EmpCode = new Property(1, String.class, "EmpCode", false, "EMP_CODE");
-        public final static Property EmpName = new Property(2, String.class, "EmpName", false, "EMP_NAME");
-        public final static Property DepartmentID = new Property(3, Long.class, "DepartmentID", false, "DEPARTMENT_ID");
-        public final static Property Sex = new Property(4, String.class, "Sex", false, "SEX");
-        public final static Property Close = new Property(5, Integer.class, "Close", false, "CLOSE");
+        public final static Property ShopID = new Property(1, Long.class, "ShopID", false, "SHOP_ID");
+        public final static Property EmpCode = new Property(2, String.class, "EmpCode", false, "EMP_CODE");
+        public final static Property EmpName = new Property(3, String.class, "EmpName", false, "EMP_NAME");
+        public final static Property DepartmentID = new Property(4, Long.class, "DepartmentID", false, "DEPARTMENT_ID");
+        public final static Property Sex = new Property(5, String.class, "Sex", false, "SEX");
+        public final static Property Close = new Property(6, Integer.class, "Close", false, "CLOSE");
     };
 
 
@@ -45,14 +46,17 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'EMPLOYEE' (" + //
                 "'EMP_ID' INTEGER," + // 0: EmpID
-                "'EMP_CODE' TEXT," + // 1: EmpCode
-                "'EMP_NAME' TEXT," + // 2: EmpName
-                "'DEPARTMENT_ID' INTEGER," + // 3: DepartmentID
-                "'SEX' TEXT," + // 4: Sex
-                "'CLOSE' INTEGER);"); // 5: Close
+                "'SHOP_ID' INTEGER," + // 1: ShopID
+                "'EMP_CODE' TEXT," + // 2: EmpCode
+                "'EMP_NAME' TEXT," + // 3: EmpName
+                "'DEPARTMENT_ID' INTEGER," + // 4: DepartmentID
+                "'SEX' TEXT," + // 5: Sex
+                "'CLOSE' INTEGER);"); // 6: Close
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_EMPLOYEE_EMP_ID ON EMPLOYEE" +
                 " (EMP_ID);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_EMPLOYEE_SHOP_ID ON EMPLOYEE" +
+                " (SHOP_ID);");
         db.execSQL("CREATE INDEX " + constraint + "IDX_EMPLOYEE_DEPARTMENT_ID ON EMPLOYEE" +
                 " (DEPARTMENT_ID);");
     }
@@ -73,29 +77,34 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
             stmt.bindLong(1, EmpID);
         }
  
+        Long ShopID = entity.getShopID();
+        if (ShopID != null) {
+            stmt.bindLong(2, ShopID);
+        }
+ 
         String EmpCode = entity.getEmpCode();
         if (EmpCode != null) {
-            stmt.bindString(2, EmpCode);
+            stmt.bindString(3, EmpCode);
         }
  
         String EmpName = entity.getEmpName();
         if (EmpName != null) {
-            stmt.bindString(3, EmpName);
+            stmt.bindString(4, EmpName);
         }
  
         Long DepartmentID = entity.getDepartmentID();
         if (DepartmentID != null) {
-            stmt.bindLong(4, DepartmentID);
+            stmt.bindLong(5, DepartmentID);
         }
  
         String Sex = entity.getSex();
         if (Sex != null) {
-            stmt.bindString(5, Sex);
+            stmt.bindString(6, Sex);
         }
  
         Integer Close = entity.getClose();
         if (Close != null) {
-            stmt.bindLong(6, Close);
+            stmt.bindLong(7, Close);
         }
     }
 
@@ -110,11 +119,12 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
     public Employee readEntity(Cursor cursor, int offset) {
         Employee entity = new Employee( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // EmpID
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // EmpCode
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // EmpName
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // DepartmentID
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // Sex
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5) // Close
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // ShopID
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // EmpCode
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // EmpName
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // DepartmentID
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // Sex
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6) // Close
         );
         return entity;
     }
@@ -123,11 +133,12 @@ public class EmployeeDao extends AbstractDao<Employee, Void> {
     @Override
     public void readEntity(Cursor cursor, Employee entity, int offset) {
         entity.setEmpID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setEmpCode(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setEmpName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setDepartmentID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
-        entity.setSex(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setClose(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setShopID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setEmpCode(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setEmpName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDepartmentID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setSex(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setClose(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
      }
     
     /** @inheritdoc */

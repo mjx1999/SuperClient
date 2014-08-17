@@ -27,8 +27,9 @@ public class TraderPriceDao extends AbstractDao<TraderPrice, Void> {
         public final static Property TraderID = new Property(1, Long.class, "TraderID", false, "TRADER_ID");
         public final static Property GoodsID = new Property(2, Long.class, "GoodsID", false, "GOODS_ID");
         public final static Property UnitID = new Property(3, Long.class, "UnitID", false, "UNIT_ID");
-        public final static Property Price = new Property(4, Double.class, "Price", false, "PRICE");
-        public final static Property APrice = new Property(5, Double.class, "APrice", false, "APRICE");
+        public final static Property ShopID = new Property(4, Long.class, "ShopID", false, "SHOP_ID");
+        public final static Property Price = new Property(5, Double.class, "Price", false, "PRICE");
+        public final static Property APrice = new Property(6, Double.class, "APrice", false, "APRICE");
     };
 
 
@@ -48,8 +49,9 @@ public class TraderPriceDao extends AbstractDao<TraderPrice, Void> {
                 "'TRADER_ID' INTEGER," + // 1: TraderID
                 "'GOODS_ID' INTEGER," + // 2: GoodsID
                 "'UNIT_ID' INTEGER," + // 3: UnitID
-                "'PRICE' REAL," + // 4: Price
-                "'APRICE' REAL);"); // 5: APrice
+                "'SHOP_ID' INTEGER," + // 4: ShopID
+                "'PRICE' REAL," + // 5: Price
+                "'APRICE' REAL);"); // 6: APrice
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_TRADER_PRICE_ID ON TRADER_PRICE" +
                 " (ID);");
@@ -59,6 +61,8 @@ public class TraderPriceDao extends AbstractDao<TraderPrice, Void> {
                 " (GOODS_ID);");
         db.execSQL("CREATE INDEX " + constraint + "IDX_TRADER_PRICE_UNIT_ID ON TRADER_PRICE" +
                 " (UNIT_ID);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_TRADER_PRICE_SHOP_ID ON TRADER_PRICE" +
+                " (SHOP_ID);");
     }
 
     /** Drops the underlying database table. */
@@ -92,14 +96,19 @@ public class TraderPriceDao extends AbstractDao<TraderPrice, Void> {
             stmt.bindLong(4, UnitID);
         }
  
+        Long ShopID = entity.getShopID();
+        if (ShopID != null) {
+            stmt.bindLong(5, ShopID);
+        }
+ 
         Double Price = entity.getPrice();
         if (Price != null) {
-            stmt.bindDouble(5, Price);
+            stmt.bindDouble(6, Price);
         }
  
         Double APrice = entity.getAPrice();
         if (APrice != null) {
-            stmt.bindDouble(6, APrice);
+            stmt.bindDouble(7, APrice);
         }
     }
 
@@ -117,8 +126,9 @@ public class TraderPriceDao extends AbstractDao<TraderPrice, Void> {
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // TraderID
             cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // GoodsID
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // UnitID
-            cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4), // Price
-            cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5) // APrice
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // ShopID
+            cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5), // Price
+            cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6) // APrice
         );
         return entity;
     }
@@ -130,8 +140,9 @@ public class TraderPriceDao extends AbstractDao<TraderPrice, Void> {
         entity.setTraderID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setGoodsID(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
         entity.setUnitID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
-        entity.setPrice(cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4));
-        entity.setAPrice(cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5));
+        entity.setShopID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setPrice(cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5));
+        entity.setAPrice(cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6));
      }
     
     /** @inheritdoc */

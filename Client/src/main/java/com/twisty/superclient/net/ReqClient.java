@@ -44,8 +44,8 @@ public class ReqClient {
 
     public String requestData(Request request)
             throws Exception {
-        log.i(request);
         PrintWriter oos = new PrintWriter(socket.getOutputStream());
+        log.i(gson.toJson(request));
         String asData64 = (new BASE64Encoder()).encodeBuffer(gson.toJson(request).getBytes());
         asData64 = asData64.replaceAll("\r", "");
         asData64 = asData64.replaceAll("\n", "");

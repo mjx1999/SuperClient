@@ -1,9 +1,11 @@
 package com.twisty.superclient.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by twisty on 14-8-3.
  */
-public class Request {
+public class Request implements Serializable{
     private String Method;
     private Params Params;
 

@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        accset = (Accset) getIntent().getSerializableExtra("Accset");
+        accset = SuperClient.getCurrentAccset();
         opNameView = (Spinner) findViewById(R.id.opName);
         opPassView = (EditText) findViewById(R.id.opPass);
         loginBTN = (Button) findViewById(R.id.login);
@@ -137,6 +137,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             Response response = CommonUtil.getGson().fromJson(loginResult, Response.class);
                             if (response != null) {
                                 if (response.isCorrect()) {
+                                    SuperClient.setCurrentOperator((Operator) opNameView.getSelectedItem());
                                     handler.sendEmptyMessage(RESULT_OK);
                                 } else {
                                     Message message = handler.obtainMessage();
@@ -154,6 +155,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             ).count();
                     if(count>0){
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        SuperClient.setCurrentOperator((Operator) opNameView.getSelectedItem());
                         startActivity(intent);
                     }else{
                         CommonUtil.showToastError(LoginActivity.this,"登录密码不正确");

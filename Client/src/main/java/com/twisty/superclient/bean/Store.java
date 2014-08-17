@@ -7,6 +7,7 @@ package com.twisty.superclient.bean;
 public class Store implements java.io.Serializable {
 
     private Long StoreID;
+    private Long ShopID;
     private String StoreCode;
     private String StoreName;
     private String Location;
@@ -15,8 +16,9 @@ public class Store implements java.io.Serializable {
     public Store() {
     }
 
-    public Store(Long StoreID, String StoreCode, String StoreName, String Location, Integer Closed) {
+    public Store(Long StoreID, Long ShopID, String StoreCode, String StoreName, String Location, Integer Closed) {
         this.StoreID = StoreID;
+        this.ShopID = ShopID;
         this.StoreCode = StoreCode;
         this.StoreName = StoreName;
         this.Location = Location;
@@ -29,6 +31,14 @@ public class Store implements java.io.Serializable {
 
     public void setStoreID(Long StoreID) {
         this.StoreID = StoreID;
+    }
+
+    public Long getShopID() {
+        return ShopID;
+    }
+
+    public void setShopID(Long ShopID) {
+        this.ShopID = ShopID;
     }
 
     public String getStoreCode() {

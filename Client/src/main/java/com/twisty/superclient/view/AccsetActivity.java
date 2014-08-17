@@ -94,6 +94,7 @@ public class AccsetActivity extends BaseActivity {
                 Accset accset = (Accset) parent.getItemAtPosition(position);
                 Intent intent = new Intent(AccsetActivity.this,LoginActivity.class);
                 intent.putExtra("Accset",accset);
+                SuperClient.setCurrentAccset(accset);
                 startActivity(intent);
             }
         });

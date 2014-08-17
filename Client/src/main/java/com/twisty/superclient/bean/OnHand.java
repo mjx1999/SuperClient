@@ -8,15 +8,17 @@ public class OnHand implements java.io.Serializable {
 
     private Long StoreID;
     private Long GoodsID;
+    private Long ShopID;
     private Double Quantity;
     private Double RealQty;
 
     public OnHand() {
     }
 
-    public OnHand(Long StoreID, Long GoodsID, Double Quantity, Double RealQty) {
+    public OnHand(Long StoreID, Long GoodsID, Long ShopID, Double Quantity, Double RealQty) {
         this.StoreID = StoreID;
         this.GoodsID = GoodsID;
+        this.ShopID = ShopID;
         this.Quantity = Quantity;
         this.RealQty = RealQty;
     }
@@ -35,6 +37,14 @@ public class OnHand implements java.io.Serializable {
 
     public void setGoodsID(Long GoodsID) {
         this.GoodsID = GoodsID;
+    }
+
+    public Long getShopID() {
+        return ShopID;
+    }
+
+    public void setShopID(Long ShopID) {
+        this.ShopID = ShopID;
     }
 
     public Double getQuantity() {

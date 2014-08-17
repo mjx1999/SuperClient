@@ -24,34 +24,35 @@ public class TraderDao extends AbstractDao<Trader, Void> {
     */
     public static class Properties {
         public final static Property TraderID = new Property(0, Long.class, "TraderID", false, "TRADER_ID");
-        public final static Property TraderCode = new Property(1, String.class, "TraderCode", false, "TRADER_CODE");
-        public final static Property TraderName = new Property(2, String.class, "TraderName", false, "TRADER_NAME");
-        public final static Property FullName = new Property(3, String.class, "FullName", false, "FULL_NAME");
-        public final static Property IsClient = new Property(4, Integer.class, "IsClient", false, "IS_CLIENT");
-        public final static Property IsVendor = new Property(5, Integer.class, "IsVendor", false, "IS_VENDOR");
-        public final static Property TraderTypeID = new Property(6, Long.class, "TraderTypeID", false, "TRADER_TYPE_ID");
-        public final static Property AreaID = new Property(7, Long.class, "AreaID", false, "AREA_ID");
-        public final static Property Lev = new Property(8, String.class, "Lev", false, "LEV");
-        public final static Property EmpID = new Property(9, Long.class, "EmpID", false, "EMP_ID");
-        public final static Property DepartmentID = new Property(10, Long.class, "DepartmentID", false, "DEPARTMENT_ID");
-        public final static Property Legalrep = new Property(11, Long.class, "Legalrep", false, "LEGALREP");
-        public final static Property Contactor = new Property(12, Long.class, "Contactor", false, "CONTACTOR");
-        public final static Property Phone = new Property(13, String.class, "Phone", false, "PHONE");
-        public final static Property Tel1 = new Property(14, String.class, "Tel1", false, "TEL1");
-        public final static Property Tel2 = new Property(15, String.class, "Tel2", false, "TEL2");
-        public final static Property Fax = new Property(16, String.class, "Fax", false, "FAX");
-        public final static Property Zip = new Property(17, String.class, "Zip", false, "ZIP");
-        public final static Property Address = new Property(18, String.class, "Address", false, "ADDRESS");
-        public final static Property ShipTo = new Property(19, String.class, "ShipTo", false, "SHIP_TO");
-        public final static Property EMail = new Property(20, String.class, "EMail", false, "EMAIL");
-        public final static Property Url = new Property(21, String.class, "Url", false, "URL");
-        public final static Property Bank = new Property(22, String.class, "Bank", false, "BANK");
-        public final static Property BankAccno = new Property(23, String.class, "BankAccno", false, "BANK_ACCNO");
-        public final static Property TaxNo = new Property(24, String.class, "TaxNo", false, "TAX_NO");
-        public final static Property CreditDay = new Property(25, Integer.class, "CreditDay", false, "CREDIT_DAY");
-        public final static Property Credit = new Property(26, Double.class, "Credit", false, "CREDIT");
-        public final static Property Closed = new Property(27, Integer.class, "Closed", false, "CLOSED");
-        public final static Property AccTrader = new Property(28, Integer.class, "AccTrader", false, "ACC_TRADER");
+        public final static Property ShopID = new Property(1, Long.class, "ShopID", false, "SHOP_ID");
+        public final static Property TraderCode = new Property(2, String.class, "TraderCode", false, "TRADER_CODE");
+        public final static Property TraderName = new Property(3, String.class, "TraderName", false, "TRADER_NAME");
+        public final static Property FullName = new Property(4, String.class, "FullName", false, "FULL_NAME");
+        public final static Property IsClient = new Property(5, Integer.class, "IsClient", false, "IS_CLIENT");
+        public final static Property IsVendor = new Property(6, Integer.class, "IsVendor", false, "IS_VENDOR");
+        public final static Property TraderTypeID = new Property(7, Long.class, "TraderTypeID", false, "TRADER_TYPE_ID");
+        public final static Property AreaID = new Property(8, Long.class, "AreaID", false, "AREA_ID");
+        public final static Property Lev = new Property(9, String.class, "Lev", false, "LEV");
+        public final static Property EmpID = new Property(10, Long.class, "EmpID", false, "EMP_ID");
+        public final static Property DepartmentID = new Property(11, Long.class, "DepartmentID", false, "DEPARTMENT_ID");
+        public final static Property Legalrep = new Property(12, String.class, "Legalrep", false, "LEGALREP");
+        public final static Property Contactor = new Property(13, String.class, "Contactor", false, "CONTACTOR");
+        public final static Property Phone = new Property(14, String.class, "Phone", false, "PHONE");
+        public final static Property Tel1 = new Property(15, String.class, "Tel1", false, "TEL1");
+        public final static Property Tel2 = new Property(16, String.class, "Tel2", false, "TEL2");
+        public final static Property Fax = new Property(17, String.class, "Fax", false, "FAX");
+        public final static Property Zip = new Property(18, String.class, "Zip", false, "ZIP");
+        public final static Property Address = new Property(19, String.class, "Address", false, "ADDRESS");
+        public final static Property ShipTo = new Property(20, String.class, "ShipTo", false, "SHIP_TO");
+        public final static Property EMail = new Property(21, String.class, "EMail", false, "EMAIL");
+        public final static Property Url = new Property(22, String.class, "Url", false, "URL");
+        public final static Property Bank = new Property(23, String.class, "Bank", false, "BANK");
+        public final static Property BankAccno = new Property(24, String.class, "BankAccno", false, "BANK_ACCNO");
+        public final static Property TaxNo = new Property(25, String.class, "TaxNo", false, "TAX_NO");
+        public final static Property CreditDay = new Property(26, Integer.class, "CreditDay", false, "CREDIT_DAY");
+        public final static Property Credit = new Property(27, Double.class, "Credit", false, "CREDIT");
+        public final static Property Closed = new Property(28, Integer.class, "Closed", false, "CLOSED");
+        public final static Property AccTrader = new Property(29, Integer.class, "AccTrader", false, "ACC_TRADER");
     };
 
 
@@ -68,37 +69,40 @@ public class TraderDao extends AbstractDao<Trader, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'TRADER' (" + //
                 "'TRADER_ID' INTEGER," + // 0: TraderID
-                "'TRADER_CODE' TEXT," + // 1: TraderCode
-                "'TRADER_NAME' TEXT," + // 2: TraderName
-                "'FULL_NAME' TEXT," + // 3: FullName
-                "'IS_CLIENT' INTEGER," + // 4: IsClient
-                "'IS_VENDOR' INTEGER," + // 5: IsVendor
-                "'TRADER_TYPE_ID' INTEGER," + // 6: TraderTypeID
-                "'AREA_ID' INTEGER," + // 7: AreaID
-                "'LEV' TEXT," + // 8: Lev
-                "'EMP_ID' INTEGER," + // 9: EmpID
-                "'DEPARTMENT_ID' INTEGER," + // 10: DepartmentID
-                "'LEGALREP' INTEGER," + // 11: Legalrep
-                "'CONTACTOR' INTEGER," + // 12: Contactor
-                "'PHONE' TEXT," + // 13: Phone
-                "'TEL1' TEXT," + // 14: Tel1
-                "'TEL2' TEXT," + // 15: Tel2
-                "'FAX' TEXT," + // 16: Fax
-                "'ZIP' TEXT," + // 17: Zip
-                "'ADDRESS' TEXT," + // 18: Address
-                "'SHIP_TO' TEXT," + // 19: ShipTo
-                "'EMAIL' TEXT," + // 20: EMail
-                "'URL' TEXT," + // 21: Url
-                "'BANK' TEXT," + // 22: Bank
-                "'BANK_ACCNO' TEXT," + // 23: BankAccno
-                "'TAX_NO' TEXT," + // 24: TaxNo
-                "'CREDIT_DAY' INTEGER," + // 25: CreditDay
-                "'CREDIT' REAL," + // 26: Credit
-                "'CLOSED' INTEGER," + // 27: Closed
-                "'ACC_TRADER' INTEGER);"); // 28: AccTrader
+                "'SHOP_ID' INTEGER," + // 1: ShopID
+                "'TRADER_CODE' TEXT," + // 2: TraderCode
+                "'TRADER_NAME' TEXT," + // 3: TraderName
+                "'FULL_NAME' TEXT," + // 4: FullName
+                "'IS_CLIENT' INTEGER," + // 5: IsClient
+                "'IS_VENDOR' INTEGER," + // 6: IsVendor
+                "'TRADER_TYPE_ID' INTEGER," + // 7: TraderTypeID
+                "'AREA_ID' INTEGER," + // 8: AreaID
+                "'LEV' TEXT," + // 9: Lev
+                "'EMP_ID' INTEGER," + // 10: EmpID
+                "'DEPARTMENT_ID' INTEGER," + // 11: DepartmentID
+                "'LEGALREP' TEXT," + // 12: Legalrep
+                "'CONTACTOR' TEXT," + // 13: Contactor
+                "'PHONE' TEXT," + // 14: Phone
+                "'TEL1' TEXT," + // 15: Tel1
+                "'TEL2' TEXT," + // 16: Tel2
+                "'FAX' TEXT," + // 17: Fax
+                "'ZIP' TEXT," + // 18: Zip
+                "'ADDRESS' TEXT," + // 19: Address
+                "'SHIP_TO' TEXT," + // 20: ShipTo
+                "'EMAIL' TEXT," + // 21: EMail
+                "'URL' TEXT," + // 22: Url
+                "'BANK' TEXT," + // 23: Bank
+                "'BANK_ACCNO' TEXT," + // 24: BankAccno
+                "'TAX_NO' TEXT," + // 25: TaxNo
+                "'CREDIT_DAY' INTEGER," + // 26: CreditDay
+                "'CREDIT' REAL," + // 27: Credit
+                "'CLOSED' INTEGER," + // 28: Closed
+                "'ACC_TRADER' INTEGER);"); // 29: AccTrader
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_TRADER_TRADER_ID ON TRADER" +
                 " (TRADER_ID);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_TRADER_SHOP_ID ON TRADER" +
+                " (SHOP_ID);");
         db.execSQL("CREATE INDEX " + constraint + "IDX_TRADER_TRADER_CODE ON TRADER" +
                 " (TRADER_CODE);");
         db.execSQL("CREATE INDEX " + constraint + "IDX_TRADER_AREA_ID ON TRADER" +
@@ -125,144 +129,149 @@ public class TraderDao extends AbstractDao<Trader, Void> {
             stmt.bindLong(1, TraderID);
         }
  
+        Long ShopID = entity.getShopID();
+        if (ShopID != null) {
+            stmt.bindLong(2, ShopID);
+        }
+ 
         String TraderCode = entity.getTraderCode();
         if (TraderCode != null) {
-            stmt.bindString(2, TraderCode);
+            stmt.bindString(3, TraderCode);
         }
  
         String TraderName = entity.getTraderName();
         if (TraderName != null) {
-            stmt.bindString(3, TraderName);
+            stmt.bindString(4, TraderName);
         }
  
         String FullName = entity.getFullName();
         if (FullName != null) {
-            stmt.bindString(4, FullName);
+            stmt.bindString(5, FullName);
         }
  
         Integer IsClient = entity.getIsClient();
         if (IsClient != null) {
-            stmt.bindLong(5, IsClient);
+            stmt.bindLong(6, IsClient);
         }
  
         Integer IsVendor = entity.getIsVendor();
         if (IsVendor != null) {
-            stmt.bindLong(6, IsVendor);
+            stmt.bindLong(7, IsVendor);
         }
  
         Long TraderTypeID = entity.getTraderTypeID();
         if (TraderTypeID != null) {
-            stmt.bindLong(7, TraderTypeID);
+            stmt.bindLong(8, TraderTypeID);
         }
  
         Long AreaID = entity.getAreaID();
         if (AreaID != null) {
-            stmt.bindLong(8, AreaID);
+            stmt.bindLong(9, AreaID);
         }
  
         String Lev = entity.getLev();
         if (Lev != null) {
-            stmt.bindString(9, Lev);
+            stmt.bindString(10, Lev);
         }
  
         Long EmpID = entity.getEmpID();
         if (EmpID != null) {
-            stmt.bindLong(10, EmpID);
+            stmt.bindLong(11, EmpID);
         }
  
         Long DepartmentID = entity.getDepartmentID();
         if (DepartmentID != null) {
-            stmt.bindLong(11, DepartmentID);
+            stmt.bindLong(12, DepartmentID);
         }
  
-        Long Legalrep = entity.getLegalrep();
+        String Legalrep = entity.getLegalrep();
         if (Legalrep != null) {
-            stmt.bindLong(12, Legalrep);
+            stmt.bindString(13, Legalrep);
         }
  
-        Long Contactor = entity.getContactor();
+        String Contactor = entity.getContactor();
         if (Contactor != null) {
-            stmt.bindLong(13, Contactor);
+            stmt.bindString(14, Contactor);
         }
  
         String Phone = entity.getPhone();
         if (Phone != null) {
-            stmt.bindString(14, Phone);
+            stmt.bindString(15, Phone);
         }
  
         String Tel1 = entity.getTel1();
         if (Tel1 != null) {
-            stmt.bindString(15, Tel1);
+            stmt.bindString(16, Tel1);
         }
  
         String Tel2 = entity.getTel2();
         if (Tel2 != null) {
-            stmt.bindString(16, Tel2);
+            stmt.bindString(17, Tel2);
         }
  
         String Fax = entity.getFax();
         if (Fax != null) {
-            stmt.bindString(17, Fax);
+            stmt.bindString(18, Fax);
         }
  
         String Zip = entity.getZip();
         if (Zip != null) {
-            stmt.bindString(18, Zip);
+            stmt.bindString(19, Zip);
         }
  
         String Address = entity.getAddress();
         if (Address != null) {
-            stmt.bindString(19, Address);
+            stmt.bindString(20, Address);
         }
  
         String ShipTo = entity.getShipTo();
         if (ShipTo != null) {
-            stmt.bindString(20, ShipTo);
+            stmt.bindString(21, ShipTo);
         }
  
         String EMail = entity.getEMail();
         if (EMail != null) {
-            stmt.bindString(21, EMail);
+            stmt.bindString(22, EMail);
         }
  
         String Url = entity.getUrl();
         if (Url != null) {
-            stmt.bindString(22, Url);
+            stmt.bindString(23, Url);
         }
  
         String Bank = entity.getBank();
         if (Bank != null) {
-            stmt.bindString(23, Bank);
+            stmt.bindString(24, Bank);
         }
  
         String BankAccno = entity.getBankAccno();
         if (BankAccno != null) {
-            stmt.bindString(24, BankAccno);
+            stmt.bindString(25, BankAccno);
         }
  
         String TaxNo = entity.getTaxNo();
         if (TaxNo != null) {
-            stmt.bindString(25, TaxNo);
+            stmt.bindString(26, TaxNo);
         }
  
         Integer CreditDay = entity.getCreditDay();
         if (CreditDay != null) {
-            stmt.bindLong(26, CreditDay);
+            stmt.bindLong(27, CreditDay);
         }
  
         Double Credit = entity.getCredit();
         if (Credit != null) {
-            stmt.bindDouble(27, Credit);
+            stmt.bindDouble(28, Credit);
         }
  
         Integer Closed = entity.getClosed();
         if (Closed != null) {
-            stmt.bindLong(28, Closed);
+            stmt.bindLong(29, Closed);
         }
  
         Integer AccTrader = entity.getAccTrader();
         if (AccTrader != null) {
-            stmt.bindLong(29, AccTrader);
+            stmt.bindLong(30, AccTrader);
         }
     }
 
@@ -277,34 +286,35 @@ public class TraderDao extends AbstractDao<Trader, Void> {
     public Trader readEntity(Cursor cursor, int offset) {
         Trader entity = new Trader( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // TraderID
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // TraderCode
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // TraderName
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // FullName
-            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // IsClient
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // IsVendor
-            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // TraderTypeID
-            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // AreaID
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // Lev
-            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // EmpID
-            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // DepartmentID
-            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // Legalrep
-            cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // Contactor
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // Phone
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // Tel1
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // Tel2
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // Fax
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // Zip
-            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // Address
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // ShipTo
-            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // EMail
-            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // Url
-            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // Bank
-            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // BankAccno
-            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // TaxNo
-            cursor.isNull(offset + 25) ? null : cursor.getInt(offset + 25), // CreditDay
-            cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26), // Credit
-            cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27), // Closed
-            cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28) // AccTrader
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // ShopID
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // TraderCode
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // TraderName
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // FullName
+            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // IsClient
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // IsVendor
+            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // TraderTypeID
+            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8), // AreaID
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // Lev
+            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // EmpID
+            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // DepartmentID
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // Legalrep
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // Contactor
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // Phone
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // Tel1
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // Tel2
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // Fax
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // Zip
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // Address
+            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // ShipTo
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // EMail
+            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // Url
+            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // Bank
+            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // BankAccno
+            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // TaxNo
+            cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26), // CreditDay
+            cursor.isNull(offset + 27) ? null : cursor.getDouble(offset + 27), // Credit
+            cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28), // Closed
+            cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29) // AccTrader
         );
         return entity;
     }
@@ -313,34 +323,35 @@ public class TraderDao extends AbstractDao<Trader, Void> {
     @Override
     public void readEntity(Cursor cursor, Trader entity, int offset) {
         entity.setTraderID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setTraderCode(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setTraderName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setFullName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setIsClient(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
-        entity.setIsVendor(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
-        entity.setTraderTypeID(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
-        entity.setAreaID(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
-        entity.setLev(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setEmpID(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
-        entity.setDepartmentID(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
-        entity.setLegalrep(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
-        entity.setContactor(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
-        entity.setPhone(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setTel1(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setTel2(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setFax(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setZip(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setAddress(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setShipTo(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setEMail(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setUrl(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
-        entity.setBank(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
-        entity.setBankAccno(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
-        entity.setTaxNo(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
-        entity.setCreditDay(cursor.isNull(offset + 25) ? null : cursor.getInt(offset + 25));
-        entity.setCredit(cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26));
-        entity.setClosed(cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27));
-        entity.setAccTrader(cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28));
+        entity.setShopID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setTraderCode(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setTraderName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setFullName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setIsClient(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setIsVendor(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setTraderTypeID(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
+        entity.setAreaID(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
+        entity.setLev(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setEmpID(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
+        entity.setDepartmentID(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
+        entity.setLegalrep(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setContactor(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setPhone(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setTel1(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setTel2(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setFax(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setZip(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setAddress(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setShipTo(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setEMail(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setUrl(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setBank(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
+        entity.setBankAccno(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setTaxNo(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setCreditDay(cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26));
+        entity.setCredit(cursor.isNull(offset + 27) ? null : cursor.getDouble(offset + 27));
+        entity.setClosed(cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28));
+        entity.setAccTrader(cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29));
      }
     
     /** @inheritdoc */

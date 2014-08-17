@@ -7,6 +7,7 @@ package com.twisty.superclient.bean;
 public class Employee implements java.io.Serializable {
 
     private Long EmpID;
+    private Long ShopID;
     private String EmpCode;
     private String EmpName;
     private Long DepartmentID;
@@ -16,8 +17,9 @@ public class Employee implements java.io.Serializable {
     public Employee() {
     }
 
-    public Employee(Long EmpID, String EmpCode, String EmpName, Long DepartmentID, String Sex, Integer Close) {
+    public Employee(Long EmpID, Long ShopID, String EmpCode, String EmpName, Long DepartmentID, String Sex, Integer Close) {
         this.EmpID = EmpID;
+        this.ShopID = ShopID;
         this.EmpCode = EmpCode;
         this.EmpName = EmpName;
         this.DepartmentID = DepartmentID;
@@ -31,6 +33,14 @@ public class Employee implements java.io.Serializable {
 
     public void setEmpID(Long EmpID) {
         this.EmpID = EmpID;
+    }
+
+    public Long getShopID() {
+        return ShopID;
+    }
+
+    public void setShopID(Long ShopID) {
+        this.ShopID = ShopID;
     }
 
     public String getEmpCode() {

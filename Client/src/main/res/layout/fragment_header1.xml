@@ -1,0 +1,35 @@
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1"
+    tools:context="com.twisty.superclient.view.FragmentHeader1">
+
+    <TableRow>
+        <TextView
+            android:text="客户名称"
+            />
+        <EditText />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:text="开单日期"
+            />
+
+        <EditText
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:layout_column="1" />
+    </TableRow>
+</TableLayout>
+</ScrollView>

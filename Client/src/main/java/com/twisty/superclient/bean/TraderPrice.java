@@ -10,17 +10,19 @@ public class TraderPrice {
     private Long TraderID;
     private Long GoodsID;
     private Long UnitID;
+    private Long ShopID;
     private Double Price;
     private Double APrice;
 
     public TraderPrice() {
     }
 
-    public TraderPrice(Long ID, Long TraderID, Long GoodsID, Long UnitID, Double Price, Double APrice) {
+    public TraderPrice(Long ID, Long TraderID, Long GoodsID, Long UnitID, Long ShopID, Double Price, Double APrice) {
         this.ID = ID;
         this.TraderID = TraderID;
         this.GoodsID = GoodsID;
         this.UnitID = UnitID;
+        this.ShopID = ShopID;
         this.Price = Price;
         this.APrice = APrice;
     }
@@ -55,6 +57,14 @@ public class TraderPrice {
 
     public void setUnitID(Long UnitID) {
         this.UnitID = UnitID;
+    }
+
+    public Long getShopID() {
+        return ShopID;
+    }
+
+    public void setShopID(Long ShopID) {
+        this.ShopID = ShopID;
     }
 
     public Double getPrice() {

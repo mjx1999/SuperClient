@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Client" />
             <option value="$PROJECT_DIR$/DaoGerner" />
+            <option value="$PROJECT_DIR$/HeaderListView" />
           </set>
         </option>
       </GradleProjectSettings>

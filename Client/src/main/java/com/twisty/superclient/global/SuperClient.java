@@ -3,8 +3,10 @@ package com.twisty.superclient.global;
 import android.app.Application;
 import android.content.Context;
 
+import com.twisty.superclient.bean.Accset;
 import com.twisty.superclient.bean.DaoMaster;
 import com.twisty.superclient.bean.DaoSession;
+import com.twisty.superclient.bean.Operator;
 
 /**
  * Created by twisty on 14-8-6.
@@ -13,6 +15,24 @@ public class SuperClient extends Application {
     private static DaoMaster daoMaster;
     private static DaoSession daoSession;
     private static boolean isOnline;
+    private static Accset currentAccset;
+    private static Operator currentOperator;
+
+    public static Accset getCurrentAccset() {
+        return currentAccset;
+    }
+
+    public static void setCurrentAccset(Accset currentAccset) {
+        SuperClient.currentAccset = currentAccset;
+    }
+
+    public static Operator getCurrentOperator() {
+        return currentOperator;
+    }
+
+    public static void setCurrentOperator(Operator currentOperator) {
+        SuperClient.currentOperator = currentOperator;
+    }
 
     public static boolean getIsOnline() {
         return isOnline;

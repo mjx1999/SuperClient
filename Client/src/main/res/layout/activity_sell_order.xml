@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.twisty.superclient.view.SellOrderActivity">
+    <LinearLayout
+        android:id="@+id/sellOrder"
+        android:layout_above="@+id/buttonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+    <LinearLayout
+        android:id="@id/buttonBar"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp">
+        <Button
+            android:id="@+id/search"
+            android:text="查单"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        <Button
+            android:id="@+id/save"
+            android:text="保存"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        <Button
+            android:id="@+id/reset"
+            android:text="重置"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        <Button
+            android:text="XX"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        </LinearLayout>
+</RelativeLayout>

@@ -24,13 +24,14 @@ public class AccountDao extends AbstractDao<Account, Void> {
     */
     public static class Properties {
         public final static Property AccountID = new Property(0, Long.class, "AccountID", false, "ACCOUNT_ID");
-        public final static Property AccountName = new Property(1, String.class, "AccountName", false, "ACCOUNT_NAME");
-        public final static Property MoneyID = new Property(2, Long.class, "MoneyID", false, "MONEY_ID");
-        public final static Property MoneyName = new Property(3, Long.class, "MoneyName", false, "MONEY_NAME");
-        public final static Property BankID = new Property(4, Long.class, "BankID", false, "BANK_ID");
-        public final static Property BankName = new Property(5, String.class, "BankName", false, "BANK_NAME");
-        public final static Property AccountNo = new Property(6, String.class, "AccountNo", false, "ACCOUNT_NO");
-        public final static Property Closed = new Property(7, Integer.class, "Closed", false, "CLOSED");
+        public final static Property ShopID = new Property(1, Long.class, "ShopID", false, "SHOP_ID");
+        public final static Property AccountName = new Property(2, String.class, "AccountName", false, "ACCOUNT_NAME");
+        public final static Property MoneyID = new Property(3, Long.class, "MoneyID", false, "MONEY_ID");
+        public final static Property MoneyName = new Property(4, String.class, "MoneyName", false, "MONEY_NAME");
+        public final static Property BankID = new Property(5, Long.class, "BankID", false, "BANK_ID");
+        public final static Property BankName = new Property(6, String.class, "BankName", false, "BANK_NAME");
+        public final static Property AccountNo = new Property(7, String.class, "AccountNo", false, "ACCOUNT_NO");
+        public final static Property Closed = new Property(8, Integer.class, "Closed", false, "CLOSED");
     };
 
 
@@ -47,16 +48,19 @@ public class AccountDao extends AbstractDao<Account, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'ACCOUNT' (" + //
                 "'ACCOUNT_ID' INTEGER," + // 0: AccountID
-                "'ACCOUNT_NAME' TEXT," + // 1: AccountName
-                "'MONEY_ID' INTEGER," + // 2: MoneyID
-                "'MONEY_NAME' INTEGER," + // 3: MoneyName
-                "'BANK_ID' INTEGER," + // 4: BankID
-                "'BANK_NAME' TEXT," + // 5: BankName
-                "'ACCOUNT_NO' TEXT," + // 6: AccountNo
-                "'CLOSED' INTEGER);"); // 7: Closed
+                "'SHOP_ID' INTEGER," + // 1: ShopID
+                "'ACCOUNT_NAME' TEXT," + // 2: AccountName
+                "'MONEY_ID' INTEGER," + // 3: MoneyID
+                "'MONEY_NAME' TEXT," + // 4: MoneyName
+                "'BANK_ID' INTEGER," + // 5: BankID
+                "'BANK_NAME' TEXT," + // 6: BankName
+                "'ACCOUNT_NO' TEXT," + // 7: AccountNo
+                "'CLOSED' INTEGER);"); // 8: Closed
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_ACCOUNT_ACCOUNT_ID ON ACCOUNT" +
                 " (ACCOUNT_ID);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_ACCOUNT_SHOP_ID ON ACCOUNT" +
+                " (SHOP_ID);");
     }
 
     /** Drops the underlying database table. */
@@ -75,39 +79,44 @@ public class AccountDao extends AbstractDao<Account, Void> {
             stmt.bindLong(1, AccountID);
         }
  
+        Long ShopID = entity.getShopID();
+        if (ShopID != null) {
+            stmt.bindLong(2, ShopID);
+        }
+ 
         String AccountName = entity.getAccountName();
         if (AccountName != null) {
-            stmt.bindString(2, AccountName);
+            stmt.bindString(3, AccountName);
         }
  
         Long MoneyID = entity.getMoneyID();
         if (MoneyID != null) {
-            stmt.bindLong(3, MoneyID);
+            stmt.bindLong(4, MoneyID);
         }
  
-        Long MoneyName = entity.getMoneyName();
+        String MoneyName = entity.getMoneyName();
         if (MoneyName != null) {
-            stmt.bindLong(4, MoneyName);
+            stmt.bindString(5, MoneyName);
         }
  
         Long BankID = entity.getBankID();
         if (BankID != null) {
-            stmt.bindLong(5, BankID);
+            stmt.bindLong(6, BankID);
         }
  
         String BankName = entity.getBankName();
         if (BankName != null) {
-            stmt.bindString(6, BankName);
+            stmt.bindString(7, BankName);
         }
  
         String AccountNo = entity.getAccountNo();
         if (AccountNo != null) {
-            stmt.bindString(7, AccountNo);
+            stmt.bindString(8, AccountNo);
         }
  
         Integer Closed = entity.getClosed();
         if (Closed != null) {
-            stmt.bindLong(8, Closed);
+            stmt.bindLong(9, Closed);
         }
     }
 
@@ -122,13 +131,14 @@ public class AccountDao extends AbstractDao<Account, Void> {
     public Account readEntity(Cursor cursor, int offset) {
         Account entity = new Account( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // AccountID
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // AccountName
-            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // MoneyID
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // MoneyName
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // BankID
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // BankName
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // AccountNo
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7) // Closed
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // ShopID
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // AccountName
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // MoneyID
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // MoneyName
+            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5), // BankID
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // BankName
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // AccountNo
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // Closed
         );
         return entity;
     }
@@ -137,13 +147,14 @@ public class AccountDao extends AbstractDao<Account, Void> {
     @Override
     public void readEntity(Cursor cursor, Account entity, int offset) {
         entity.setAccountID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setAccountName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setMoneyID(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
-        entity.setMoneyName(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
-        entity.setBankID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
-        entity.setBankName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setAccountNo(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setClosed(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setShopID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setAccountName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setMoneyID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setMoneyName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setBankID(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
+        entity.setBankName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setAccountNo(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setClosed(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
      }
     
     /** @inheritdoc */

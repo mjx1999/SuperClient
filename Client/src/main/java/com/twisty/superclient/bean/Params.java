@@ -1,9 +1,11 @@
 package com.twisty.superclient.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by twisty on 14-8-3.
  */
-public class Params {
+public class Params implements Serializable{
     private String ClientVer;
 
 
@@ -15,6 +17,145 @@ public class Params {
     private String DefaultStoreCode;
 
 
+//-------------销售单-------------
+    private String BillName;
+    private String Operate;
+    private long BillID;
+    private String BillCode;
+
+    //销售单列表
+    private int PageSize;
+    private int PageNo;
+    private String BegDate;
+    private String EndDate;
+    private long TraderID;
+    private int BillKind;
+    private int BillState;
+    //销售单列表
+
+    //新增销售单
+    private boolean IsAddnew;
+    private MasterData MasterData;
+    private Detail1Data Detail1Data;
+    //新增销售单
+
+
+
+
+//-------------销售单-------------
+
+
+    public String getBillName() {
+        return BillName;
+    }
+
+    public void setBillName(String billName) {
+        BillName = billName;
+    }
+
+    public String getOperate() {
+        return Operate;
+    }
+
+    public void setOperate(String operate) {
+        Operate = operate;
+    }
+
+    public long getBillID() {
+        return BillID;
+    }
+
+    public void setBillID(long billID) {
+        BillID = billID;
+    }
+
+    public String getBillCode() {
+        return BillCode;
+    }
+
+    public void setBillCode(String billCode) {
+        BillCode = billCode;
+    }
+
+    public int getPageSize() {
+        return PageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        PageSize = pageSize;
+    }
+
+    public int getPageNo() {
+        return PageNo;
+    }
+
+    public void setPageNo(int pageNo) {
+        PageNo = pageNo;
+    }
+
+    public String getBegDate() {
+        return BegDate;
+    }
+
+    public void setBegDate(String begDate) {
+        BegDate = begDate;
+    }
+
+    public String getEndDate() {
+        return EndDate;
+    }
+
+    public void setEndDate(String endDate) {
+        EndDate = endDate;
+    }
+
+    public long getTraderID() {
+        return TraderID;
+    }
+
+    public void setTraderID(long traderID) {
+        TraderID = traderID;
+    }
+
+    public int getBillKind() {
+        return BillKind;
+    }
+
+    public void setBillKind(int billKind) {
+        BillKind = billKind;
+    }
+
+    public int getBillState() {
+        return BillState;
+    }
+
+    public void setBillState(int billState) {
+        BillState = billState;
+    }
+
+    public boolean isAddnew() {
+        return IsAddnew;
+    }
+
+    public void setAddnew(boolean isAddnew) {
+        IsAddnew = isAddnew;
+    }
+
+    public MasterData getMasterData() {
+        return MasterData;
+    }
+
+    public void setMasterData(MasterData masterData) {
+        MasterData = masterData;
+    }
+
+    public Detail1Data getDetail1Data() {
+        return Detail1Data;
+    }
+
+    public void setDetail1Data(Detail1Data detail1Data) {
+        Detail1Data = detail1Data;
+    }
 
     public String getClientVer() {
         return ClientVer;
