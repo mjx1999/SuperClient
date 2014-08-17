@@ -19,4 +19,13 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="headerRowStyle">
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="headerItemStyle">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
 </resources>

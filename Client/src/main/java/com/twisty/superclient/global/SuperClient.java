@@ -7,6 +7,9 @@ import com.twisty.superclient.bean.Accset;
 import com.twisty.superclient.bean.DaoMaster;
 import com.twisty.superclient.bean.DaoSession;
 import com.twisty.superclient.bean.Operator;
+import com.twisty.superclient.bean.Request;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * Created by twisty on 14-8-6.
@@ -17,6 +20,42 @@ public class SuperClient extends Application {
     private static boolean isOnline;
     private static Accset currentAccset;
     private static Operator currentOperator;
+    private static String defaultStoreCode;
+    private static String currentIP;
+    private static int currentPort;
+    private static Request currentLoginRequest;
+
+    public static Request getCurrentLoginRequest() {
+        return currentLoginRequest;
+    }
+
+    public static void setCurrentLoginRequest(Request currentLoginRequest) {
+        SuperClient.currentLoginRequest = currentLoginRequest;
+    }
+
+    public static String getCurrentIP() {
+        return currentIP;
+    }
+
+    public static void setCurrentIP(String currentIP) {
+        SuperClient.currentIP = currentIP;
+    }
+
+    public static int getCurrentPort() {
+        return currentPort;
+    }
+
+    public static void setCurrentPort(int currentPort) {
+        SuperClient.currentPort = currentPort;
+    }
+
+    public static String getDefaultStoreCode() {
+        return defaultStoreCode;
+    }
+
+    public static void setDefaultStoreCode(String defaultStoreCode) {
+        SuperClient.defaultStoreCode = defaultStoreCode;
+    }
 
     public static Accset getCurrentAccset() {
         return currentAccset;
@@ -63,6 +102,7 @@ public class SuperClient extends Application {
      * @return
      */
     public static DaoSession getDaoSession(Context context) {
+        QueryBuilder.LOG_SQL = true;
         if (daoSession == null) {
             if (daoMaster == null) {
                 daoMaster = getDaoMaster(context);

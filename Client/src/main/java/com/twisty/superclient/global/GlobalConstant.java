@@ -31,7 +31,7 @@ public interface GlobalConstant {
     public static final String METHOD_DOWNLOAD_ACCOUNT = "DownloadAccount";
 
 
-    public static final String METHOD_DOWNLOAD_PAYMETHOD = "DOWNLOAD_PAYMETHOD";
+    public static final String METHOD_DOWNLOAD_PAYMETHOD = "DownloadPaymethod";
 
     public static final String MEHTOD_DOWNLOAD_AM_KIND = "DownloadAmKind";
 

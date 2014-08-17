@@ -1,6 +1,7 @@
 package com.twisty.superclient.view;
 
 import android.app.ActionBar;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,11 +12,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.MasterData;
 import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.filter.FilterActivity;
 
-public class SellOrderActivity extends BaseActivity implements View.OnClickListener, ActionBar.TabListener, FragmentHeader1.OnSaveListener, FragmentOrderDetail.OnSaveListener {
+public class SellOrderActivity extends BaseActivity implements View.OnClickListener, ActionBar.TabListener, FragmentHeader.OnSaveListener, FragmentOrderDetail.OnSaveListener {
     private ActionBar actionBar;
     private Button searchBTN,saveBTN,resetBTN;
     private boolean isCommit;
@@ -44,7 +46,6 @@ public class SellOrderActivity extends BaseActivity implements View.OnClickListe
         actionBar.addTab(addGoodsTab);
         actionBar.addTab(orderDetailTab);
 
-        getFragmentManager().beginTransaction().replace(R.id.sellOrder, FragmentHeader1.newInstance("xx", "yy"),"header").commit();
 
     }
 
@@ -80,9 +81,13 @@ public class SellOrderActivity extends BaseActivity implements View.OnClickListe
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         log.i(tab.getText());
         if (tab.getText().equals("明细")) {
-            ft.replace(R.id.sellOrder, FragmentOrderDetail.newInstance("xx", "vvv"),"detail");
+            Fragment fragmentOrderDetail = FragmentOrderDetail.newInstance("xx", "vvv");
+            fragmentOrderDetail.setRetainInstance(true);
+            ft.replace(R.id.sellOrder, fragmentOrderDetail,"detail");
         } else if (tab.getText().equals("表头")) {
-            ft.replace(R.id.sellOrder, FragmentHeader1.newInstance("xx", "vvv"),"header");
+            Fragment fragmentHeader = FragmentHeader.newInstance(null);
+            fragmentHeader.setRetainInstance(true);
+            ft.replace(R.id.sellOrder,fragmentHeader ,"header");
         }
     }
 
@@ -97,10 +102,6 @@ public class SellOrderActivity extends BaseActivity implements View.OnClickListe
         ft.commit();
     }
 
-    @Override
-    public void onSaveHeader(Uri uri) {
-
-    }
 
     @Override
     public void onSaveDetail(Uri uri) {
@@ -119,5 +120,10 @@ public class SellOrderActivity extends BaseActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    @Override
+    public void onSaveHeader(MasterData masterData) {
+        log.i(masterData.getTraderID());
     }
 }

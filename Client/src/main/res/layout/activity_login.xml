@@ -36,6 +36,19 @@
                 android:hint="输入操作员密码"
                 />
         </TableRow>
+
+
+        <TableRow android:gravity="center_vertical">
+            <TextView
+                android:text="仓库编号"
+                />
+            <EditText
+                android:singleLine="true"
+                android:id="@+id/defaultStoreCode"
+                android:hint="输入默认仓库编号"
+                />
+        </TableRow>
+
         </TableLayout>
 
     <LinearLayout

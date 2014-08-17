@@ -3,7 +3,9 @@ package com.twisty.superclient.bean;
 import android.content.Context;
 import android.os.Looper;
 
+import com.twisty.superclient.util.CommonLog;
 import com.twisty.superclient.util.CommonUtil;
+import com.twisty.superclient.util.LogFactory;
 
 /**
  * Created by twisty on 14-8-3.
@@ -11,6 +13,7 @@ import com.twisty.superclient.util.CommonUtil;
 public class Response {
     private int ErrNo;
     private String ErrMessage;
+    protected CommonLog log = LogFactory.createLog();
 
     public int getErrNo() {
         return ErrNo;

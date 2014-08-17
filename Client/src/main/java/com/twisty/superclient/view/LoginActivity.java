@@ -2,10 +2,13 @@ package com.twisty.superclient.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -26,18 +29,21 @@ import com.twisty.superclient.util.CommonLog;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.util.LogFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private boolean isOnline;
     private CommonLog log = LogFactory.createLog();
     private Spinner opNameView;
-    private EditText opPassView;
+    private EditText opPassView,defaultStoreCodeView;
     private Button loginBTN;
     private OperatorDao operatorDao;
     private ProgressDialog pd;
     private Accset accset;
     private OperatorAdapter adapter;
+    private SharedPreferences sp;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -63,9 +69,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
         accset = SuperClient.getCurrentAccset();
         opNameView = (Spinner) findViewById(R.id.opName);
         opPassView = (EditText) findViewById(R.id.opPass);
+        defaultStoreCodeView = (EditText) findViewById(R.id.defaultStoreCode);
         loginBTN = (Button) findViewById(R.id.login);
         loginBTN.setOnClickListener(this);
         isOnline = SuperClient.getIsOnline();
@@ -83,9 +91,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     request.setParams(params);
                     String operators = null;
                     try {
+                        client.connectServer(SuperClient.getCurrentIP(),SuperClient.getCurrentPort(),SuperClient.getCurrentLoginRequest());
                         operators = client.requestData(request);
                     } catch (Exception e) {
                         e.printStackTrace();
+                    }finally {
+                        client.close();
                     }
                     log.i(operators);
                     OperatorResp operatorResp = CommonUtil.getGson().fromJson(operators, OperatorResp.class);
@@ -105,6 +116,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             List<Operator> operators = operatorDao.loadAll();
             opNameView.setAdapter(new OperatorAdapter(operators, this));
         }
+        opNameView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String opinfoStr = sp
+                        .getString(((Operator) adapterView
+                                .getSelectedItem())
+                                .getOpCode(), null);
+                if(opinfoStr!=null){
+                    HashMap opinfo = CommonUtil.getGson().fromJson(opinfoStr, HashMap.class);
+                    opPassView.setText((String) opinfo.get("OpPass"));
+                    defaultStoreCodeView.setText((String) opinfo.get("StoreCode"));
+                }else{
+                    opPassView.setText("");
+                    defaultStoreCodeView.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -112,6 +147,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.login:
                 if (isOnline) {
+                    if(defaultStoreCodeView.getText().toString()==null||defaultStoreCodeView.getText().toString().trim().length()<=0){
+                        CommonUtil.showToastError(this,"默认仓库不能为空");
+                        return;
+                    }
 
                     pd = ProgressDialog.show(this, null, "正在登录,请稍等");
                     final ReqClient client = ReqClient.newInstance();
@@ -129,15 +168,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             request.setParams(params);
                             String loginResult = null;
                             try {
+                                client.connectServer(SuperClient.getCurrentIP(),SuperClient.getCurrentPort(),null);
                                 loginResult = client.requestData(request);
                                 log.i(loginResult);
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                Message message = handler.obtainMessage();
+                                message.what = RESULT_CANCELED;
+                                message.obj = "网络连接中断,请重新登陆!";
+                                handler.sendMessage(message);
+                            }finally {
+                                client.close();
                             }
                             Response response = CommonUtil.getGson().fromJson(loginResult, Response.class);
                             if (response != null) {
                                 if (response.isCorrect()) {
+                                    SuperClient.setCurrentLoginRequest(request);
                                     SuperClient.setCurrentOperator((Operator) opNameView.getSelectedItem());
+                                    SuperClient.setDefaultStoreCode(defaultStoreCodeView.getText().toString());
+                                    Map<String,String> opInf = new HashMap<String, String>();
+                                    opInf.put("OpName",((Operator) opNameView.getSelectedItem()).getOpCode());
+                                    opInf.put("OpPass",opPassView.getText().toString());
+                                    opInf.put("StoreCode",defaultStoreCodeView.getText().toString());
+                                    sp.edit().putString(((Operator) opNameView.getSelectedItem()).getOpCode(),CommonUtil.getGson().toJson(opInf)).apply();
                                     handler.sendEmptyMessage(RESULT_OK);
                                 } else {
                                     Message message = handler.obtainMessage();

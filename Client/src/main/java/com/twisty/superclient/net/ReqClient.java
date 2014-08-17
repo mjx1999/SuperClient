@@ -32,15 +32,18 @@ public class ReqClient {
         return client;
     }
     private CommonLog log = LogFactory.createLog();
-    public boolean connectServer(String ip,int port) throws Exception {
+    public boolean connectServer(String ip,int port,Request loginRequest) throws Exception {
         try {
             socket = new Socket( ip, port);
+            if(loginRequest!=null)requestData(loginRequest);
             log.i(socket);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
+
+
 
     public String requestData(Request request)
             throws Exception {

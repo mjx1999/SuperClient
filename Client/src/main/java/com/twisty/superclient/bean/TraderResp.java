@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-5.
  */
-public class TraderResp {
+public class TraderResp extends Response{
     private ArrayList<Trader> ResultData;
 
     public ArrayList<Trader> getResultData() {

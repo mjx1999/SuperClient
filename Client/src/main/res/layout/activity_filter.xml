@@ -2,59 +2,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.twisty.superclient.view.filter.FilterActivity">
 
     <TableLayout
-        android:stretchColumns="1"
-        android:layout_above="@+id/buttonBar"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/buttonBar"
+        android:stretchColumns="1">
+
         <TableRow>
-            <TextView android:text="起始时间:"/>
-            <TextView  android:id="@+id/beginDate" style="@android:style/Widget.EditText"/>
-        </TableRow>
-        <TableRow>
-            <TextView android:text="结束时间:"/>
-            <TextView android:id="@+id/endDate" style="@android:style/Widget.EditText"/>
-        </TableRow>
-        <TableRow>
-            <TextView android:text="往来单位:"/>
-            <EditText android:editable="false" android:id="@+id/trader" />
-        </TableRow>
-        <TableRow>
-            <TextView android:text="单据状态:"/>
-            <EditText android:editable="false" android:id="@+id/state" />
-        </TableRow>
-        <TableRow>
-            <TextView android:text="单号:"/>
-            <EditText android:editable="false" android:id="@+id/billCode" />
-        </TableRow>
-        <TableRow>
-            <TextView android:text="操作员:"/>
-            <EditText android:editable="false" android:id="@+id/operator" />
+
+            <TextView android:text="起始时间:" />
+
+            <TextView
+                android:id="@+id/beginDate"
+                android:background="?android:attr/editTextBackground" />
         </TableRow>
 
-        </TableLayout>
+        <TableRow>
+
+            <TextView android:text="结束时间:" />
+
+            <TextView
+                android:id="@+id/endDate"
+                android:background="?android:attr/editTextBackground" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:text="往来单位:" />
+
+            <TextView
+                android:id="@+id/trader"
+                android:background="?android:attr/editTextBackground"
+                />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:text="单据状态:" />
+
+            <Spinner
+                android:id="@+id/state"
+
+                />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:text="单号:" />
+
+            <EditText
+                android:id="@+id/billCode" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:text="操作员:" />
+
+            <TextView
+                android:id="@+id/operator"
+                android:background="?android:attr/editTextBackground"
+                />
+        </TableRow>
+
+    </TableLayout>
+
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:id="@id/buttonBar"
         android:layout_width="fill_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true">
+
         <Button
             android:id="@+id/commit"
-            android:text="确定"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="确定" />
+
         <Button
             android:id="@+id/cancel"
-            android:text="取消"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="fill_parent" />
-        </LinearLayout>
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="取消" />
+    </LinearLayout>
 </RelativeLayout>

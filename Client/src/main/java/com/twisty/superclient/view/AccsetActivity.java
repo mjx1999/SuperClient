@@ -66,9 +66,12 @@ public class AccsetActivity extends BaseActivity {
                     request.setParams(params);
                     String accListJson = null;
                     try {
+                        client.connectServer(SuperClient.getCurrentIP(),SuperClient.getCurrentPort(),null);
                         accListJson = client.requestData(request);
                     } catch (Exception e) {
                         e.printStackTrace();
+                    }finally {
+                        client.close();
                     }
                     log.i(accListJson);
                     AccsetResp accsetResp = new Gson().fromJson(accListJson, AccsetResp.class);

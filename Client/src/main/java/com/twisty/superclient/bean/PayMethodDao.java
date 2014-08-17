@@ -23,7 +23,7 @@ public class PayMethodDao extends AbstractDao<PayMethod, Void> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property PaymethodID = new Property(0, Long.class, "PaymethodID", false, "PAYMETHOD_ID");
+        public final static Property PayMethodID = new Property(0, Long.class, "PayMethodID", false, "PAY_METHOD_ID");
         public final static Property PaymethodCode = new Property(1, String.class, "PaymethodCode", false, "PAYMETHOD_CODE");
         public final static Property PaymethodName = new Property(2, String.class, "PaymethodName", false, "PAYMETHOD_NAME");
         public final static Property AccountID = new Property(3, Long.class, "AccountID", false, "ACCOUNT_ID");
@@ -43,14 +43,14 @@ public class PayMethodDao extends AbstractDao<PayMethod, Void> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'PAY_METHOD' (" + //
-                "'PAYMETHOD_ID' INTEGER," + // 0: PaymethodID
+                "'PAY_METHOD_ID' INTEGER," + // 0: PayMethodID
                 "'PAYMETHOD_CODE' TEXT," + // 1: PaymethodCode
                 "'PAYMETHOD_NAME' TEXT," + // 2: PaymethodName
                 "'ACCOUNT_ID' INTEGER," + // 3: AccountID
                 "'CLOSED' INTEGER);"); // 4: Closed
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_PAY_METHOD_PAYMETHOD_ID ON PAY_METHOD" +
-                " (PAYMETHOD_ID);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_PAY_METHOD_PAY_METHOD_ID ON PAY_METHOD" +
+                " (PAY_METHOD_ID);");
     }
 
     /** Drops the underlying database table. */
@@ -64,9 +64,9 @@ public class PayMethodDao extends AbstractDao<PayMethod, Void> {
     protected void bindValues(SQLiteStatement stmt, PayMethod entity) {
         stmt.clearBindings();
  
-        Long PaymethodID = entity.getPaymethodID();
-        if (PaymethodID != null) {
-            stmt.bindLong(1, PaymethodID);
+        Long PayMethodID = entity.getPayMethodID();
+        if (PayMethodID != null) {
+            stmt.bindLong(1, PayMethodID);
         }
  
         String PaymethodCode = entity.getPaymethodCode();
@@ -100,7 +100,7 @@ public class PayMethodDao extends AbstractDao<PayMethod, Void> {
     @Override
     public PayMethod readEntity(Cursor cursor, int offset) {
         PayMethod entity = new PayMethod( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // PaymethodID
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // PayMethodID
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // PaymethodCode
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // PaymethodName
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // AccountID
@@ -112,7 +112,7 @@ public class PayMethodDao extends AbstractDao<PayMethod, Void> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, PayMethod entity, int offset) {
-        entity.setPaymethodID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setPayMethodID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setPaymethodCode(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPaymethodName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setAccountID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));

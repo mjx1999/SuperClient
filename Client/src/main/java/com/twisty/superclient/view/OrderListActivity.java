@@ -16,6 +16,7 @@ import com.twisty.superclient.adapter.BillAdapter;
 import com.twisty.superclient.bean.Bill;
 import com.twisty.superclient.bean.BillListResp;
 import com.twisty.superclient.bean.Request;
+import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.net.ReqClient;
 import com.twisty.superclient.util.CommonUtil;
 
@@ -54,6 +55,7 @@ public class OrderListActivity extends BaseActivity {
             @Override
             public void run() {
                 try {
+                    client.connectServer(SuperClient.getCurrentIP(),SuperClient.getCurrentPort(),SuperClient.getCurrentLoginRequest());
                     String billListJson = client.requestData(request);
                     log.i(billListJson);
                     BillListResp billListResp = CommonUtil.getGson().fromJson(billListJson,BillListResp.class);
@@ -64,12 +66,16 @@ public class OrderListActivity extends BaseActivity {
                             }else{
                                 adapterData.addAll(billListResp.getListData());
                             }
+                            handler.sendEmptyMessage(RESULT_OK);
+                            billListResp.catchEmptyData(OrderListActivity.this);
                         }else billListResp.catchException(OrderListActivity.this);
                         handler.sendEmptyMessage(RESULT_OK);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                     handler.sendEmptyMessage(RESULT_CANCELED);
+                }finally {
+                    client.close();
                 }
             }
         }).start();
@@ -82,22 +88,4 @@ public class OrderListActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.order_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -20,9 +20,19 @@ public class BillListResp extends Response {
     public void catchException(Context context) {
         super.catchException(context);
             if(getListData()==null||getListData().size()<=0){
+                log.i("未检索到数据.....");
                 Looper.prepare();
                 CommonUtil.showToastError(context, "未检索到数据");
                 Looper.loop();
+        }
+    }
+
+    public void catchEmptyData(Context context){
+        if(getListData()==null||getListData().size()<=0){
+            log.i("未检索到数据.....");
+            Looper.prepare();
+            CommonUtil.showToastError(context, "未检索到数据");
+            Looper.loop();
         }
     }
 

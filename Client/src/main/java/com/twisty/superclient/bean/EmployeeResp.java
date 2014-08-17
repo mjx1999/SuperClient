@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-4.
  */
-public class EmployeeResp {
+public class EmployeeResp extends Response{
     private ArrayList<Employee> ResultData;
 
     public ArrayList<Employee> getResultData() {

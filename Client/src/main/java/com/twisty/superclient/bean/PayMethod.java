@@ -6,7 +6,7 @@ package com.twisty.superclient.bean;
  */
 public class PayMethod implements java.io.Serializable {
 
-    private Long PaymethodID;
+    private Long PayMethodID;
     private String PaymethodCode;
     private String PaymethodName;
     private Long AccountID;
@@ -15,20 +15,20 @@ public class PayMethod implements java.io.Serializable {
     public PayMethod() {
     }
 
-    public PayMethod(Long PaymethodID, String PaymethodCode, String PaymethodName, Long AccountID, Integer Closed) {
-        this.PaymethodID = PaymethodID;
+    public PayMethod(Long PayMethodID, String PaymethodCode, String PaymethodName, Long AccountID, Integer Closed) {
+        this.PayMethodID = PayMethodID;
         this.PaymethodCode = PaymethodCode;
         this.PaymethodName = PaymethodName;
         this.AccountID = AccountID;
         this.Closed = Closed;
     }
 
-    public Long getPaymethodID() {
-        return PaymethodID;
+    public Long getPayMethodID() {
+        return PayMethodID;
     }
 
-    public void setPaymethodID(Long PaymethodID) {
-        this.PaymethodID = PaymethodID;
+    public void setPayMethodID(Long PayMethodID) {
+        this.PayMethodID = PayMethodID;
     }
 
     public String getPaymethodCode() {

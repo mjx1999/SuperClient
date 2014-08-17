@@ -67,7 +67,7 @@ public class ServerActivity extends Activity implements View.OnClickListener {
 
                         ReqClient client = ReqClient.newInstance();
                         try {
-                            if (client.connectServer(serverName.getText().toString(), Integer.valueOf(serverPort.getText().toString()))) {
+                            if (client.connectServer(serverName.getText().toString(), Integer.valueOf(serverPort.getText().toString()),null)) {
 
 //                                DaoSession session = SuperClient.getDaoSession(ServerActivity.this);
 //                                Request request;
@@ -89,6 +89,8 @@ public class ServerActivity extends Activity implements View.OnClickListener {
 
 
                                 sp.edit().putString("serverName", serverName.getText().toString()).putString("serverPort", serverPort.getText().toString()).apply();
+                                SuperClient.setCurrentIP(serverName.getText().toString().trim());
+                                SuperClient.setCurrentPort(Integer.valueOf(serverPort.getText().toString()));
                                 SuperClient.setIsOnline(true);
                                 handler.sendEmptyMessage(RESULT_OK);
                             }else{
@@ -104,6 +106,8 @@ public class ServerActivity extends Activity implements View.OnClickListener {
                             msg.what = RESULT_CANCELED;
                             msg.obj = "服务器连接失败,请检查IP或端口是否正确";
                             handler.sendMessage(msg);
+                        }finally {
+                            client.close();
                         }
                     }
                 }).start();

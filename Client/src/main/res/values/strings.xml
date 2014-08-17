@@ -8,14 +8,15 @@
     <string name="title_activity_server_setting">连接服务器</string>
     <string name="title_activity_accset">选择帐套</string>
     <string name="title_activity_main">主界面</string>
-    <string name="title_activity_order_module">单据管理</string>
+    <string name="title_activity_sell_order">销售开单</string>
     <string name="title_activity_bluetooth_list">选择打印机</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_module_order">销售单</string>
+    <string name="title_activity_module_order">单据管理</string>
     <string name="preOrder"><![CDATA[<<]]></string>
     <string name="nextOrder"><![CDATA[>>]]></string>
     <string name="title_activity_order_list">查单</string>
     <string name="title_activity_filter">查单过滤</string>
-    <string name="title_activity_trader_filter">TraderFilterActivity</string>
+    <string name="title_activity_trader_filter">过滤往来单位</string>
+    <string name="title_activity_employee_filter">过滤业务员</string>
 
 </resources>

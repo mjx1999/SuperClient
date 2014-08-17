@@ -42,6 +42,7 @@ import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.bean.PayMethod;
 import com.twisty.superclient.bean.PayMethodResp;
 import com.twisty.superclient.bean.Request;
+import com.twisty.superclient.bean.Response;
 import com.twisty.superclient.bean.Store;
 import com.twisty.superclient.bean.StoreResp;
 import com.twisty.superclient.bean.TradeType;
@@ -142,7 +143,7 @@ public class MainActivity extends BaseActivity {
                                                         /**
                                                          * 获取帐套列表
                                                          */
-
+                                                        client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
                                                         request = new Request(GlobalConstant.METHOD_GET_ACC_LIST);
                                                         params = new Params();
                                                         params.setClientVer("1.2");
@@ -151,10 +152,15 @@ public class MainActivity extends BaseActivity {
                                                         log.i(accListJson);
                                                         AccsetResp accsetResp = gson.fromJson(accListJson, AccsetResp.class);
                                                         log.i(accsetResp);
-                                                        ArrayList<Accset> accsets;
-                                                        if ((accsets = accsetResp.getResultData()) != null) {
-                                                            session.getAccsetDao().deleteAll();
-                                                            session.getAccsetDao().insertInTx(accsets);
+                                                        if (accsetResp != null && accsetResp.isCorrect()) {
+                                                            ArrayList<Accset> accsets;
+                                                            if ((accsets = accsetResp.getResultData()) != null) {
+                                                                session.getAccsetDao().deleteAll();
+                                                                session.getAccsetDao().insertInTx(accsets);
+                                                            }
+                                                        } else {
+                                                            catchError(accsetResp);
+                                                            return;
                                                         }
 
 
@@ -169,10 +175,15 @@ public class MainActivity extends BaseActivity {
                                                         log.i(operatorListJson);
                                                         OperatorResp operatorResp = gson.fromJson(operatorListJson, OperatorResp.class);
                                                         log.i(operatorResp);
-                                                        ArrayList<Operator> operators;
-                                                        if ((operators = operatorResp.getResultData()) != null) {
-                                                            session.getOperatorDao().deleteAll();
-                                                            session.getOperatorDao().insertInTx(operators);
+                                                        if (operatorResp != null && operatorResp.isCorrect()) {
+                                                            ArrayList<Operator> operators;
+                                                            if ((operators = operatorResp.getResultData()) != null) {
+                                                                session.getOperatorDao().deleteAll();
+                                                                session.getOperatorDao().insertInTx(operators);
+                                                            }
+                                                        } else {
+                                                            catchError(operatorResp);
+                                                            return;
                                                         }
 
 
@@ -182,10 +193,15 @@ public class MainActivity extends BaseActivity {
                                                         String traderTypeJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_TRADER_TYPE));
                                                         log.i(traderTypeJson);
                                                         TradeTypeResp tradeTypeResp = gson.fromJson(traderTypeJson, TradeTypeResp.class);
-                                                        ArrayList<TradeType> tradeTypes;
-                                                        if ((tradeTypes = tradeTypeResp.getResultData()) != null) {
-                                                            session.getTradeTypeDao().deleteAll();
-                                                            session.getTradeTypeDao().insertInTx(tradeTypes);
+                                                        if (tradeTypeResp != null && tradeTypeResp.isCorrect()) {
+                                                            ArrayList<TradeType> tradeTypes;
+                                                            if ((tradeTypes = tradeTypeResp.getResultData()) != null) {
+                                                                session.getTradeTypeDao().deleteAll();
+                                                                session.getTradeTypeDao().insertInTx(tradeTypes);
+                                                            }
+                                                        } else {
+                                                            catchError(tradeTypeResp);
+                                                            return;
                                                         }
 
                                                         /**
@@ -194,10 +210,16 @@ public class MainActivity extends BaseActivity {
                                                         String traderJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_TRADER));
                                                         log.i(traderJson);
                                                         TraderResp traderResp = gson.fromJson(traderJson, TraderResp.class);
-                                                        ArrayList<Trader> traders;
-                                                        if ((traders = traderResp.getResultData()) != null) {
-                                                            session.getTraderDao().deleteAll();
-                                                            session.getTraderDao().insertInTx(traders);
+                                                        if (traderResp != null && traderResp.isCorrect()) {
+                                                            ArrayList<Trader> traders;
+
+                                                            if ((traders = traderResp.getResultData()) != null) {
+                                                                session.getTraderDao().deleteAll();
+                                                                session.getTraderDao().insertInTx(traders);
+                                                            }
+                                                        } else {
+                                                            catchError(traderResp);
+                                                            return;
                                                         }
                                                         /**
                                                          *往来单位价格
@@ -205,10 +227,16 @@ public class MainActivity extends BaseActivity {
                                                         String traderPriceJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_TRADER_PRICE));
                                                         log.i(traderPriceJson);
                                                         TraderPriceResp traderPriceResp = gson.fromJson(traderPriceJson, TraderPriceResp.class);
-                                                        ArrayList<TraderPrice> traderPrices;
-                                                        if ((traderPrices = traderPriceResp.getResultData()) != null) {
-                                                            session.getTraderPriceDao().deleteAll();
-                                                            session.getTraderPriceDao().insertInTx(traderPrices);
+                                                        if (traderPriceResp != null && traderPriceResp.isCorrect()) {
+
+                                                            ArrayList<TraderPrice> traderPrices;
+                                                            if ((traderPrices = traderPriceResp.getResultData()) != null) {
+                                                                session.getTraderPriceDao().deleteAll();
+                                                                session.getTraderPriceDao().insertInTx(traderPrices);
+                                                            }
+                                                        } else {
+                                                            catchError(traderPriceResp);
+                                                            return;
                                                         }
 
                                                         /**
@@ -217,10 +245,16 @@ public class MainActivity extends BaseActivity {
                                                         String areaJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_AREA));
                                                         log.i(areaJson);
                                                         AreaResp areaResp = gson.fromJson(areaJson, AreaResp.class);
-                                                        ArrayList<Area> areas;
-                                                        if ((areas = areaResp.getResultData()) != null) {
-                                                            session.getAreaDao().deleteAll();
-                                                            session.getAreaDao().insertInTx(areas);
+                                                        if (areaResp != null && areaResp.isCorrect()) {
+
+                                                            ArrayList<Area> areas;
+                                                            if ((areas = areaResp.getResultData()) != null) {
+                                                                session.getAreaDao().deleteAll();
+                                                                session.getAreaDao().insertInTx(areas);
+                                                            }
+                                                        } else {
+                                                            catchError(areaResp);
+                                                            return;
                                                         }
 
                                                         /**
@@ -231,10 +265,16 @@ public class MainActivity extends BaseActivity {
                                                         String departmentJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_DEPARTMENT));
                                                         log.i(departmentJson);
                                                         DepartmentResp departmentResp = gson.fromJson(departmentJson, DepartmentResp.class);
-                                                        ArrayList<Department> departments;
-                                                        if ((departments = departmentResp.getResultData()) != null) {
-                                                            session.getDepartmentDao().deleteAll();
-                                                            session.getDepartmentDao().insertInTx(departments);
+                                                        if (departmentResp != null && departmentResp.isCorrect()) {
+
+                                                            ArrayList<Department> departments;
+                                                            if ((departments = departmentResp.getResultData()) != null) {
+                                                                session.getDepartmentDao().deleteAll();
+                                                                session.getDepartmentDao().insertInTx(departments);
+                                                            }
+                                                        } else {
+                                                            catchError(departmentResp);
+                                                            return;
                                                         }
 
 
@@ -244,10 +284,16 @@ public class MainActivity extends BaseActivity {
                                                         String empJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_EMPLOY));
                                                         log.i(empJson);
                                                         EmployeeResp employeeResp = gson.fromJson(empJson, EmployeeResp.class);
-                                                        ArrayList<Employee> employees;
-                                                        if ((employees = employeeResp.getResultData()) != null) {
-                                                            session.getEmployeeDao().deleteAll();
-                                                            session.getEmployeeDao().insertInTx(employees);
+                                                        if (employeeResp != null && employeeResp.isCorrect()) {
+
+                                                            ArrayList<Employee> employees;
+                                                            if ((employees = employeeResp.getResultData()) != null) {
+                                                                session.getEmployeeDao().deleteAll();
+                                                                session.getEmployeeDao().insertInTx(employees);
+                                                            }
+                                                        } else {
+                                                            catchError(employeeResp);
+                                                            return;
                                                         }
 
 
@@ -257,10 +303,16 @@ public class MainActivity extends BaseActivity {
                                                         String ioTypeJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_IO_TYPE));
                                                         log.i(ioTypeJson);
                                                         IoTypeResp ioTypeResp = gson.fromJson(ioTypeJson, IoTypeResp.class);
-                                                        ArrayList<IoType> ioTypes;
-                                                        if ((ioTypes = ioTypeResp.getResultData()) != null) {
-                                                            session.getIoTypeDao().deleteAll();
-                                                            session.getIoTypeDao().insertInTx(ioTypes);
+                                                        if (ioTypeResp != null && ioTypeResp.isCorrect()) {
+
+                                                            ArrayList<IoType> ioTypes;
+                                                            if ((ioTypes = ioTypeResp.getResultData()) != null) {
+                                                                session.getIoTypeDao().deleteAll();
+                                                                session.getIoTypeDao().insertInTx(ioTypes);
+                                                            }
+                                                        } else {
+                                                            catchError(ioTypeResp);
+                                                            return;
                                                         }
 
                                                         /**
@@ -269,22 +321,33 @@ public class MainActivity extends BaseActivity {
                                                         String storeJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_STORE));
                                                         log.i(storeJson);
                                                         StoreResp storeResp = gson.fromJson(storeJson, StoreResp.class);
-                                                        ArrayList<Store> stores;
-                                                        if ((stores = storeResp.getResultData()) != null) {
-                                                            session.getStoreDao().deleteAll();
-                                                            session.getStoreDao().insertInTx(stores);
-                                                        }
+                                                        if (storeResp != null && storeResp.isCorrect()) {
 
+                                                            ArrayList<Store> stores;
+                                                            if ((stores = storeResp.getResultData()) != null) {
+                                                                session.getStoreDao().deleteAll();
+                                                                session.getStoreDao().insertInTx(stores);
+                                                            }
+                                                        } else {
+                                                            catchError(storeResp);
+                                                            return;
+                                                        }
                                                         /**
                                                          * 货品类别
                                                          */
                                                         String gdTypeJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_GDTYPE));
                                                         log.i(gdTypeJson);
                                                         GDTypeResp gdTypeResp = gson.fromJson(gdTypeJson, GDTypeResp.class);
-                                                        ArrayList<GDType> gdTypes;
-                                                        if ((gdTypes = gdTypeResp.getResultData()) != null) {
-                                                            session.getGDTypeDao().deleteAll();
-                                                            session.getGDTypeDao().insertInTx(gdTypes);
+                                                        if (gdTypeResp != null && gdTypeResp.isCorrect()) {
+
+                                                            ArrayList<GDType> gdTypes;
+                                                            if ((gdTypes = gdTypeResp.getResultData()) != null) {
+                                                                session.getGDTypeDao().deleteAll();
+                                                                session.getGDTypeDao().insertInTx(gdTypes);
+                                                            }
+                                                        } else {
+                                                            catchError(gdTypeResp);
+                                                            return;
                                                         }
 
                                                         /**
@@ -293,10 +356,16 @@ public class MainActivity extends BaseActivity {
                                                         String goodsJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_GOODS));
                                                         log.i(goodsJson);
                                                         GoodsResp goodsResp = gson.fromJson(goodsJson, GoodsResp.class);
-                                                        ArrayList<Goods> goodses;
-                                                        if ((goodses = goodsResp.getResultData()) != null) {
-                                                            session.getGoodsDao().deleteAll();
-                                                            session.getGoodsDao().insertInTx(goodses);
+                                                        if (goodsResp != null && goodsResp.isCorrect()) {
+
+                                                            ArrayList<Goods> goodses;
+                                                            if ((goodses = goodsResp.getResultData()) != null) {
+                                                                session.getGoodsDao().deleteAll();
+                                                                session.getGoodsDao().insertInTx(goodses);
+                                                            }
+                                                        } else {
+                                                            catchError(goodsResp);
+                                                            return;
                                                         }
                                                         /**
                                                          * 货品单位
@@ -304,10 +373,16 @@ public class MainActivity extends BaseActivity {
                                                         String unitJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_GOODS_UNIT));
                                                         log.i(unitJson);
                                                         UnitResp unitResp = gson.fromJson(unitJson, UnitResp.class);
-                                                        ArrayList<Unit> units;
-                                                        if ((units = unitResp.getResultData()) != null) {
-                                                            session.getUnitDao().deleteAll();
-                                                            session.getUnitDao().insertInTx(units);
+                                                        if (unitResp != null && unitResp.isCorrect()) {
+
+                                                            ArrayList<Unit> units;
+                                                            if ((units = unitResp.getResultData()) != null) {
+                                                                session.getUnitDao().deleteAll();
+                                                                session.getUnitDao().insertInTx(units);
+                                                            }
+                                                        } else {
+                                                            catchError(unitResp);
+                                                            return;
                                                         }
                                                         /**
                                                          * 库存
@@ -315,10 +390,16 @@ public class MainActivity extends BaseActivity {
                                                         String onhandJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_ONHAND));
                                                         log.i(onhandJson);
                                                         OnHandResp onHandResp = gson.fromJson(onhandJson, OnHandResp.class);
-                                                        ArrayList<OnHand> onHands;
-                                                        if ((onHands = onHandResp.getResultData()) != null) {
-                                                            session.getOnHandDao().deleteAll();
-                                                            session.getOnHandDao().insertInTx(onHands);
+                                                        if (onHandResp != null && onHandResp.isCorrect()) {
+
+                                                            ArrayList<OnHand> onHands;
+                                                            if ((onHands = onHandResp.getResultData()) != null) {
+                                                                session.getOnHandDao().deleteAll();
+                                                                session.getOnHandDao().insertInTx(onHands);
+                                                            }
+                                                        } else {
+                                                            catchError(onHandResp);
+                                                            return;
                                                         }
                                                         /**
                                                          * 资金帐户
@@ -326,10 +407,16 @@ public class MainActivity extends BaseActivity {
                                                         String accountJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_ACCOUNT));
                                                         log.i(accountJson);
                                                         AccountResp accountResp = gson.fromJson(accountJson, AccountResp.class);
-                                                        ArrayList<Account> accounts;
-                                                        if ((accounts = accountResp.getResultData()) != null) {
-                                                            session.getAccountDao().deleteAll();
-                                                            session.getAccountDao().insertInTx(accounts);
+                                                        if (accountResp != null && accountResp.isCorrect()) {
+
+                                                            ArrayList<Account> accounts;
+                                                            if ((accounts = accountResp.getResultData()) != null) {
+                                                                session.getAccountDao().deleteAll();
+                                                                session.getAccountDao().insertInTx(accounts);
+                                                            }
+                                                        } else {
+                                                            catchError(accountResp);
+                                                            return;
                                                         }
 
 
@@ -338,11 +425,17 @@ public class MainActivity extends BaseActivity {
                                                          */
                                                         String payMethodJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOAD_PAYMETHOD));
                                                         log.i(payMethodJson);
-                                                        PayMethodResp payMethodResp = gson.fromJson(payMethodJson,PayMethodResp.class);
-                                                        ArrayList<PayMethod> payMethods;
-                                                        if((payMethods=payMethodResp.getResultData())!=null){
-                                                            session.getPayMethodDao().deleteAll();
-                                                            session.getPayMethodDao().insertInTx(payMethods);
+                                                        PayMethodResp payMethodResp = gson.fromJson(payMethodJson, PayMethodResp.class);
+                                                        if (payMethodResp != null && payMethodResp.isCorrect()) {
+
+                                                            ArrayList<PayMethod> payMethods;
+                                                            if ((payMethods = payMethodResp.getResultData()) != null) {
+                                                                session.getPayMethodDao().deleteAll();
+                                                                session.getPayMethodDao().insertInTx(payMethods);
+                                                            }
+                                                        } else {
+                                                            catchError(payMethodResp);
+                                                            return;
                                                         }
 
 
@@ -352,11 +445,17 @@ public class MainActivity extends BaseActivity {
 
                                                         String amKindJson = client.requestData(new Request(GlobalConstant.MEHTOD_DOWNLOAD_AM_KIND));
                                                         log.i(amKindJson);
-                                                        AMKindResp amKindResp = gson.fromJson(amKindJson,AMKindResp.class);
-                                                        ArrayList<AMKind> amKinds ;
-                                                        if((amKinds=amKindResp.getResultData())!=null){
-                                                            session.getAMKindDao().deleteAll();
-                                                            session.getAMKindDao().insertInTx(amKinds);
+                                                        AMKindResp amKindResp = gson.fromJson(amKindJson, AMKindResp.class);
+                                                        if (amKindResp != null && amKindResp.isCorrect()) {
+
+                                                            ArrayList<AMKind> amKinds;
+                                                            if ((amKinds = amKindResp.getResultData()) != null) {
+                                                                session.getAMKindDao().deleteAll();
+                                                                session.getAMKindDao().insertInTx(amKinds);
+                                                            }
+                                                        } else {
+                                                            catchError(amKindResp);
+                                                            return;
                                                         }
 
                                                         handler.sendEmptyMessage(RESULT_OK);
@@ -367,7 +466,16 @@ public class MainActivity extends BaseActivity {
                                                         msg.obj = e.getMessage() == null ? "下载失败,请重试." : e.getMessage();
                                                         handler.sendMessage(msg);
                                                         log.e(e.getMessage());
+                                                    }finally {
+                                                        client.close();
                                                     }
+                                                }
+
+                                                private void catchError(Response response) {
+                                                    Message msg = handler.obtainMessage();
+                                                    msg.what = RESULT_CANCELED;
+                                                    msg.obj = response == null ? "下载数据出错,请重新登陆再试!" : response.getErrMessage();
+                                                    handler.sendMessage(msg);
                                                 }
                                             }).start();
 

@@ -24,13 +24,13 @@
             android:text="过滤"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        </RelativeLayout>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="35dp">
 
-        </LinearLayout>
-    
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listView"
         android:layout_below="@id/filterLayout"

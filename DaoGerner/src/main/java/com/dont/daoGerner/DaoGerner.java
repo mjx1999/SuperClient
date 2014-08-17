@@ -197,7 +197,7 @@ public class DaoGerner {
         account.implementsSerializable();
 
         Entity payMethod = schema.addEntity("PayMethod");
-        payMethod.addLongProperty("PaymethodID").index();
+        payMethod.addLongProperty("PayMethodID").index();
         payMethod.addStringProperty("PaymethodCode");
         payMethod.addStringProperty("PaymethodName");
         payMethod.addLongProperty("AccountID");
