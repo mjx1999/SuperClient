@@ -37,28 +37,28 @@ import de.greenrobot.dao.query.QueryBuilder;
 public class FilterActivity extends BaseActivity implements View.OnClickListener {
     private EditText  billCodeView;
     private TextView begDateView, endDateView,traderView;
-    private Spinner stateView,operatorView;
+    private TextView stateView,operatorView;
     private Button commitBTN, cancelBTN;
     private DateTime startDateTime, endDateTime;
     private DaoSession session;
     private String billType;
-    private int billKind;
-    private int traderID;
-    private int billState;
-    private long opID;
+    private long billKind;
+    private long traderID = -1;
+    private long billState = -1;
+    private long opID = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         billType = getIntent().getStringExtra("BillType");
-        billKind = getIntent().getIntExtra("BillKind", 0);
+        billKind = getIntent().getIntExtra("BillKind", -1);
         begDateView = (TextView) findViewById(R.id.beginDate);
         endDateView = (TextView) findViewById(R.id.endDate);
         traderView = (TextView) findViewById(R.id.trader);
-        stateView = (Spinner) findViewById(R.id.state);
+        stateView = (TextView) findViewById(R.id.state);
         billCodeView = (EditText) findViewById(R.id.billCode);
-        operatorView = (Spinner) findViewById(R.id.operator);
+        operatorView = (TextView) findViewById(R.id.operator);
         commitBTN = (Button) findViewById(R.id.commit);
         cancelBTN = (Button) findViewById(R.id.cancel);
         begDateView.setOnClickListener(this);
@@ -71,39 +71,8 @@ public class FilterActivity extends BaseActivity implements View.OnClickListener
         begDateView.setText(startDateTime.getYear()+"-"+startDateTime.getMonthOfYear()+"-"+startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
         endDateView.setText(endDateTime.getYear()+"-"+endDateTime.getMonthOfYear()+"-"+endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
         session = SuperClient.getDaoSession(this);
-        QueryBuilder<AMKind> queryBuilder = session.getAMKindDao().queryBuilder();
-        queryBuilder.where(AMKindDao.Properties.Kind.eq(99));
-        AMKindAdapter amKindAdapter = new AMKindAdapter(this,queryBuilder.list());
-        stateView.setAdapter(amKindAdapter);
-        stateView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                billState = (int) adapterView.getSelectedItemId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        List<Operator> operators = session.getOperatorDao().loadAll();
-        Operator operator = new Operator();
-        operator.setOpID(-1L);
-        operator.setOpName("全部");
-        operators.add(0,operator);
-        OperatorAdapter operatorAdapter = new OperatorAdapter(operators,this);
-        operatorView.setAdapter(operatorAdapter);
-        operatorView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                opID = parent.getSelectedItemId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        stateView.setOnClickListener(this);
+        operatorView.setOnClickListener(this);
     }
 
     @Override
@@ -113,6 +82,7 @@ public class FilterActivity extends BaseActivity implements View.OnClickListener
             switch (requestCode){
                 case 1:
                     Trader trader = (Trader) data.getSerializableExtra("Data");
+                    traderID = trader.getTraderID();
                     traderView.setText(trader.getTraderName());
                     break;
             }
@@ -148,9 +118,30 @@ public class FilterActivity extends BaseActivity implements View.OnClickListener
                 startActivityForResult(intent2, 1);
                 break;
             case R.id.state:
-
+                AMKindDao amKindDao = session.getAMKindDao();
+                QueryBuilder<AMKind> amKindQueryBuilder = amKindDao.queryBuilder();
+                amKindQueryBuilder.where(AMKindDao.Properties.Kind.eq(99));
+                List<AMKind> amKinds = amKindQueryBuilder.list();
+                AMKindPop amKindPop = new AMKindPop(this,amKinds,new AMKindPop.onItemClickListener() {
+                    @Override
+                    public void onItemClick(AMKind amKind) {
+                        billState = amKind.getID();
+                        stateView.setText(amKind.getName());
+                    }
+                });
+                amKindPop.showPopupWindow(v);
                 break;
-
+            case R.id.operator:
+                List<Operator> operators = session.getOperatorDao().loadAll();
+                OperatorPop operatorPop = new OperatorPop(this,operators,new OperatorPop.onItemClickListener() {
+                    @Override
+                    public void onItemClick(Operator operator) {
+                        opID = operator.getOpID();
+                        operatorView.setText(operator.getOpName());
+                    }
+                });
+                operatorPop.showPopupWindow(v);
+                break;
             case R.id.commit:
                 Request request = new Request(GlobalConstant.METHOD_DO_BILL);
                 Params params = new Params();
@@ -158,7 +149,6 @@ public class FilterActivity extends BaseActivity implements View.OnClickListener
                 params.setOperate("GetListBill");
                 params.setPageSize(30);
                 params.setPageNo(1);
-
                 params.setBegDate(begDateView.getText().toString());
                 params.setEndDate(endDateView.getText().toString());
                 params.setBillKind(billKind);

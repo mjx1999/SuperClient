@@ -5,6 +5,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -16,30 +17,20 @@ import java.util.List;
 /**
  * Created by twisty on 14-8-10.
  */
-public class OperatorAdapter implements SpinnerAdapter {
+public class OperatorAdapter extends BaseAdapter {
     private List<Operator> data;
-    private Context context;
     private LayoutInflater inflater;
 
-    public OperatorAdapter(List<Operator> data, Context context) {
+    public OperatorAdapter(Context context,List<Operator> data) {
         this.data = data;
-        this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
-    }
 
     @Override
     public int getCount() {
-        return data.size();
+        if(data!=null)return data.size();
+        return 0;
     }
 
     @Override
@@ -59,34 +50,27 @@ public class OperatorAdapter implements SpinnerAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.spinner_item,null);
-        TextView opNameView = (TextView) view.findViewById(R.id.text1);
-        opNameView.setText(data.get(position).getOpName());
-        return view;
+        ViewHolder viewHolder;
+        if(convertView==null){
+            viewHolder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.spiner_drop_down, null);
+            viewHolder.OperatorName = (TextView) convertView.findViewById(R.id.text1);
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        viewHolder.OperatorName.setText(data.get(position).getOpName());
+        return convertView;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 0;
-    }
 
     @Override
     public boolean isEmpty() {
-        if(data!=null)return data.isEmpty();
-        return false;
+        return data != null && data.isEmpty();
     }
 
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        Operator operator = data.get(position);
-        convertView = inflater.inflate(R.layout.spiner_drop_down,null);
-        TextView textView = (TextView) convertView.findViewById(R.id.text1);
-        textView.setText(operator.getOpName());
-        return convertView;
+    class ViewHolder{
+        TextView OperatorName;
     }
+
 }

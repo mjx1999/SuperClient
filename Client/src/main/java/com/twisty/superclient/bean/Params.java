@@ -29,8 +29,8 @@ public class Params implements Serializable{
     private String BegDate;
     private String EndDate;
     private long TraderID;
-    private int BillKind;
-    private int BillState;
+    private long BillKind;
+    private long BillState;
     //销售单列表
 
     //新增销售单
@@ -117,19 +117,19 @@ public class Params implements Serializable{
         TraderID = traderID;
     }
 
-    public int getBillKind() {
+    public long getBillKind() {
         return BillKind;
     }
 
-    public void setBillKind(int billKind) {
+    public void setBillKind(long billKind) {
         BillKind = billKind;
     }
 
-    public int getBillState() {
+    public long getBillState() {
         return BillState;
     }
 
-    public void setBillState(int billState) {
+    public void setBillState(long billState) {
         BillState = billState;
     }
 

@@ -71,7 +71,7 @@
 
             <TextView android:text="付款方式:" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/PayMethod"
                 style="@style/headerItemStyle"
                 android:background="@drawable/spinner_back"
@@ -95,24 +95,20 @@
 
             <TextView android:text="结算账户:" />
 
-            <Spinner
+            <TextView
                 android:background="@drawable/spinner_back"
-
                 android:id="@+id/Account"
-                style="@style/headerItemStyle"
-                android:inputType="phone" />
+                style="@style/headerItemStyle" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
 
             <TextView android:text="发票类型:" />
 
-            <Spinner
+            <TextView
                 android:background="@drawable/spinner_back"
-
                 android:id="@+id/NoteType"
-                style="@style/headerItemStyle"
-                android:inputType="phone" />
+                style="@style/headerItemStyle"/>
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">

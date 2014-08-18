@@ -29,5 +29,8 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_height">40dp</item>
     </style>
-
+    <style name="AnimationPreview">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
 </resources>

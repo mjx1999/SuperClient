@@ -5,6 +5,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by twisty on 14-8-18.
  */
-public class PayMethodAdapter implements SpinnerAdapter {
+public class PayMethodAdapter extends BaseAdapter {
     private List<PayMethod> data;
     private LayoutInflater inflater;
 
@@ -31,16 +32,6 @@ public class PayMethodAdapter implements SpinnerAdapter {
 
     public void setData(List<PayMethod> data) {
         this.data = data;
-    }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
     }
 
     @Override
@@ -61,10 +52,6 @@ public class PayMethodAdapter implements SpinnerAdapter {
         return 0;
     }
 
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -72,7 +59,7 @@ public class PayMethodAdapter implements SpinnerAdapter {
         Viewholder viewholder;
         if(convertView==null){
             viewholder = new Viewholder();
-            convertView = inflater.inflate(R.layout.spinner_item,null);
+            convertView = inflater.inflate(R.layout.spiner_drop_down,null);
             viewholder.PayMethodName = (TextView) convertView.findViewById(R.id.text1);
             convertView.setTag(viewholder);
         }else{
@@ -82,29 +69,13 @@ public class PayMethodAdapter implements SpinnerAdapter {
         return convertView;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 0;
-    }
 
     @Override
     public boolean isEmpty() {
+        if(data!=null)return data.isEmpty();
         return false;
     }
 
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        PayMethod payMethod = data.get(position);
-        convertView = inflater.inflate(R.layout.spiner_drop_down,null);
-        TextView textView = (TextView) convertView.findViewById(R.id.text1);
-        textView.setText(payMethod.getPaymethodName());
-        return convertView;
-    }
 
     class Viewholder{
         TextView PayMethodName;

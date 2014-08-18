@@ -5,6 +5,8 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -16,28 +18,15 @@ import java.util.List;
 /**
  * Created by twisty on 2014-8-17.
  */
-public class AMKindAdapter implements SpinnerAdapter {
+public class AMKindAdapter extends BaseAdapter {
     private List<AMKind> data;
     private LayoutInflater inflater;
 
     public AMKindAdapter(Context context,List<AMKind> data) {
-        AMKind amKind = new AMKind();
-        amKind.setID(-1L);
-        amKind.setName("所有状态");
-        data.add(0,amKind);
         this.data = data;
         inflater = LayoutInflater.from(context);
     }
 
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
-    }
 
     @Override
     public int getCount() {
@@ -58,17 +47,12 @@ public class AMKindAdapter implements SpinnerAdapter {
     }
 
     @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         AMKind amKind = data.get(i);
         if(view==null){
             viewHolder = new ViewHolder();
-            view = inflater.inflate(R.layout.spinner_item,null);
+            view = inflater.inflate(R.layout.spiner_drop_down,null);
             viewHolder.AMKindName = (TextView) view.findViewById(R.id.text1);
             view.setTag(viewHolder);
         }else {
@@ -79,29 +63,19 @@ public class AMKindAdapter implements SpinnerAdapter {
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 0;
-    }
-
-    @Override
     public boolean isEmpty() {
         if(data!=null)return data.isEmpty();
         return false;
     }
 
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        AMKind amKind = data.get(position);
-        convertView = inflater.inflate(R.layout.spiner_drop_down,null);
-        TextView textView    = (TextView) convertView.findViewById(R.id.text1);
-        textView.setText(amKind.getName());
-        return convertView;
-    }
+//    @Override
+//    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//        AMKind amKind = data.get(position);
+//        convertView = inflater.inflate(R.layout.spiner_drop_down,null);
+//        TextView textView    = (TextView) convertView.findViewById(R.id.text1);
+//        textView.setText(amKind.getName());
+//        return convertView;
+//    }
 
     class ViewHolder {
         TextView AMKindName;

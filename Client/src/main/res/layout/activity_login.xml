@@ -20,11 +20,10 @@
                 android:gravity="center_vertical"
                 android:text="用户名"
                 />
-            <Spinner
+            <TextView
                 android:background="@drawable/spinner_back"
                 android:id="@+id/opName"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"/>
+                style="@style/headerItemStyle"/>
         </TableRow>
 
         <TableRow android:gravity="center_vertical">
@@ -32,8 +31,8 @@
                 android:text="密码"
                 />
             <EditText
-                android:layout_height="40dp"
-                android:background="@android:drawable/editbox_background_normal" android:singleLine="true"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background" android:singleLine="true"
                 android:id="@+id/opPass"
                 android:hint="输入操作员密码"
                 />
@@ -45,8 +44,8 @@
                 android:text="仓库编号"
                 />
             <EditText
-                android:layout_height="40dp"
-                android:background="@android:drawable/editbox_background_normal" android:singleLine="true"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background" android:singleLine="true"
                 android:id="@+id/defaultStoreCode"
                 android:hint="输入默认仓库编号"
                 />
