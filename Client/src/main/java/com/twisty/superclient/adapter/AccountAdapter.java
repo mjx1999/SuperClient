@@ -9,22 +9,28 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.Operator;
+import com.twisty.superclient.bean.Account;
 
 import java.util.List;
 
 /**
- * Created by twisty on 14-8-10.
+ * Created by twisty on 14-8-18.
  */
-public class OperatorAdapter implements SpinnerAdapter {
-    private List<Operator> data;
-    private Context context;
+public class AccountAdapter implements SpinnerAdapter {
+    private List<Account> data;
     private LayoutInflater inflater;
 
-    public OperatorAdapter(List<Operator> data, Context context) {
+    public AccountAdapter(Context context,List<Account> data) {
         this.data = data;
-        this.context = context;
         inflater = LayoutInflater.from(context);
+    }
+
+    public List<Account> getData() {
+        return data;
+    }
+
+    public void setData(List<Account> data) {
+        this.data = data;
     }
 
     @Override
@@ -39,17 +45,20 @@ public class OperatorAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        if(data!=null)return data.size();
+        return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        if(data!=null)return data.get(position);
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return data.get(position).getOpID();
+        if(data!=null)return data.get(position).getAccountID();
+        return 0;
     }
 
     @Override
@@ -59,10 +68,18 @@ public class OperatorAdapter implements SpinnerAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.spinner_item,null);
-        TextView opNameView = (TextView) view.findViewById(R.id.text1);
-        opNameView.setText(data.get(position).getOpName());
-        return view;
+        Account account = data.get(position);
+        Viewholder viewholder;
+        if(convertView==null){
+            viewholder = new Viewholder();
+            convertView = inflater.inflate(R.layout.spinner_item,null);
+            viewholder.AccountName = (TextView) convertView.findViewById(R.id.text1);
+            convertView.setTag(viewholder);
+        }else{
+            viewholder = (Viewholder) convertView.getTag();
+        }
+        viewholder.AccountName.setText(account.getAccountName());
+        return convertView;
     }
 
     @Override
@@ -83,10 +100,14 @@ public class OperatorAdapter implements SpinnerAdapter {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        Operator operator = data.get(position);
+        Account account = data.get(position);
         convertView = inflater.inflate(R.layout.spiner_drop_down,null);
         TextView textView = (TextView) convertView.findViewById(R.id.text1);
-        textView.setText(operator.getOpName());
+        textView.setText(account.getAccountName());
         return convertView;
+    }
+
+    class Viewholder{
+        TextView AccountName;
     }
 }

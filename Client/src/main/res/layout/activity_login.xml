@@ -21,9 +21,10 @@
                 android:text="用户名"
                 />
             <Spinner
+                android:background="@drawable/spinner_back"
                 android:id="@+id/opName"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
         </TableRow>
 
         <TableRow android:gravity="center_vertical">
@@ -31,7 +32,8 @@
                 android:text="密码"
                 />
             <EditText
-                android:singleLine="true"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background_normal" android:singleLine="true"
                 android:id="@+id/opPass"
                 android:hint="输入操作员密码"
                 />
@@ -43,7 +45,8 @@
                 android:text="仓库编号"
                 />
             <EditText
-                android:singleLine="true"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background_normal" android:singleLine="true"
                 android:id="@+id/defaultStoreCode"
                 android:hint="输入默认仓库编号"
                 />

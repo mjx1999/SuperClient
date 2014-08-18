@@ -20,7 +20,8 @@
 
             <TextView
                 android:id="@+id/beginDate"
-                android:background="?android:attr/editTextBackground" />
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow>
@@ -29,7 +30,8 @@
 
             <TextView
                 android:id="@+id/endDate"
-                android:background="?android:attr/editTextBackground" />
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow>
@@ -38,7 +40,8 @@
 
             <TextView
                 android:id="@+id/trader"
-                android:background="?android:attr/editTextBackground"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_back"
                 />
         </TableRow>
 
@@ -48,7 +51,8 @@
 
             <Spinner
                 android:id="@+id/state"
-
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_back"
                 />
         </TableRow>
 
@@ -57,6 +61,8 @@
             <TextView android:text="单号:" />
 
             <EditText
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
                 android:id="@+id/billCode" />
         </TableRow>
 
@@ -64,9 +70,10 @@
 
             <TextView android:text="操作员:" />
 
-            <TextView
+            <Spinner
                 android:id="@+id/operator"
-                android:background="?android:attr/editTextBackground"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_back"
                 />
         </TableRow>
 

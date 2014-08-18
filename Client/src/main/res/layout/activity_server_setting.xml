@@ -18,12 +18,14 @@
 
     <EditText
         android:singleLine="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:id="@+id/serverName"
         style="@style/settingEdit"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:layout_toRightOf="@id/serverNameLabel"
+
+        android:background="@android:drawable/editbox_background"
         android:hint="服务器IP,或者动态域名" />
 
     <CheckBox
@@ -44,8 +46,10 @@
         android:text="服务端口" />
 
     <EditText
+
+        android:background="@android:drawable/editbox_background"
         android:singleLine="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:id="@+id/serverPort"
         style="@style/settingEdit"
         android:layout_width="fill_parent"

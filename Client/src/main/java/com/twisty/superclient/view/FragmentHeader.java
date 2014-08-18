@@ -13,8 +13,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
+import com.twisty.superclient.adapter.AccountAdapter;
+import com.twisty.superclient.adapter.PayMethodAdapter;
+import com.twisty.superclient.bean.AccountDao;
 import com.twisty.superclient.bean.Employee;
 import com.twisty.superclient.bean.MasterData;
+import com.twisty.superclient.bean.PayMethodDao;
 import com.twisty.superclient.bean.Trader;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.view.filter.EmployeeFilterActivity;
@@ -31,7 +35,8 @@ public class FragmentHeader extends BaseFragment implements View.OnClickListener
     DateTime dateTime = new DateTime();
 
     private OnSaveListener mListener;
-
+    private PayMethodDao payMethodDao;
+    private AccountDao accountDao;
 
     public static FragmentHeader newInstance(MasterData masterData) {
         FragmentHeader fragment = new FragmentHeader();
@@ -60,6 +65,8 @@ public class FragmentHeader extends BaseFragment implements View.OnClickListener
             masterData.setBillID(-1L);
 
         }
+        payMethodDao = SuperClient.getDaoSession(getActivity()).getPayMethodDao();
+        accountDao = SuperClient.getDaoSession(getActivity()).getAccountDao();
     }
 
     @Override
@@ -70,12 +77,17 @@ public class FragmentHeader extends BaseFragment implements View.OnClickListener
         BillCode.setText("SS-"+ SuperClient.getDefaultStoreCode()+"-"+dateTime.toString("YYYYMMdd-HHmmss"));
         TraderName = (TextView) view.findViewById(R.id.TraderName);
         BillDate = (TextView) view.findViewById(R.id.BillDate);
+        BillDate.setText(dateTime.toString("YYYY-MM-dd"));
         BillTo = (EditText) view.findViewById(R.id.BillTo);
         ContactPhone = (EditText) view.findViewById(R.id.ContactPhone);
         PayAmt = (EditText) view.findViewById(R.id.PayAmt);
         PayMethod = (Spinner) view.findViewById(R.id.PayMethod);
         Account = (Spinner) view.findViewById(R.id.Account);
         EmpName = (TextView) view.findViewById(R.id.Employee);
+        PayMethodAdapter payMethodAdapter = new PayMethodAdapter(getActivity(),payMethodDao.loadAll());
+        PayMethod.setAdapter(payMethodAdapter);
+        Account.setAdapter(new AccountAdapter(getActivity(),accountDao.loadAll()));
+
         EmpName.setOnClickListener(this);
         TraderName.setOnClickListener(this);
         BillDate.setOnClickListener(this);
@@ -152,7 +164,7 @@ public class FragmentHeader extends BaseFragment implements View.OnClickListener
                 Trader trader = (Trader) data.getSerializableExtra("Data");
                 TraderName.setText(trader.getTraderName());
                 masterData.setTraderID(trader.getTraderID());
-                ContactPhone.setText(trader.getPhone());
+                ContactPhone.setText(trader.getTel1());
                 BillTo.setText(trader.getShipTo());
             }
         }else if(requestCode==2){
