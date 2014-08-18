@@ -18,6 +18,7 @@ import com.twisty.superclient.net.ReqClient;
 import com.twisty.superclient.util.CommonLog;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.util.LogFactory;
+import com.umeng.analytics.MobclickAgent;
 
 public class ServerActivity extends Activity implements View.OnClickListener {
     private EditText serverName, serverPort;
@@ -39,6 +40,18 @@ public class ServerActivity extends Activity implements View.OnClickListener {
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,9 +10,22 @@ import com.twisty.superclient.R;
 import com.twisty.superclient.util.CommonLog;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.util.LogFactory;
+import com.umeng.analytics.MobclickAgent;
 
 public class BaseActivity extends Activity {
     protected CommonLog log = LogFactory.createLog();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
