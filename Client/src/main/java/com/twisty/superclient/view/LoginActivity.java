@@ -188,6 +188,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             params.setAccsetCode(accset.getAccsetCode());
                             params.setOpID(currentOperator.getOpID());
                             params.setOpPassword(opPassView.getText().toString());
+                            params.setDefaultStoreCode(defaultStoreCodeView.getText().toString());
                             request.setParams(params);
                             String loginResult = null;
                             try {
