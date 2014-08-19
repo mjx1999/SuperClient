@@ -44,6 +44,7 @@
             android:name=".view.MainActivity"
             android:label="@string/title_activity_main" />
         <activity
+            android:configChanges="orientation|keyboard"
             android:name=".view.SellOrderActivity"
             android:label="@string/title_activity_sell_order"
             android:windowSoftInputMode="stateAlwaysHidden" />

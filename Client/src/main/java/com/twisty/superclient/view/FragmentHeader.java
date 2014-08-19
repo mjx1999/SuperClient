@@ -87,7 +87,8 @@ public class FragmentHeader extends BaseFragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_header, container, false);
         BillCode = (TextView) view.findViewById(R.id.BillCode);
-        BillCode.setText("SS-"+ SuperClient.getDefaultStoreCode()+"-"+dateTime.toString("YYYYMMdd-HHmmss"));
+        String billCode = "SS-"+ SuperClient.getDefaultStoreCode()+"-"+dateTime.toString("YYYYMMdd-HHmmss");
+        BillCode.setText(billCode);
         TraderName = (TextView) view.findViewById(R.id.TraderName);
         BillDate = (TextView) view.findViewById(R.id.BillDate);
         BillDate.setText(dateTime.toString("YYYY-MM-dd"));
@@ -122,7 +123,7 @@ public class FragmentHeader extends BaseFragment implements View.OnClickListener
     @Override
     public void onDetach() {
         super.onDetach();
-        if(masterData!=null)mListener.onSaveHeader(masterData);
+        if(masterData!=null)mListener.onSaveHeader(getMasterData());
         mListener = null;
     }
 
@@ -198,6 +199,9 @@ public class FragmentHeader extends BaseFragment implements View.OnClickListener
         masterData.setBillCode(BillCode.getText().toString());
         masterData.setContactPhone(ContactPhone.getText().toString().trim());
         masterData.setBillTo(BillTo.getText().toString().trim());
+        masterData.setShopID(SuperClient.getCurrentOperator().getShopID());
+
+        masterData.setAmount(123123.123);
         return masterData;
     }
 

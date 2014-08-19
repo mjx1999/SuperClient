@@ -135,27 +135,27 @@ public class DaoGerner {
         goods.implementsSerializable();
 
 
-        Entity goodsUtil = schema.addEntity("Unit");
-        goodsUtil.addLongProperty("UnitID").index();
-        goodsUtil.addLongProperty("GoodsID").index();
-        goodsUtil.addStringProperty("UnitName");
-        goodsUtil.addStringProperty("BarCode");
-        goodsUtil.addFloatProperty("Rate");
-        goodsUtil.addIntProperty("IsBase");
-        goodsUtil.addDoubleProperty("SPrice");
-        goodsUtil.addDoubleProperty("PPrice");
-        goodsUtil.addDoubleProperty("HighPrice");
-        goodsUtil.addDoubleProperty("LowPrice");
-        goodsUtil.addDoubleProperty("VipPrice");
-        goodsUtil.addDoubleProperty("LPrice1");
-        goodsUtil.addDoubleProperty("LPrice2");
-        goodsUtil.addDoubleProperty("LPrice3");
-        goodsUtil.addDoubleProperty("LPrice4");
-        goodsUtil.addDoubleProperty("LPrice5");
-        goodsUtil.addIntProperty("IsSale");
-        goodsUtil.addIntProperty("IsPurchase");
-        goodsUtil.addIntProperty("IsStore");
-        goodsUtil.implementsSerializable();
+        Entity goodsUnit = schema.addEntity("Unit");
+        goodsUnit.addLongProperty("UnitID").index();
+        goodsUnit.addLongProperty("GoodsID").index();
+        goodsUnit.addStringProperty("UnitName");
+        goodsUnit.addStringProperty("BarCode");
+        goodsUnit.addFloatProperty("Rate");
+        goodsUnit.addIntProperty("IsBase");
+        goodsUnit.addDoubleProperty("SPrice");
+        goodsUnit.addDoubleProperty("PPrice");
+        goodsUnit.addDoubleProperty("HighPrice");
+        goodsUnit.addDoubleProperty("LowPrice");
+        goodsUnit.addDoubleProperty("VipPrice");
+        goodsUnit.addDoubleProperty("LPrice1");
+        goodsUnit.addDoubleProperty("LPrice2");
+        goodsUnit.addDoubleProperty("LPrice3");
+        goodsUnit.addDoubleProperty("LPrice4");
+        goodsUnit.addDoubleProperty("LPrice5");
+        goodsUnit.addIntProperty("IsSale");
+        goodsUnit.addIntProperty("IsPurchase");
+        goodsUnit.addIntProperty("IsStore");
+        goodsUnit.implementsSerializable();
 
 
 

@@ -11,22 +11,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.twisty.superclient.R;
+import com.twisty.superclient.adapter.OrderDetailAdapter;
+import com.twisty.superclient.bean.Detail1Data;
+import com.twisty.superclient.bean.MasterData;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import u.aly.ad;
 
 public class FragmentOrderDetail extends BaseFragment {
 
     private ListView listView;
+    private OrderDetailAdapter adapter;
+    private ArrayList<Detail1Data> adapterData;
     private static final int ADDGOODS = 1;
-
+    private ArrayList<Detail1Data> detail1Datas;
 
     private OnSaveListener mListener;
 
 
-    public static FragmentOrderDetail newInstance() {
+    public static FragmentOrderDetail newInstance(ArrayList<Detail1Data> detail1Datas) {
         FragmentOrderDetail fragment = new FragmentOrderDetail();
+        if (detail1Datas != null) {
+            Bundle args = new Bundle();
+            args.putSerializable("Data", detail1Datas);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
     public FragmentOrderDetail() {
@@ -37,6 +53,11 @@ public class FragmentOrderDetail extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if (getArguments() != null) {
+            detail1Datas = (ArrayList<Detail1Data>) getArguments().getSerializable("Data");
+        }else {
+            detail1Datas = new ArrayList<Detail1Data>();
+        }
     }
 
     @Override
@@ -91,7 +112,21 @@ public class FragmentOrderDetail extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==Activity.RESULT_OK){
             if(requestCode==ADDGOODS){
-                log.i("~~~");
+                ArrayList<Detail1Data> retunData = (ArrayList<Detail1Data>) data.getSerializableExtra("com.twisty.superclient.Data");
+                if(adapter==null){
+                    adapterData = retunData;
+                    if(adapterData!=null){
+                        adapter = new OrderDetailAdapter(getActivity(),adapterData);
+                        listView.setAdapter(adapter);
+                    }
+                }else{
+                    if(adapterData!=null){
+                        adapterData.addAll(retunData);
+                        adapter.setData(adapterData);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                mListener.onSaveDetail(adapterData);
             }
         }
     }
@@ -109,8 +144,7 @@ public class FragmentOrderDetail extends BaseFragment {
     }
 
     public interface OnSaveListener {
-        // TODO: Update argument type and name
-        public void onSaveDetail(Uri uri);
+        public void onSaveDetail(ArrayList<Detail1Data> detail1Datas);
     }
 
 }

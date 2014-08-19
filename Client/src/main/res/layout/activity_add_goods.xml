@@ -82,7 +82,7 @@
             <TextView android:text="数量:" />
 
             <EditText
-                android:id="@+id/Quantity"
+                android:id="@+id/UnitQuanty"
                 style="@style/headerItemStyle"
                 android:background="@android:drawable/editbox_background"
                 />
