@@ -24,6 +24,7 @@
     </style>
 
     <style name="headerItemStyle">
+        <item name="android:singleLine">true</item>
         <item name="android:textSize">14sp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:gravity">center_vertical</item>

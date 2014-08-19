@@ -29,6 +29,7 @@
             <TextView android:text="货品条码:" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/Barcode"
                 style="@style/headerItemStyle"
                 android:background="@android:drawable/editbox_background">
@@ -84,7 +85,7 @@
                 android:id="@+id/Quantity"
                 style="@style/headerItemStyle"
                 android:background="@android:drawable/editbox_background"
-                android:text="1" />
+                />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
