@@ -18,5 +18,7 @@
     <string name="title_activity_filter">查单过滤</string>
     <string name="title_activity_trader_filter">过滤往来单位</string>
     <string name="title_activity_employee_filter">过滤业务员</string>
+    <string name="title_activity_add_goods">添加明细</string>
+    <string name="title_activity_goods_filter">选择货品</string>
 
 </resources>

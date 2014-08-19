@@ -6,12 +6,12 @@
     android:orientation="vertical">
 
     <HorizontalScrollView
+        android:fillViewport="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
         <ListView
             android:id="@+id/listView"
-            android:minWidth="300dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent">
 

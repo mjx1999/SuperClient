@@ -1,43 +1,32 @@
 package com.twisty.superclient.view;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.twisty.superclient.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class FragmentOrderDetail extends Fragment {
+public class FragmentOrderDetail extends BaseFragment {
 
     private ListView listView;
+    private static final int ADDGOODS = 1;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
 
     private OnSaveListener mListener;
 
 
-    public static FragmentOrderDetail newInstance(String param1, String param2) {
+    public static FragmentOrderDetail newInstance() {
         FragmentOrderDetail fragment = new FragmentOrderDetail();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
     public FragmentOrderDetail() {
@@ -47,10 +36,27 @@ public class FragmentOrderDetail extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.getItem(0).setVisible(false);
+        menu.getItem(1).setVisible(false);
+        inflater.inflate(R.menu.order_detail,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemID  = item.getItemId();
+        switch (itemID){
+            case R.id.add:
+                Intent intent = new Intent(getActivity(), AddGoodsActivity.class);
+                startActivityForResult(intent, ADDGOODS);
+                return  true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -81,31 +87,18 @@ public class FragmentOrderDetail extends Fragment {
 
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==Activity.RESULT_OK){
+            if(requestCode==ADDGOODS){
+                log.i("~~~");
+            }
+        }
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<Map<String,String>> maps = new ArrayList<Map<String, String>>();
-        Map<String,String> map ;
-        for(int i=0;i<100;i++){
-            map = new HashMap<String, String>();
-            map.put("text1","jsljdflsajdflsjf");
-            map.put("text2","jsljdflsajdfgfgefwflsjf");
-            map.put("text3","jsljdflsaj34r34dflsjf");
-            map.put("text4","jsljdflsa3f434f34f34fjdflsjf");
-            map.put("text5","jsljdf`````lsajdflsjf");
-            map.put("text6","jsljdfl121212sajdflsjf");
-            map.put("text7","jsljdfl456565sajdflsjf");
-            map.put("text8","jsljdfl76hghgsajdflsjf");
-            map.put("text9","jsljdflghngbgbgbgsajdflsjf");
-            map.put("text10","jsljdfgggggggggggggggggggggggglsajdflsjf");
-            maps.add(map);
-        }
-
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(),maps,R.layout.order_detail_item,new String[]{
-                "text1","text2","text3","text4","text5","text6","text7","text8","text9","text10"
-        },new int[]{
-                R.id.text1,R.id.text2,R.id.text3,R.id.text4,R.id.text5,R.id.text6,R.id.text7,R.id.text8,R.id.text9,R.id.text10
-        });
-        listView.setAdapter(adapter);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

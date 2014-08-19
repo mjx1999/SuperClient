@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.twisty.superclient.view.AddGoodsActivity" >
+    <item android:id="@+id/commit"
+        android:title="确定"
+        android:orderInCategory="10"
+        android:showAsAction="always|withText" />
+</menu>

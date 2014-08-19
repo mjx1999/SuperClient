@@ -1,6 +1,8 @@
 package com.twisty.superclient.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by twisty on 14-8-3.
@@ -36,7 +38,7 @@ public class Params implements Serializable{
     //新增销售单
     private boolean IsAddnew;
     private MasterData MasterData;
-    private Detail1Data Detail1Data;
+    private List<Detail1Data> Detail1Data = new ArrayList<Detail1Data>();
     //新增销售单
 
 
@@ -149,11 +151,11 @@ public class Params implements Serializable{
         MasterData = masterData;
     }
 
-    public Detail1Data getDetail1Data() {
+    public List<Detail1Data> getDetail1Data() {
         return Detail1Data;
     }
 
-    public void setDetail1Data(Detail1Data detail1Data) {
+    public void setDetail1Data(List<Detail1Data> detail1Data) {
         Detail1Data = detail1Data;
     }
 

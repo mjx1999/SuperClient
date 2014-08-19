@@ -2,31 +2,22 @@ package com.twisty.superclient.view;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.Detail1Data;
 
 public class FragmentAddGoods extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
-
-    private OnSaveListener mListener;
+    private OnAddGoodsListener mListener;
 
 
-    public static FragmentAddGoods newInstance(String param1, String param2) {
+    public static FragmentAddGoods newInstance() {
         FragmentAddGoods fragment = new FragmentAddGoods();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
     public FragmentAddGoods() {
@@ -36,10 +27,6 @@ public class FragmentAddGoods extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -54,10 +41,10 @@ public class FragmentAddGoods extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnSaveListener) activity;
+            mListener = (OnAddGoodsListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " 需要实现OnSaveListener!");
+                    + " 需要实现OnAddGoodsListener!");
         }
     }
 
@@ -67,9 +54,9 @@ public class FragmentAddGoods extends Fragment {
         mListener = null;
     }
 
-    public interface OnSaveListener {
+    public interface OnAddGoodsListener {
         // TODO: Update argument type and name
-        public void onSave(Uri uri);
+        public void onAdd(Detail1Data detailData);
     }
 
 }

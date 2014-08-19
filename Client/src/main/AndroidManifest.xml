@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twisty.superclient">
+    package="com.twisty.superclient" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-        <meta-data android:value="53f1ed42fd98c5025e00c7ed" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="Kamia" android:name="UMENG_CHANNEL"/>
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="53f1ed42fd98c5025e00c7ed" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Kamia" />
+
         <activity
             android:name=".view.SplashActivity"
             android:label="@string/app_name" />
@@ -23,47 +29,58 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".view.ServerActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".view.BaseActivity" />
         <activity
             android:name=".view.AccsetActivity"
-            android:label="@string/title_activity_accset"/>
+            android:label="@string/title_activity_accset" />
         <activity
             android:name=".view.MainActivity"
-            android:label="@string/title_activity_main"/>
+            android:label="@string/title_activity_main" />
         <activity
             android:name=".view.SellOrderActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:label="@string/title_activity_sell_order"/>
+            android:label="@string/title_activity_sell_order"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.BluetoothListActivity"
             android:label="@string/title_activity_bluetooth_list"
-            android:theme="@android:style/Theme.DeviceDefault.Dialog"/>
+            android:theme="@android:style/Theme.DeviceDefault.Dialog" />
         <activity
             android:name=".view.ModuleOrderActivity"
             android:label="@string/title_activity_module_order"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.OrderListActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
-            android:label="@string/title_activity_order_list"/>
+            android:label="@string/title_activity_order_list" />
         <activity
             android:name=".view.filter.FilterActivity"
             android:label="@string/title_activity_filter"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.filter.TraderFilterActivity"
             android:label="@string/title_activity_trader_filter"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.filter.EmployeeFilterActivity"
             android:label="@string/title_activity_employee_filter"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.AddGoodsActivity"
+            android:label="@string/title_activity_add_goods"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:name=".view.filter.GoodsFilterActivity"
+            android:label="@string/title_activity_goods_filter" >
+        </activity>
     </application>
 
 </manifest>

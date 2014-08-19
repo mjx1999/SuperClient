@@ -11,6 +11,8 @@
         android:layout_height="48dp" />
 
     <TextView
+        android:textSize="20sp"
+        android:gravity="center_vertical"
         android:id="@+id/orderItem_Name"
         android:layout_width="fill_parent"
         android:layout_height="48dp" />

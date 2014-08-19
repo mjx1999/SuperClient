@@ -77,23 +77,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginBTN.setOnClickListener(this);
         isOnline = SuperClient.getIsOnline();
         operatorDao = SuperClient.getDaoSession(this).getOperatorDao();
-        String lastOP = sp
+        String lastOPStr = sp
                 .getString("LastOP", null);
-        if (lastOP != null) {
-            HashMap opinfo = CommonUtil.getGson().fromJson(lastOP, HashMap.class);
-            Long opID = Long.valueOf((String) opinfo.get("OpID"));
-            String opName = (String) opinfo.get("OpName");
+        if (lastOPStr != null) {
+            HashMap opinfo = CommonUtil.getGson().fromJson(lastOPStr, HashMap.class);
+
+
             String opPass = (String) opinfo.get("OpPass");
-
-
-            opNameView.setText(opName);
-            opPassView.setText(opPass);
             defaultStoreCodeView.setText((String) opinfo.get("StoreCode"));
-            Operator operator = new Operator();
-            operator.setOpID(opID);
-            operator.setOpName(opName);
-            operator.setOpPassword(opPass);
-            currentOperator = operator;
+            String operatorStr = (String) opinfo.get("Operator");
+            Operator lastOP = CommonUtil.getGson().fromJson(operatorStr,Operator.class);
+
+
+            opNameView.setText(lastOP.getOpName());
+            opPassView.setText(opPass);
+            currentOperator = lastOP;
         } else {
             opPassView.setText("");
             defaultStoreCodeView.setText("");
@@ -245,18 +243,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void saveOpInfo() {
         SuperClient.setCurrentOperator(currentOperator);
         SuperClient.setDefaultStoreCode(defaultStoreCodeView.getText().toString());
-        Map<String, String> opInf = new HashMap<String, String>();
-        opInf.put("OpID",currentOperator.getOpID().toString());
-        opInf.put("OpName", currentOperator.getOpName());
+        Map<String,String> opInf = new HashMap<String,String>();
+//        opInf.put("Operator",CommonUtil.getGson().toJson(currentOperator));
         opInf.put("OpPass", opPassView.getText().toString());
         opInf.put("StoreCode", defaultStoreCodeView.getText().toString());
         sp.edit().putString(currentOperator.getOpName(), CommonUtil.getGson().toJson(opInf)).apply();
     }
 
     private void saveLastOp(){
-        Map<String, String> opInf = new HashMap<String, String>();
-        opInf.put("OpID",currentOperator.getOpID().toString());
-        opInf.put("OpName", currentOperator.getOpName());
+        Map<String,String> opInf = new HashMap<String,String>();
+        opInf.put("Operator",CommonUtil.getGson().toJson(currentOperator));
         opInf.put("OpPass", opPassView.getText().toString());
         opInf.put("StoreCode", defaultStoreCodeView.getText().toString());
         sp.edit().putString("LastOP", CommonUtil.getGson().toJson(opInf)).apply();

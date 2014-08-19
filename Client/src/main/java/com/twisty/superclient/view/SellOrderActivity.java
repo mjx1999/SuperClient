@@ -38,12 +38,10 @@ public class SellOrderActivity extends BaseActivity implements View.OnClickListe
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         ActionBar.Tab headerTab1 = actionBar.newTab().setText("表头").setTabListener(this);
-        ActionBar.Tab addGoodsTab = actionBar.newTab().setText("抄单").setTabListener(this);
         ActionBar.Tab orderDetailTab = actionBar.newTab().setText("明细").setTabListener(this);
 
 
         actionBar.addTab(headerTab1);
-        actionBar.addTab(addGoodsTab);
         actionBar.addTab(orderDetailTab);
 
 
@@ -81,7 +79,7 @@ public class SellOrderActivity extends BaseActivity implements View.OnClickListe
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         log.i(tab.getText());
         if (tab.getText().equals("明细")) {
-            Fragment fragmentOrderDetail = FragmentOrderDetail.newInstance("xx", "vvv");
+            Fragment fragmentOrderDetail = FragmentOrderDetail.newInstance();
             fragmentOrderDetail.setRetainInstance(true);
             ft.replace(R.id.sellOrder, fragmentOrderDetail,"detail");
         } else if (tab.getText().equals("表头")) {
@@ -126,4 +124,5 @@ public class SellOrderActivity extends BaseActivity implements View.OnClickListe
     public void onSaveHeader(MasterData masterData) {
         log.i(masterData.getTraderID());
     }
+
 }
