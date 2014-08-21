@@ -1,7 +1,4 @@
-package com.twisty.superclient.net;
-
-import com.twisty.superclient.util.CommonLog;
-import com.twisty.superclient.util.LogFactory;
+package test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,13 +10,14 @@ import sun.misc.BASE64Encoder;
 public class A3Client {
 	private static int waitId = 0;
 	Socket socket = null;
-    private CommonLog log = LogFactory.createLog();
-	public boolean connectServer(String ip,int port) throws Exception {
+
+	public boolean connectServer() throws Exception {
 		try {
-			socket = new Socket( ip, port);
-            log.i(socket);
-            return true;
+			socket = new Socket( "172.16.66.50",5006);
+            socket.setSoTimeout(2000);
+			return true;
 		} catch (Exception e) {
+            e.printStackTrace();
 			return false;
 		}
 	}
@@ -28,10 +26,11 @@ public class A3Client {
 			throws Exception {
 		
 		PrintWriter oos = new PrintWriter(socket.getOutputStream());
-        String asData64 = (new BASE64Encoder()).encodeBuffer(asData.getBytes());
-		asData64 = asData64.replaceAll("\r", "");
-	    asData64 = asData64.replaceAll("\n", "");
-        
+        String asData64 = (new BASE64Encoder()).encodeBuffer(asData.getBytes("GBK"));
+        System.out.println(asData);
+        asData64 = asData64.replaceAll("\\r", "");
+        asData64 = asData64.replaceAll("\\n", "");
+
 		oos.println(asData64);
 		oos.flush();
 		oos = null;
@@ -53,11 +52,11 @@ public class A3Client {
 		String asResult;
 		if (strResponse == null || strResponse.isEmpty())
 		{
-			asResult = "{\"ErrNo\":-1,\"ErrMessage\":\"提交数据处理超时\"}";
+			asResult = "{\"ErrNo\":-1,\"ErrMessage\":\"提交数据超时\"}";
 		}
 		else
 		{
-		    asResult = new String((new BASE64Decoder()).decodeBuffer(strResponse),"gbk");
+		    asResult = new String((new BASE64Decoder()).decodeBuffer(new String(strResponse.getBytes("GBK"))));
 		}
 		
 		return asResult;
@@ -111,13 +110,30 @@ public class A3Client {
 			 ParamsJSon = "{}";
 		 }
 		 
-		 String asData = "{\"Method\":\"" + DataName+"\","
+		 String asData = "{\"Method\":\"Download" + DataName+"\","
 		                +" \"Params\":" + ParamsJSon
 		                +" }";
          String asResult = "";
          asResult = this.webInvoke(asData,30);
          return asResult;
 	}
+
+	public String DoBill(String BillName,String ParamsJSon ) throws Exception
+	{
+		 if (ParamsJSon == null)
+		 {
+			 ParamsJSon = "{}";
+		 }
+		 
+		 String asData = "{\"Method\":\"DoBill\","
+		                +" \"Params\":" + ParamsJSon
+		                +" }";
+         String asResult = "";
+         asResult = this.webInvoke(asData,30);
+         return asResult;
+	}
+
+
 	
 	@Override
 	protected void finalize() throws Throwable {

@@ -1,4 +1,4 @@
-package com.twisty.superclient.net;
+package test;
 
 public class SDResult {
    public int ErrNo;
@@ -10,7 +10,7 @@ public class SDResult {
    {
 	   super();
 	   ErrNo = 0;
-	   ErrMsg = "操作成功";
+	   ErrMsg = "";
 	   ErrTitle = "";
 	   OtherData = "";
    }

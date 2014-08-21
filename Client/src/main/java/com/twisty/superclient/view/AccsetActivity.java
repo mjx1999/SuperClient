@@ -18,11 +18,12 @@ import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.global.GlobalConstant;
 import com.twisty.superclient.global.SuperClient;
-import com.twisty.superclient.net.A3Client;
 import com.twisty.superclient.net.ReqClient;
 import com.twisty.superclient.util.CommonUtil;
 
 import java.util.List;
+
+import test.A3Client;
 
 public class AccsetActivity extends BaseActivity {
     private AccsetDao accsetDao;

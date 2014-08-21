@@ -2,9 +2,6 @@ package test;
 
 import com.twisty.superclient.net.ReqClient;
 
-import org.joda.time.DateTime;
-
-import java.io.IOException;
 import java.net.Socket;
 
 /**

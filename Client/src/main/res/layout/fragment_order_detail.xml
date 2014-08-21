@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
     <HorizontalScrollView
+        android:layout_above="@+id/AmountLayout"
         android:fillViewport="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -17,4 +18,24 @@
 
         </ListView>
     </HorizontalScrollView>
-</LinearLayout>
+    <LinearLayout
+        android:id="@id/AmountLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp">
+            <TextView
+                android:textSize="18sp"
+                android:gravity="center"
+                android:text="价税合计:"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent" />
+        <TextView
+            android:id="@+id/Amount"
+            android:paddingLeft="10dp"
+            android:textSize="18sp"
+            android:text="333333.3333"
+            android:gravity="center_vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+        </LinearLayout>
+</RelativeLayout>

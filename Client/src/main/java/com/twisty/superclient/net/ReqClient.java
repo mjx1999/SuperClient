@@ -49,11 +49,11 @@ public class ReqClient {
     public String requestData(Request request)
             throws Exception {
         PrintWriter oos = new PrintWriter(socket.getOutputStream());
-        log.i(gson.toJson(request));
-        String asData64 = (new BASE64Encoder()).encodeBuffer(gson.toJson(request).getBytes());
-        asData64 = asData64.replaceAll("\r", "");
-        asData64 = asData64.replaceAll("\n", "");
-
+        String reqString = gson.toJson(request);
+        log.i(reqString);
+        String asData64 = new BASE64Encoder().encodeBuffer(reqString.getBytes("gbk")) ;
+        asData64 = asData64.replaceAll("\\r", "");
+        asData64 = asData64.replaceAll("\\n", "");
         oos.println(asData64);
         oos.flush();
         oos = null;
@@ -73,7 +73,7 @@ public class ReqClient {
         String asResult;
         if (strResponse == null || strResponse.isEmpty())
         {
-            asResult = "{\"ErrNo\":-1,\"ErrMessage\":\"提交数据处理超时\"}";
+            asResult = "{\"ErrNo\":-1,\"ErrMessage\":\"连接服务器超时!\"}";
         }
         else
         {

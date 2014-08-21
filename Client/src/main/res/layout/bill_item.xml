@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/BillCode"
         style="@style/billItemStyle"
-        android:layout_width="150dp" />
+        android:layout_width="180dp" />
     <View
         android:layout_width="1px"
         android:layout_height="fill_parent"

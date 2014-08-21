@@ -33,8 +33,8 @@ import de.greenrobot.dao.query.QueryBuilder;
 public class AddGoodsActivity extends BaseActivity implements View.OnClickListener{
     private TextView StoreCode,GoodsName,Spec,Unit;
     private EditText GoodsCode,BarCode,UnitQuanty,OrigTaxPrice,Disc,TaxPrice,UnitPrice,TaxRate,TaxAmt,Amount;
-    private Detail1Data detail1Data;
-    ArrayList<Detail1Data> detail1Datas;
+    private Detail1Data detail1Data = new Detail1Data();
+    ArrayList<Detail1Data> detail1Datas = new ArrayList<Detail1Data>();
     private StoreDao storeDao;
     private UnitDao unitDao;
     private GoodsDao goodsDao;
@@ -42,7 +42,6 @@ public class AddGoodsActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goods);
-        detail1Datas = new ArrayList<Detail1Data>();
         DaoSession session = SuperClient.getDaoSession(this);
         storeDao = session.getStoreDao();
         unitDao = session.getUnitDao();
@@ -99,7 +98,6 @@ public class AddGoodsActivity extends BaseActivity implements View.OnClickListen
                             goodsQueryBuilder.where(GoodsDao.Properties.GoodsID.eq(unit.getGoodsID()));
                             Goods goods = goodsQueryBuilder.unique();
                             if(goods!=null){
-                                detail1Data = new Detail1Data();
                                 detail1Data.setGoodsID(goods.getGoodsID());
                                 detail1Data.setUnitID(unit.getUnitID());
                                 GoodsCode.setText(goods.getGoodsCode());
@@ -138,6 +136,22 @@ public class AddGoodsActivity extends BaseActivity implements View.OnClickListen
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.commit) {
+//            if(OrigTaxPrice.getText().toString().length()<=0){
+//                CommonUtil.showToastError(this,"原始单价(含税)不能为空!");
+//                return true;
+//            }
+//            if(Disc.getText().toString().length()<=0){
+//                CommonUtil.showToastError(this,"折扣率不能为空!");
+//                return true;
+//            }
+//            if(TaxPrice.getText().toString().length()<=0){
+//                CommonUtil.showToastError(this,"含税单价不能为空!");
+//                return true;
+//            }
+            if(UnitPrice.getText().toString().length()<=0){
+                CommonUtil.showToastError(this,"");
+                return true;
+            }
             detail1Data.setAmount(22.2);
             detail1Data.setQuantity(23.2);
             detail1Data.setOrigPrice(23.00);
@@ -194,7 +208,6 @@ public class AddGoodsActivity extends BaseActivity implements View.OnClickListen
                 case 1:
                     Goods goods = (Goods) data.getSerializableExtra("Data");
                     if(goods!=null){
-                        detail1Data = new Detail1Data();
                         detail1Data.setGoodsID(goods.getGoodsID());
                         BarCode.setText("");
                         GoodsName.setText(goods.getGoodsName());

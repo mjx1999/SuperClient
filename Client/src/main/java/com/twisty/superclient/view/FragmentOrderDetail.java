@@ -2,7 +2,6 @@ package com.twisty.superclient.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,38 +10,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.OrderDetailAdapter;
 import com.twisty.superclient.bean.Detail1Data;
-import com.twisty.superclient.bean.MasterData;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import u.aly.ad;
 
 public class FragmentOrderDetail extends BaseFragment {
 
     private ListView listView;
+    private TextView Amount;
     private OrderDetailAdapter adapter;
     private ArrayList<Detail1Data> adapterData;
     private static final int ADDGOODS = 1;
     private ArrayList<Detail1Data> detail1Datas;
 
-    private OnSaveListener mListener;
 
+    public ArrayList<Detail1Data> getDetail1Datas() {
+        return detail1Datas;
+    }
 
-    public static FragmentOrderDetail newInstance(ArrayList<Detail1Data> detail1Datas) {
+    public void setDetail1Datas(ArrayList<Detail1Data> detail1Datas) {
+        this.detail1Datas = detail1Datas;
+
+    }
+
+    public static FragmentOrderDetail newInstance() {
         FragmentOrderDetail fragment = new FragmentOrderDetail();
-        if (detail1Datas != null) {
-            Bundle args = new Bundle();
-            args.putSerializable("Data", detail1Datas);
-            fragment.setArguments(args);
-        }
         return fragment;
     }
     public FragmentOrderDetail() {
@@ -53,11 +51,6 @@ public class FragmentOrderDetail extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (getArguments() != null) {
-            detail1Datas = (ArrayList<Detail1Data>) getArguments().getSerializable("Data");
-        }else {
-            detail1Datas = new ArrayList<Detail1Data>();
-        }
     }
 
     @Override
@@ -85,32 +78,24 @@ public class FragmentOrderDetail extends BaseFragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_order_detail, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
+        Amount = (TextView) view.findViewById(R.id.Amount);
         return  view;
     }
 
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnSaveListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " 需要实现OnSaveListener!");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==Activity.RESULT_OK){
+            if(adapterData!=null){
+                double amount = 0;
+                for (Detail1Data detail1Data:adapterData){
+                    amount+=detail1Data.getAmount();
+                }
+                Amount.setText(amount+"");
+            }
             if(requestCode==ADDGOODS){
                 ArrayList<Detail1Data> retunData = (ArrayList<Detail1Data>) data.getSerializableExtra("com.twisty.superclient.Data");
                 if(adapter==null){
@@ -126,7 +111,6 @@ public class FragmentOrderDetail extends BaseFragment {
                         adapter.notifyDataSetChanged();
                     }
                 }
-                mListener.onSaveDetail(adapterData);
             }
         }
     }
@@ -143,8 +127,5 @@ public class FragmentOrderDetail extends BaseFragment {
         });
     }
 
-    public interface OnSaveListener {
-        public void onSaveDetail(ArrayList<Detail1Data> detail1Datas);
-    }
 
 }

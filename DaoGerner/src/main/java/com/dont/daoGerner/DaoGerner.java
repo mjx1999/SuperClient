@@ -272,7 +272,7 @@ public class DaoGerner {
         detail1Data.addDoubleProperty("OrigPrice");
         detail1Data.addDoubleProperty("OrigTaxPrice");
         detail1Data.addDoubleProperty("Quantity");
-        detail1Data.addLongProperty("ReferBillCode");
+        detail1Data.addStringProperty("ReferBillCode");
         detail1Data.addLongProperty("ReferBillID");
         detail1Data.addIntProperty("ReferBillType");
         detail1Data.addIntProperty("ReferItemNo");
