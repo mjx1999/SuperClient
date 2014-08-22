@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.twisty.superclient.view.SellOrderActivity" >
+    tools:context="com.twisty.superclient.view.salesBill.SalesBillActivity" >
     <item android:id="@+id/preOrder"
         android:title="@string/preOrder"
         android:orderInCategory="1"

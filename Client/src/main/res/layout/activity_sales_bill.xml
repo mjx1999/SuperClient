@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    tools:context="com.twisty.superclient.view.salesBill.SalesBillActivity">
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:id="@+id/fragment_content"
+        android:layout_above="@+id/buttonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+    <LinearLayout
+        android:id="@id/buttonBar"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp">
+        <Button
+            android:id="@+id/search"
+            android:text="查单"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        <Button
+            android:id="@+id/save"
+            android:text="保存"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        </LinearLayout>
+</RelativeLayout>

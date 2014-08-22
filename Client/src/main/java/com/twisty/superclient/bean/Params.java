@@ -1,13 +1,11 @@
 package com.twisty.superclient.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by twisty on 14-8-3.
  */
-public class Params implements Serializable{
+public class Params implements Serializable {
     private String ClientVer;
 
 
@@ -19,7 +17,7 @@ public class Params implements Serializable{
     private String DefaultStoreCode;
 
 
-//-------------销售单-------------
+    //-------------销售单-------------
     private String BillName;
     private String Operate;
     private long BillID;
@@ -37,14 +35,6 @@ public class Params implements Serializable{
 
     //新增销售单
     private boolean IsAddnew;
-    private MasterData MasterData;
-    private List<Detail1Data> Detail1Data = new ArrayList<Detail1Data>();
-    //新增销售单
-
-
-
-
-//-------------销售单-------------
 
 
     public String getBillName() {
@@ -143,21 +133,6 @@ public class Params implements Serializable{
         IsAddnew = isAddnew;
     }
 
-    public MasterData getMasterData() {
-        return MasterData;
-    }
-
-    public void setMasterData(MasterData masterData) {
-        MasterData = masterData;
-    }
-
-    public List<Detail1Data> getDetail1Data() {
-        return Detail1Data;
-    }
-
-    public void setDetail1Data(List<Detail1Data> detail1Data) {
-        Detail1Data = detail1Data;
-    }
 
     public String getClientVer() {
         return ClientVer;

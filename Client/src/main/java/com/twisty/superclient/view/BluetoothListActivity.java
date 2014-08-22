@@ -74,7 +74,7 @@ public class BluetoothListActivity extends BaseActivity {
 
         Set<BluetoothDevice> pairedDevices = myBluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() <= 0) {
-            CommonUtil.showToastInfo(this, "没有已配对的蓝牙打印机");
+            CommonUtil.showToastInfo(this, "没有已配对的蓝牙打印机",null);
         }
         for (BluetoothDevice device : pairedDevices) {
             Map<String, String> map = new HashMap<String, String>();
@@ -103,7 +103,7 @@ public class BluetoothListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //TODO 打印
-                CommonUtil.showToastInfo(BluetoothListActivity.this, m_adapter.getItem(listView.getCheckedItemPosition()).toString());
+                CommonUtil.showToastInfo(BluetoothListActivity.this, m_adapter.getItem(listView.getCheckedItemPosition()).toString(),null);
                 String bdAddress = ((Map<String, String>) m_adapter.getItem(listView.getCheckedItemPosition())).get("BDAddress");
                 BluetoothDevice myDevice = myBluetoothAdapter.getRemoteDevice(bdAddress);
                 log.i(myDevice);
@@ -129,9 +129,9 @@ public class BluetoothListActivity extends BaseActivity {
                         }
                         BtSPP.SPPWrite(String.format("\n\n").getBytes("GBK"));
                         if (zp_realtime_status(5000) > 0)
-                            CommonUtil.showToastError(BluetoothListActivity.this, ErrorMessage);
+                            CommonUtil.showToastError(BluetoothListActivity.this, ErrorMessage,null);
                     } catch (Exception e) {
-                        CommonUtil.showToastError(BluetoothListActivity.this, e.getMessage());
+                        CommonUtil.showToastError(BluetoothListActivity.this, e.getMessage(),null);
                     } finally {
                         BtSPP.SPPClose();
                     }

@@ -1,7 +1,7 @@
 package test;
 
 import com.google.gson.Gson;
-import com.twisty.superclient.bean.SellOrderResp;
+import com.twisty.superclient.bean.SalesBillResp;
 
 /**
  * Created by twisty on 14-8-3.
@@ -234,7 +234,7 @@ public class TestJson {
                 "    }\n" +
                 "    }";
 
-        System.out.println(gson.fromJson(xx,SellOrderResp.class));
+        System.out.println(gson.fromJson(xx,SalesBillResp.class));
 
     }
 }

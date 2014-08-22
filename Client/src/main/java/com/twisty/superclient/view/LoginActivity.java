@@ -14,12 +14,14 @@ import android.widget.TextView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.bean.Accset;
+import com.twisty.superclient.bean.LoginResp;
 import com.twisty.superclient.bean.Operator;
 import com.twisty.superclient.bean.OperatorDao;
 import com.twisty.superclient.bean.OperatorResp;
 import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.bean.Request;
-import com.twisty.superclient.bean.Response;
+import com.twisty.superclient.bean.Store;
+import com.twisty.superclient.bean.StoreDao;
 import com.twisty.superclient.global.GlobalConstant;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.net.ReqClient;
@@ -32,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.dao.query.QueryBuilder;
+
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private boolean isOnline;
     private CommonLog log = LogFactory.createLog();
@@ -39,6 +43,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText opPassView, defaultStoreCodeView;
     private Button loginBTN;
     private OperatorDao operatorDao;
+    private StoreDao storeDao;
     private ProgressDialog pd;
     private Accset accset;
     private List<Operator> adapterData;
@@ -56,7 +61,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     startActivity(intent);
                     break;
                 case RESULT_CANCELED:
-                    CommonUtil.showToastError(LoginActivity.this, msg.obj.toString());
+                    CommonUtil.showToastError(LoginActivity.this, msg.obj.toString(),null);
                     break;
                 case RESULT_FIRST_USER:
                     break;
@@ -77,6 +82,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginBTN.setOnClickListener(this);
         isOnline = SuperClient.getIsOnline();
         operatorDao = SuperClient.getDaoSession(this).getOperatorDao();
+        storeDao = SuperClient.getDaoSession(this).getStoreDao();
         String lastOPStr = sp
                 .getString("LastOP", null);
         if (lastOPStr != null) {
@@ -165,11 +171,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             case R.id.login:
                 if (currentOperator == null) {
-                    CommonUtil.showToastError(this, "操作员不能为空!");
+                    CommonUtil.showToastError(this, "操作员不能为空!",null);
                     return;
                 }
                 if (defaultStoreCodeView.getText().toString() == null || defaultStoreCodeView.getText().toString().trim().length() <= 0) {
-                    CommonUtil.showToastError(this, "默认仓库不能为空");
+                    CommonUtil.showToastError(this, "默认仓库不能为空",null);
                     return;
                 }
                 if (isOnline) {
@@ -204,12 +210,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             } finally {
                                 client.close();
                             }
-                            Response response = CommonUtil.getGson().fromJson(loginResult, Response.class);
+                            LoginResp response = CommonUtil.getGson().fromJson(loginResult, LoginResp.class);
                             if (response != null) {
                                 if (response.isCorrect()) {
                                     SuperClient.setCurrentLoginRequest(request);
                                     saveLastOp();
                                     saveOpInfo();
+                                    SuperClient.setDefaultStoreID(response.getStoreID());
+                                    SuperClient.setDefaultStoreCode(defaultStoreCodeView.getText().toString());
                                     handler.sendEmptyMessage(RESULT_OK);
                                 } else {
                                     Message message = handler.obtainMessage();
@@ -225,6 +233,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             .where(OperatorDao.Properties.OpPassword.eq(opPassView.getText().toString())
                                     , OperatorDao.Properties.OpID.eq(currentOperator.getOpID())
                             ).count();
+                    QueryBuilder<Store> storeQueryBuilder = storeDao.queryBuilder();
+                    storeQueryBuilder.where(StoreDao.Properties.StoreCode.eq(defaultStoreCodeView.getText().toString()));
+                    Store store = storeQueryBuilder.unique();
+                    if(store==null){
+                        CommonUtil.showToastError(LoginActivity.this,"默认仓库编码不正确!",null);
+                        return;
+                    }else{
+                        SuperClient.setDefaultStoreID(store.getStoreID());
+                        SuperClient.setDefaultStoreCode(store.getStoreCode());
+                    }
+
                     if (count > 0) {
                         saveLastOp();
                         saveOpInfo();
@@ -232,7 +251,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         SuperClient.setCurrentOperator(currentOperator);
                         startActivity(intent);
                     } else {
-                        CommonUtil.showToastError(LoginActivity.this, "登录密码不正确");
+                        CommonUtil.showToastError(LoginActivity.this, "登录密码不正确",null);
                     }
                 }
                 break;
@@ -243,7 +262,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void saveOpInfo() {
         SuperClient.setCurrentOperator(currentOperator);
-        SuperClient.setDefaultStoreCode(defaultStoreCodeView.getText().toString());
         Map<String,String> opInf = new HashMap<String,String>();
 //        opInf.put("Operator",CommonUtil.getGson().toJson(currentOperator));
         opInf.put("OpPass", opPassView.getText().toString());

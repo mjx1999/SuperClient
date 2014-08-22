@@ -41,7 +41,7 @@ public class AccsetActivity extends BaseActivity {
             if(what==RESULT_OK){
                 listView.setAdapter(adapter);
             }else {
-                CommonUtil.showToastError(AccsetActivity.this,msg.obj.toString());
+                CommonUtil.showToastError(AccsetActivity.this,msg.obj.toString(),null);
             }
         }
     };

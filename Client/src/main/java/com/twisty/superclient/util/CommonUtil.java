@@ -2,24 +2,20 @@ package com.twisty.superclient.util;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.twisty.superclient.R;
 
 import java.util.Calendar;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * 通用工具类
@@ -146,7 +142,6 @@ public class CommonUtil {
         return netstate;
     }
 
-    private static Toast infoToast;
 
     /**
      * 封装Toast操作
@@ -154,54 +149,24 @@ public class CommonUtil {
      * @param context
      * @param tip
      */
-    public static void showToastInfo(Context context, String tip) {
-//        Toast.makeText(context, tip, Toast.LENGTH_SHORT).show();
-//        Crouton.makeText((android.app.Activity) context,tip, Style.INFO).show();
-        if (infoToast == null) {
-            infoToast = new Toast(context);
-            View view = LayoutInflater.from(context).inflate(R.layout.toast, null);
-            TextView tipView = (TextView) view.findViewById(R.id.tip);
-            tipView.setWidth(getScreenWidth(context));
-            tipView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_dark));
-            tipView.setText(tip);
-            infoToast.setView(view);
-        } else {
-            TextView tipView = (TextView) infoToast.getView().findViewById(R.id.tip);
-            tipView.setText(tip);
+    public static void showToastInfo(Context context, String tip,ViewGroup viewGroup) {
+        if(viewGroup==null){
+            Crouton.makeText((android.app.Activity) context, tip, Style.INFO).show();
+        }else{
+            Crouton.makeText((android.app.Activity) context, tip, Style.INFO,viewGroup).show();
         }
-        infoToast.setDuration(Toast.LENGTH_LONG);
-        infoToast.setMargin(0, 0);
-        infoToast.setGravity(Gravity.TOP, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics()));
-        infoToast.show();
     }
 
-    private static Toast errToast;
 
-    public static void showToastError(Context context, String tip) {
-//        Toast.makeText(context, tip, Toast.LENGTH_SHORT).show();
-//            Crouton.makeText((android.app.Activity) context, tip, Style.ALERT).show();
-        if (errToast == null) {
-            errToast = new Toast(context);
-            LinearLayout view = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.toast, null);
-            TextView tipView = (TextView) view.findViewById(R.id.tip);
-            tipView.setBackgroundColor(Color.RED);
-            tipView.setWidth(getScreenWidth(context));
-            tipView.setText(tip);
-            errToast.setView(view);
-        } else {
-            TextView tipView = (TextView) errToast.getView().findViewById(R.id.tip);
-            tipView.setText(tip);
+    public static void showToastError(Context context, String tip,ViewGroup viewGroup) {
+        if(viewGroup==null){
+            Crouton.makeText((android.app.Activity) context, tip, Style.ALERT).show();
+        }else{
+            Crouton.makeText((android.app.Activity) context, tip, Style.ALERT,viewGroup).show();
         }
-        errToast.setDuration(Toast.LENGTH_LONG);
-        errToast.setMargin(0, 0);
-        errToast.setGravity(Gravity.TOP, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics()));
-        errToast.show();
-
     }
 
     public static void cancelAllToast() {
-        if (errToast != null) errToast.cancel();
-        if (infoToast != null) infoToast.cancel();
     }
 
 

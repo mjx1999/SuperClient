@@ -1,10 +1,6 @@
 package com.twisty.superclient.bean;
 
-import android.content.Context;
-import android.os.Looper;
-
 import com.twisty.superclient.util.CommonLog;
-import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.util.LogFactory;
 
 /**
@@ -43,11 +39,7 @@ public class Response {
         return ErrNo ==0;
     }
 
-    public void catchException(Context context){
-        if(ErrNo<0){
-            Looper.prepare();
-            CommonUtil.showToastError(context,ErrMessage);
-            Looper.loop();
-        }
-    }
+
+
+
 }

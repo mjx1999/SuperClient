@@ -4,16 +4,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.adapter.AMKindAdapter;
-import com.twisty.superclient.adapter.OperatorAdapter;
 import com.twisty.superclient.bean.AMKind;
 import com.twisty.superclient.bean.AMKindDao;
 import com.twisty.superclient.bean.DaoSession;
@@ -24,7 +20,7 @@ import com.twisty.superclient.bean.Trader;
 import com.twisty.superclient.global.GlobalConstant;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.view.BaseActivity;
-import com.twisty.superclient.view.OrderListActivity;
+import com.twisty.superclient.view.salesBill.SalesBillListActivity;
 
 import org.joda.time.DateTime;
 
@@ -157,7 +153,7 @@ public class FilterActivity extends BaseActivity implements View.OnClickListener
                 params.setBillCode(billCodeView.getText().toString());
                 params.setOpID(opID);
                 request.setParams(params);
-                Intent intent = new Intent(this, OrderListActivity.class);
+                Intent intent = new Intent(this, SalesBillListActivity.class);
                 intent.putExtra("Request", request);
                 startActivity(intent);
                 break;

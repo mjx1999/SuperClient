@@ -55,7 +55,7 @@ public class BillAdapter extends BaseAdapter {
         Bill bill = data.get(position);
         if(convertView==null){
             viewHolder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.bill_item,null);
+            convertView = inflater.inflate(R.layout.sales_bill_item,null);
             viewHolder.BillCode = (TextView) convertView.findViewById(R.id.BillCode);
             viewHolder.BillDate = (TextView) convertView.findViewById(R.id.BillDate);
             viewHolder.BillKindName = (TextView) convertView.findViewById(R.id.BillKindName);

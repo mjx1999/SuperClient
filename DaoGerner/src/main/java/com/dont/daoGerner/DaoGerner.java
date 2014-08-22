@@ -216,91 +216,196 @@ public class DaoGerner {
 
 
         //销售单
-        Entity masterData = schema.addEntity("MasterData");
-        masterData.addLongProperty("BillID").index();
-        masterData.addIntProperty("BillKind");
-        masterData.addIntProperty("BillState");
-        masterData.addStringProperty("BillCode");
-        masterData.addStringProperty("BillDate");
-        masterData.addStringProperty("BillTo");
-        masterData.addLongProperty("AccountID");
-        masterData.addDoubleProperty("Amount");
-        masterData.addStringProperty("CheckNo");
-        masterData.addStringProperty("ContactFax");
-        masterData.addStringProperty("ContactPhone");
-        masterData.addLongProperty("DepartmentID");
-        masterData.addDoubleProperty("Disc");
-        masterData.addLongProperty("EmpID");
-        masterData.addLongProperty("LinkManID");
-        masterData.addStringProperty("Linkman");
-        masterData.addStringProperty("NoteNo");
-        masterData.addLongProperty("NoteTypeID");
-        masterData.addLongProperty("OpID");
-        masterData.addDoubleProperty("PayAmt");
-        masterData.addStringProperty("PayDate");
-        masterData.addLongProperty("PayMethodID");
-        masterData.addIntProperty("Printed");
-        masterData.addStringProperty("Remark");
-        masterData.addIntProperty("SFlag");
-        masterData.addLongProperty("ShipType");
-        masterData.addLongProperty("ShopID");
-        masterData.addIntProperty("TermDays");
-        masterData.addLongProperty("TraderID");
-        masterData.addStringProperty("UpdateTime");
-        masterData.addStringProperty("UserDef1");
-        masterData.addStringProperty("UserDef2");
-        masterData.addStringProperty("UserDef3");
-        masterData.addStringProperty("UserDef4");
-        masterData.addStringProperty("UserDef5");
+        Entity salesBillMasterData = schema.addEntity("SalesBillMasterData");
+        salesBillMasterData.addLongProperty("BillID").index();
+        salesBillMasterData.addIntProperty("BillKind");
+        salesBillMasterData.addIntProperty("BillState");
+        salesBillMasterData.addStringProperty("BillCode");
+        salesBillMasterData.addStringProperty("BillDate");
+        salesBillMasterData.addStringProperty("BillTo");
+        salesBillMasterData.addLongProperty("AccountID");
+        salesBillMasterData.addDoubleProperty("Amount");
+        salesBillMasterData.addStringProperty("CheckNo");
+        salesBillMasterData.addStringProperty("ContactFax");
+        salesBillMasterData.addStringProperty("ContactPhone");
+        salesBillMasterData.addLongProperty("DepartmentID");
+        salesBillMasterData.addDoubleProperty("Disc");
+        salesBillMasterData.addLongProperty("EmpID");
+        salesBillMasterData.addLongProperty("LinkManID");
+        salesBillMasterData.addStringProperty("Linkman");
+        salesBillMasterData.addStringProperty("NoteNo");
+        salesBillMasterData.addLongProperty("NoteTypeID");
+        salesBillMasterData.addLongProperty("OpID");
+        salesBillMasterData.addDoubleProperty("PayAmt");
+        salesBillMasterData.addStringProperty("PayDate");
+        salesBillMasterData.addLongProperty("PayMethodID");
+        salesBillMasterData.addIntProperty("Printed");
+        salesBillMasterData.addStringProperty("Remark");
+        salesBillMasterData.addIntProperty("SFlag");
+        salesBillMasterData.addLongProperty("ShipType");
+        salesBillMasterData.addLongProperty("ShopID");
+        salesBillMasterData.addIntProperty("TermDays");
+        salesBillMasterData.addLongProperty("TraderID");
+        salesBillMasterData.addStringProperty("UpdateTime");
+        salesBillMasterData.addStringProperty("UserDef1");
+        salesBillMasterData.addStringProperty("UserDef2");
+        salesBillMasterData.addStringProperty("UserDef3");
+        salesBillMasterData.addStringProperty("UserDef4");
+        salesBillMasterData.addStringProperty("UserDef5");
 
-        masterData.implementsSerializable();
-
-
-
-        Entity detail1Data = schema.addEntity("Detail1Data");
-
-        detail1Data.addLongProperty("BillID").index();
-        detail1Data.addIntProperty("ItemNO");
-        detail1Data.addDoubleProperty("APrice");
-        detail1Data.addDoubleProperty("Amount");
-        detail1Data.addLongProperty("BReferID");
-        detail1Data.addDoubleProperty("Disc");
-        detail1Data.addDoubleProperty("DiscAmt");
-        detail1Data.addLongProperty("GoodsID");
-        detail1Data.addDoubleProperty("GoodsAmt");
-        detail1Data.addIntProperty("IsLargess");
-        detail1Data.addDoubleProperty("OrigPrice");
-        detail1Data.addDoubleProperty("OrigTaxPrice");
-        detail1Data.addDoubleProperty("Quantity");
-        detail1Data.addStringProperty("ReferBillCode");
-        detail1Data.addLongProperty("ReferBillID");
-        detail1Data.addIntProperty("ReferBillType");
-        detail1Data.addIntProperty("ReferItemNo");
-        detail1Data.addLongProperty("StoreID");
-        detail1Data.addDoubleProperty("TaxAmt");
-        detail1Data.addDoubleProperty("TaxPrice");
-        detail1Data.addDoubleProperty("TaxRate");
-        detail1Data.addLongProperty("UnitID");
-        detail1Data.addDoubleProperty("UnitPrice");
-        detail1Data.addDoubleProperty("UnitQuantity");
-        detail1Data.addDoubleProperty("UnitRate");
-        detail1Data.addStringProperty("UserDef1");
-        detail1Data.addStringProperty("UserDef2");
-        detail1Data.addStringProperty("UserDef3");
-        detail1Data.addStringProperty("UserDef4");
-        detail1Data.addStringProperty("UserDef5");
-        detail1Data.addStringProperty("UserDef6");
-        detail1Data.addStringProperty("UserDef7");
-        detail1Data.addStringProperty("UserDef8");
-        detail1Data.addStringProperty("UserDef9");
-        detail1Data.addStringProperty("UserDef10");
-        detail1Data.implementsSerializable();
+        salesBillMasterData.implementsSerializable();
 
 
 
+        Entity salesBillDetail1Data = schema.addEntity("SalesBillDetail1Data");
+
+        salesBillDetail1Data.addLongProperty("BillID").index();
+        salesBillDetail1Data.addIntProperty("ItemNO");
+        salesBillDetail1Data.addDoubleProperty("APrice");
+        salesBillDetail1Data.addDoubleProperty("Amount");
+        salesBillDetail1Data.addLongProperty("BReferID");
+        salesBillDetail1Data.addDoubleProperty("Disc");
+        salesBillDetail1Data.addDoubleProperty("DiscAmt");
+        salesBillDetail1Data.addLongProperty("GoodsID");
+        salesBillDetail1Data.addDoubleProperty("GoodsAmt");
+        salesBillDetail1Data.addIntProperty("IsLargess");
+        salesBillDetail1Data.addDoubleProperty("OrigPrice");
+        salesBillDetail1Data.addDoubleProperty("OrigTaxPrice");
+        salesBillDetail1Data.addDoubleProperty("Quantity");
+        salesBillDetail1Data.addStringProperty("ReferBillCode");
+        salesBillDetail1Data.addLongProperty("ReferBillID");
+        salesBillDetail1Data.addIntProperty("ReferBillType");
+        salesBillDetail1Data.addIntProperty("ReferItemNo");
+        salesBillDetail1Data.addLongProperty("StoreID");
+        salesBillDetail1Data.addDoubleProperty("TaxAmt");
+        salesBillDetail1Data.addDoubleProperty("TaxPrice");
+        salesBillDetail1Data.addDoubleProperty("TaxRate");
+        salesBillDetail1Data.addLongProperty("UnitID");
+        salesBillDetail1Data.addDoubleProperty("UnitPrice");
+        salesBillDetail1Data.addDoubleProperty("UnitQuantity");
+        salesBillDetail1Data.addDoubleProperty("UnitRate");
+        salesBillDetail1Data.addStringProperty("UserDef1");
+        salesBillDetail1Data.addStringProperty("UserDef2");
+        salesBillDetail1Data.addStringProperty("UserDef3");
+        salesBillDetail1Data.addStringProperty("UserDef4");
+        salesBillDetail1Data.addStringProperty("UserDef5");
+        salesBillDetail1Data.addStringProperty("UserDef6");
+        salesBillDetail1Data.addStringProperty("UserDef7");
+        salesBillDetail1Data.addStringProperty("UserDef8");
+        salesBillDetail1Data.addStringProperty("UserDef9");
+        salesBillDetail1Data.addStringProperty("UserDef10");
+        salesBillDetail1Data.implementsSerializable();
 
 
 
+        Entity salesOrderMasterData = schema.addEntity("SalesOrderMasterData");
+        salesOrderMasterData.addLongProperty("BillID");
+        salesOrderMasterData.addIntProperty("BillState");
+        salesOrderMasterData.addStringProperty("BillStateName");
+        salesOrderMasterData.addDoubleProperty("Amount");
+        salesOrderMasterData.addStringProperty("BillCode");
+        salesOrderMasterData.addStringProperty("BillDate");
+        salesOrderMasterData.addStringProperty("Billto");
+        salesOrderMasterData.addStringProperty("CheckorCode");
+        salesOrderMasterData.addLongProperty("CheckorID");
+        salesOrderMasterData.addStringProperty("CheckorName");
+        salesOrderMasterData.addStringProperty("CloseReason");
+        salesOrderMasterData.addIntProperty("Closed");
+        salesOrderMasterData.addStringProperty("ContactFax");
+        salesOrderMasterData.addStringProperty("ContactPhone");
+        salesOrderMasterData.addStringProperty("Contactor");
+        salesOrderMasterData.addStringProperty("ContractNo");
+        salesOrderMasterData.addStringProperty("DepartmentCode");
+        salesOrderMasterData.addStringProperty("DepartmentName");
+        salesOrderMasterData.addLongProperty("DepartmentID");
+        salesOrderMasterData.addStringProperty("EmpCode");
+        salesOrderMasterData.addLongProperty("EmpID");
+        salesOrderMasterData.addStringProperty("EmpName");
+        salesOrderMasterData.addStringProperty("LinkMan");
+        salesOrderMasterData.addStringProperty("OpCode");
+
+        salesOrderMasterData.addLongProperty("OpID");
+        salesOrderMasterData.addStringProperty("OpName");
+        salesOrderMasterData.addLongProperty("PaymethodID");
+        salesOrderMasterData.addStringProperty("PaymethodName");
+        salesOrderMasterData.addDoubleProperty("ReferAmt");
+
+        salesOrderMasterData.addStringProperty("Remark");
+        salesOrderMasterData.addStringProperty("RevDate");
+
+        salesOrderMasterData.addIntProperty("Sflag");
+        salesOrderMasterData.addLongProperty("ShipType");
+        salesOrderMasterData.addStringProperty("ShipTypeName");
+
+        salesOrderMasterData.addLongProperty("Shopid");
+
+        salesOrderMasterData.addStringProperty("TraderCode");
+        salesOrderMasterData.addLongProperty("TraderId");
+        salesOrderMasterData.addStringProperty("TraderName");
+        salesOrderMasterData.addStringProperty("UpdateTime");
+        salesOrderMasterData.addStringProperty("UserDef1");
+        salesOrderMasterData.addStringProperty("UserDef2");
+        salesOrderMasterData.addStringProperty("UserDef3");
+        salesOrderMasterData.addStringProperty("UserDef4");
+        salesOrderMasterData.addStringProperty("UserDef5");
+        salesOrderMasterData.addStringProperty("ValidDate");
+
+        salesOrderMasterData.implementsSerializable();
+
+
+
+
+        Entity salesOrderDetail1Data = schema.addEntity("SalesOrderDetail1Data");
+        salesOrderDetail1Data.addLongProperty("BillID");
+        salesOrderDetail1Data.addIntProperty("ItemNo");
+        salesOrderDetail1Data.addDoubleProperty("APrice");
+        salesOrderDetail1Data.addDoubleProperty("Amount");
+        salesOrderDetail1Data.addStringProperty("BarCode");
+        salesOrderDetail1Data.addStringProperty("ChargeDate");
+        salesOrderDetail1Data.addIntProperty("Closed");
+        salesOrderDetail1Data.addDoubleProperty("Disc");
+        salesOrderDetail1Data.addStringProperty("GUserDef1");
+        salesOrderDetail1Data.addStringProperty("GUserDef2");
+        salesOrderDetail1Data.addStringProperty("GUserDef3");
+        salesOrderDetail1Data.addStringProperty("GUserDef4");
+        salesOrderDetail1Data.addStringProperty("GUserDef5");
+        salesOrderDetail1Data.addDoubleProperty("GoodsAmt");
+        salesOrderDetail1Data.addStringProperty("GoodsCode");
+        salesOrderDetail1Data.addLongProperty("GoodsID");
+        salesOrderDetail1Data.addStringProperty("GoodsName");
+        salesOrderDetail1Data.addIntProperty("IsLargess");
+
+        salesOrderDetail1Data.addDoubleProperty("OrigPrice");
+        salesOrderDetail1Data.addDoubleProperty("OrigTaxPrice");
+        salesOrderDetail1Data.addDoubleProperty("Price");
+        salesOrderDetail1Data.addDoubleProperty("Quantity");
+
+        salesOrderDetail1Data.addStringProperty("ReferBillCode");
+        salesOrderDetail1Data.addLongProperty("ReferBillID");
+        salesOrderDetail1Data.addStringProperty("ReferBillType");
+        salesOrderDetail1Data.addIntProperty("ReferCount");
+        salesOrderDetail1Data.addIntProperty("ReferItemNo");
+        salesOrderDetail1Data.addDoubleProperty("ReferQty");
+
+
+        salesOrderDetail1Data.addStringProperty("Remark");
+        salesOrderDetail1Data.addStringProperty("ShortName");
+        salesOrderDetail1Data.addStringProperty("Specs");
+        salesOrderDetail1Data.addLongProperty("StoreID");
+        salesOrderDetail1Data.addDoubleProperty("TaxAmt");
+        salesOrderDetail1Data.addDoubleProperty("TaxRate");
+        salesOrderDetail1Data.addLongProperty("UnitID");
+        salesOrderDetail1Data.addStringProperty("UnitName");
+        salesOrderDetail1Data.addDoubleProperty("UnitPrice");
+        salesOrderDetail1Data.addDoubleProperty("UnitQuantity");
+        salesOrderDetail1Data.addDoubleProperty("UnitRate");
+        salesOrderDetail1Data.addStringProperty("UserDef1");
+        salesOrderDetail1Data.addStringProperty("UserDef2");
+        salesOrderDetail1Data.addStringProperty("UserDef3");
+        salesOrderDetail1Data.addStringProperty("UserDef4");
+        salesOrderDetail1Data.addStringProperty("UserDef5");
+
+        salesOrderDetail1Data.implementsSerializable();
 
 
 

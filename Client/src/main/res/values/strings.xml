@@ -20,5 +20,8 @@
     <string name="title_activity_employee_filter">过滤业务员</string>
     <string name="title_activity_add_goods">添加明细</string>
     <string name="title_activity_goods_filter">选择货品</string>
+    <string name="title_activity_sales_order">SalesOrderActivity</string>
+    <string name="title_activity_sales_order_add_goods">SalesOrderAddGoodsActivity</string>
+    <string name="title_activity_sales_order_list">SalesOrderListActivity</string>
 
 </resources>

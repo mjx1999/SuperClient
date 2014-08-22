@@ -72,10 +72,10 @@ public class MainActivity extends BaseActivity {
             if (pd != null) pd.dismiss();
             switch (msg.what) {
                 case RESULT_OK:
-                    CommonUtil.showToastInfo(MainActivity.this, "数据下载成功!");
+                    CommonUtil.showToastInfo(MainActivity.this, "数据下载成功!",null);
                     break;
                 case RESULT_CANCELED:
-                    CommonUtil.showToastError(MainActivity.this, msg.obj.toString());
+                    CommonUtil.showToastError(MainActivity.this, msg.obj.toString(),null);
                     break;
             }
         }
@@ -490,7 +490,7 @@ public class MainActivity extends BaseActivity {
                                     })
                                     .show();
                         } else {
-                            CommonUtil.showToastError(MainActivity.this, "当前是离线登录模式,下载资料请使用在线登录!");
+                            CommonUtil.showToastError(MainActivity.this, "当前是离线登录模式,下载资料请使用在线登录!",null);
                         }
                         break;
                     case 3:

@@ -1,0 +1,124 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        tools:context="com.twisty.superclient.view.salesBill.FragmentSalesBIllHeader">
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="单据编号:" />
+
+            <TextView
+                android:id="@+id/BillCode"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background" />
+        </TableRow>
+
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="开单日期:" />
+
+            <TextView
+                android:id="@+id/BillDate"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="客户名称:" />
+
+            <TextView
+                android:id="@+id/TraderName"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back"
+                />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="送货地址:" />
+
+            <EditText
+                android:id="@+id/BillTo"
+                style="@style/headerItemStyle"
+                android:textSize="14sp"
+                android:background="@android:drawable/editbox_background" />
+        </TableRow>
+
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="联系电话:" />
+
+            <EditText
+                android:id="@+id/ContactPhone"
+                style="@style/headerItemStyle"
+                android:textSize="14sp"
+
+                android:background="@android:drawable/editbox_background"
+                android:inputType="phone" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="付款方式:" />
+
+            <TextView
+                android:id="@+id/PayMethod"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back"
+                />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="开单收款:" />
+
+            <EditText
+                android:id="@+id/PayAmt"
+                style="@style/headerItemStyle"
+                android:textSize="14sp"
+
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="结算账户:" />
+
+            <TextView
+                android:background="@drawable/spinner_back"
+                android:id="@+id/Account"
+                style="@style/headerItemStyle" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="发票类型:" />
+
+            <TextView
+                android:background="@drawable/spinner_back"
+                android:id="@+id/NoteType"
+                style="@style/headerItemStyle"/>
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="业务员:" />
+
+            <TextView
+                android:id="@+id/Employee"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+    </TableLayout>
+</ScrollView>

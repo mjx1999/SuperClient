@@ -20,6 +20,7 @@ public class SuperClient extends Application {
     private static boolean isOnline;
     private static Accset currentAccset;
     private static Operator currentOperator;
+    private static Long defaultStoreID;
     private static String defaultStoreCode;
     private static String currentIP;
     private static int currentPort;
@@ -71,6 +72,14 @@ public class SuperClient extends Application {
 
     public static void setCurrentOperator(Operator currentOperator) {
         SuperClient.currentOperator = currentOperator;
+    }
+
+    public static Long getDefaultStoreID() {
+        return defaultStoreID;
+    }
+
+    public static void setDefaultStoreID(Long defaultStoreID) {
+        SuperClient.defaultStoreID = defaultStoreID;
     }
 
     public static boolean getIsOnline() {

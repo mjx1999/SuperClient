@@ -36,7 +36,7 @@ public class ServerActivity extends Activity implements View.OnClickListener {
                 startActivity(new Intent(ServerActivity.this, AccsetActivity.class));
                 overridePendingTransition(R.anim.push_left_in_sba, R.anim.fade_out_sba);
             }else{
-                CommonUtil.showToastError(ServerActivity.this,msg.obj.toString());
+                CommonUtil.showToastError(ServerActivity.this,msg.obj.toString(),null);
             }
         }
     };

@@ -27,4 +27,5 @@ dependencies {
     compile files('libs/BASE64.jar')
     compile files('libs/zpSDK.jar')
     compile files('libs/umeng-analytics-v5.2.4.jar')
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
 }
