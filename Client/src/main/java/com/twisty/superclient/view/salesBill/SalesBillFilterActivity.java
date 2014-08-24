@@ -1,4 +1,4 @@
-package com.twisty.superclient.view.filter;
+package com.twisty.superclient.view.salesBill;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -20,6 +20,9 @@ import com.twisty.superclient.bean.Trader;
 import com.twisty.superclient.global.GlobalConstant;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.view.BaseActivity;
+import com.twisty.superclient.view.filter.AMKindPop;
+import com.twisty.superclient.view.filter.OperatorPop;
+import com.twisty.superclient.view.filter.TraderFilterActivity;
 import com.twisty.superclient.view.salesBill.SalesBillListActivity;
 
 import org.joda.time.DateTime;
@@ -30,7 +33,7 @@ import java.util.Locale;
 
 import de.greenrobot.dao.query.QueryBuilder;
 
-public class FilterActivity extends BaseActivity implements View.OnClickListener {
+public class SalesBillFilterActivity extends BaseActivity implements View.OnClickListener {
     private EditText  billCodeView;
     private TextView begDateView, endDateView,traderView;
     private TextView stateView,operatorView;

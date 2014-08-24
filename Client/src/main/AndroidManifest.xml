@@ -22,12 +22,15 @@
             android:value="Kamia" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.SplashActivity"
             android:label="@string/app_name" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.ServerActivity"
             android:label="@string/app_name" >
             <intent-filter>
@@ -38,61 +41,88 @@
         </activity>
         <activity android:name=".view.BaseActivity" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.AccsetActivity"
             android:label="@string/title_activity_accset" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.MainActivity"
             android:label="@string/title_activity_main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.salesBill.SalesBillActivity"
             android:configChanges="orientation|keyboard"
             android:label="@string/title_activity_sell_order"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.BluetoothListActivity"
             android:label="@string/title_activity_bluetooth_list"
             android:theme="@android:style/Theme.DeviceDefault.Dialog" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.ModuleOrderActivity"
             android:label="@string/title_activity_module_order"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.salesBill.SalesBillListActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
-            android:label="@string/title_activity_order_list" />
+            android:label="@string/title_activity_sales_bill_list" />
         <activity
-            android:name=".view.filter.FilterActivity"
+            android:screenOrientation="portrait"
+            android:name=".view.salesBill.SalesBillFilterActivity"
             android:label="@string/title_activity_filter"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.filter.TraderFilterActivity"
             android:label="@string/title_activity_trader_filter"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.filter.EmployeeFilterActivity"
             android:label="@string/title_activity_employee_filter"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.salesBill.SalesBillAddGoodsActivity"
             android:label="@string/title_activity_add_goods"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.filter.GoodsFilterActivity"
             android:label="@string/title_activity_goods_filter"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.salesOrder.SalesOrderActivity"
-            android:label="@string/title_activity_sales_order" >
+            android:label="@string/title_activity_sales_order"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.salesOrder.SalesOrderAddGoodsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/title_activity_sales_order_add_goods" >
         </activity>
         <activity
             android:name=".view.salesOrder.SalesOrderListActivity"
             android:label="@string/title_activity_sales_order_list" >
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".view.transfer.TransferActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:label="@string/title_activity_transfer" >
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".view.stockCheck.StockCheckActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:label="@string/title_activity_stock_check" >
         </activity>
     </application>
 

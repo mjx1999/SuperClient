@@ -50,7 +50,6 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
     private EmployeeDao employeeDao;
 
     public FragmentSalesBIllHeader() {
-        // Required empty public constructor
     }
 
     public static FragmentSalesBIllHeader newInstance() {

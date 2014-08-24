@@ -1,25 +1,24 @@
-package com.twisty.superclient.view.salesOrder;
+package com.twisty.superclient.view.stockCheck;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.twisty.superclient.R;
-import com.twisty.superclient.view.BaseActivity;
 
-public class SalesOrderListActivity extends BaseActivity {
+public class StockCheckActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sales_order_list);
+        setContentView(R.layout.activity_stock_check);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.sales_order_list, menu);
+        getMenuInflater().inflate(R.menu.stock_check, menu);
         return true;
     }
 

@@ -11,6 +11,8 @@ import com.twisty.superclient.adapter.ModuleOrderAdapter;
 import com.twisty.superclient.bean.OrderModuleItem;
 import com.twisty.superclient.view.salesBill.SalesBillActivity;
 import com.twisty.superclient.view.salesOrder.SalesOrderActivity;
+import com.twisty.superclient.view.stockCheck.StockCheckActivity;
+import com.twisty.superclient.view.transfer.TransferActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,14 @@ public class ModuleOrderActivity extends BaseActivity {
                         break;
                     case 1:
                         startActivity(new Intent(ModuleOrderActivity.this, SalesOrderActivity.class));
+                        break;
+                    case 2:
+
+                        startActivity(new Intent(ModuleOrderActivity.this, TransferActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(ModuleOrderActivity.this, StockCheckActivity.class));
+
                         break;
                 }
             }

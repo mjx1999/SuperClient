@@ -85,28 +85,43 @@ public class SalesOrderActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sales_order, menu);
+        getMenuInflater().inflate(R.menu.bill_actionbar, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.print:
+
+                return true;
+            case R.id.preOrder:
+
+                return true;
+            case R.id.nextOrder:
+
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.search:
 
+                break;
+            case R.id.save:
+
+                break;
+        }
     }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         log.i(tab.getText());
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
         if (tab.getText().equals("明细")) {
             ft.hide(fragmentSalesOrderHeader);
             ft.show(fragmentSalesOrderDetail);

@@ -26,7 +26,6 @@ import com.twisty.superclient.net.ReqClient;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseActivity;
 import com.twisty.superclient.view.BluetoothListActivity;
-import com.twisty.superclient.view.filter.FilterActivity;
 
 import java.util.ArrayList;
 
@@ -105,7 +104,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.order_module, menu);
+        getMenuInflater().inflate(R.menu.bill_actionbar, menu);
         return true;
     }
 
@@ -245,7 +244,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
         int id = v.getId();
         switch (id) {
             case R.id.search:
-                Intent intent = new Intent(this, FilterActivity.class);
+                Intent intent = new Intent(this, SalesBillFilterActivity.class);
                 intent.putExtra("BillType", "s_sale");
                 intent.putExtra("BillKind", 1);
                 startActivity(intent);

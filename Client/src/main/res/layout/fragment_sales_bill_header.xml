@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/BillDate"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -38,8 +38,7 @@
             <TextView
                 android:id="@+id/TraderName"
                 style="@style/headerItemStyle"
-                android:background="@drawable/spinner_back"
-                />
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -49,8 +48,8 @@
             <EditText
                 android:id="@+id/BillTo"
                 style="@style/headerItemStyle"
-                android:textSize="14sp"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:textSize="14sp" />
         </TableRow>
 
 
@@ -61,10 +60,10 @@
             <EditText
                 android:id="@+id/ContactPhone"
                 style="@style/headerItemStyle"
-                android:textSize="14sp"
-
                 android:background="@android:drawable/editbox_background"
-                android:inputType="phone" />
+
+                android:inputType="phone"
+                android:textSize="14sp" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -74,8 +73,7 @@
             <TextView
                 android:id="@+id/PayMethod"
                 style="@style/headerItemStyle"
-                android:background="@drawable/spinner_back"
-                />
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -85,10 +83,10 @@
             <EditText
                 android:id="@+id/PayAmt"
                 style="@style/headerItemStyle"
-                android:textSize="14sp"
-
                 android:background="@android:drawable/editbox_background"
-                android:inputType="numberDecimal" />
+
+                android:inputType="numberDecimal"
+                android:textSize="14sp" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -96,9 +94,9 @@
             <TextView android:text="结算账户:" />
 
             <TextView
-                android:background="@drawable/spinner_back"
                 android:id="@+id/Account"
-                style="@style/headerItemStyle" />
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -106,9 +104,9 @@
             <TextView android:text="发票类型:" />
 
             <TextView
-                android:background="@drawable/spinner_back"
                 android:id="@+id/NoteType"
-                style="@style/headerItemStyle"/>
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
