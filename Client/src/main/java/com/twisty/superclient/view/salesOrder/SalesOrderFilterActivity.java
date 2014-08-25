@@ -1,8 +1,10 @@
-package com.twisty.superclient.view.salesBill;
+package com.twisty.superclient.view.salesOrder;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -32,25 +34,24 @@ import java.util.Locale;
 
 import de.greenrobot.dao.query.QueryBuilder;
 
-public class SalesBillFilterActivity extends BaseActivity implements View.OnClickListener {
-    private EditText  billCodeView;
+public class SalesOrderFilterActivity extends BaseActivity implements View.OnClickListener {
+    private EditText billCodeView;
     private TextView begDateView, endDateView,traderView;
     private TextView stateView,operatorView;
     private Button commitBTN, cancelBTN;
     private DateTime startDateTime, endDateTime;
     private DaoSession session;
     private String billType;
-    private long billKind;
+//    private long billKind;
     private long traderID = -1;
     private long billState = -1;
     private long opID = -1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sales_bill_filter);
+        setContentView(R.layout.activity_sales_order_filter);
         billType = getIntent().getStringExtra("BillType");
-        billKind = getIntent().getIntExtra("BillKind", -1);
+//        billKind = getIntent().getIntExtra("BillKind", -1);
         begDateView = (TextView) findViewById(R.id.beginDate);
         endDateView = (TextView) findViewById(R.id.endDate);
         traderView = (TextView) findViewById(R.id.trader);
@@ -72,7 +73,6 @@ public class SalesBillFilterActivity extends BaseActivity implements View.OnClic
         stateView.setOnClickListener(this);
         operatorView.setOnClickListener(this);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,6 +85,25 @@ public class SalesBillFilterActivity extends BaseActivity implements View.OnClic
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.sales_order_filter, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -105,7 +124,7 @@ public class SalesBillFilterActivity extends BaseActivity implements View.OnClic
                 DatePickerDialog dpdEnd = new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        endDateView.setText(year + "-" + (monthOfYear+1) + "-" + dayOfMonth);
+                        endDateView.setText(year + "-" + (monthOfYear +1)+ "-" + dayOfMonth);
                     }
                 }, endDateTime.getYear(), endDateTime.getMonthOfYear() -1, endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
                 dpdEnd.show();
@@ -149,13 +168,13 @@ public class SalesBillFilterActivity extends BaseActivity implements View.OnClic
                 params.setPageNo(1);
                 params.setBegDate(begDateView.getText().toString());
                 params.setEndDate(endDateView.getText().toString());
-                params.setBillKind(billKind);
+//                params.setBillKind(billKind);
                 params.setTraderID(traderID);
                 params.setBillState(billState);
                 params.setBillCode(billCodeView.getText().toString());
                 params.setOpID(opID);
                 request.setParams(params);
-                Intent intent = new Intent(this, SalesBillListActivity.class);
+                Intent intent = new Intent(this, SalesOrderListActivity.class);
                 intent.putExtra("Request", request);
                 startActivity(intent);
                 break;

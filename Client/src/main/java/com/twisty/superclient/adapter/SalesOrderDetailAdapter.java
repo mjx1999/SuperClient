@@ -17,6 +17,7 @@ import com.twisty.superclient.bean.Unit;
 import com.twisty.superclient.bean.UnitDao;
 import com.twisty.superclient.global.SuperClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -31,7 +32,7 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
     private GoodsDao goodsDao;
     private UnitDao unitDao;
 
-    public SalesOrderDetailAdapter(Context context, List<SalesOrderDetail1Data> data) {
+    public SalesOrderDetailAdapter(Context context, ArrayList<SalesOrderDetail1Data> data) {
         this.data = data;
         DaoSession session = SuperClient.getDaoSession(context);
         storeDao = session.getStoreDao();

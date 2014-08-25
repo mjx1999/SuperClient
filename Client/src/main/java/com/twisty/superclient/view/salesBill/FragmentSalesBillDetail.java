@@ -94,13 +94,6 @@ public class FragmentSalesBillDetail extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==Activity.RESULT_OK){
-            if(adapterData!=null){
-                double amount = 0;
-                for (SalesBillDetail1Data salesBillDetail1Data :adapterData){
-                    amount+= salesBillDetail1Data.getAmount();
-                }
-                Amount.setText(amount+"");
-            }
             if(requestCode==ADDGOODS){
                 ArrayList<SalesBillDetail1Data> retunData = (ArrayList<SalesBillDetail1Data>) data.getSerializableExtra("com.twisty.superclient.Data");
                 if(adapter==null){
@@ -118,6 +111,14 @@ public class FragmentSalesBillDetail extends BaseFragment {
                 }
                 setSalesBillDetail1Datas(adapterData);
             }
+            if(adapterData!=null){
+                double amount = 0;
+                for (SalesBillDetail1Data salesBillDetail1Data :adapterData){
+                    amount+= salesBillDetail1Data.getAmount();
+                }
+                Amount.setText(amount+"");
+            }
+
         }
     }
 

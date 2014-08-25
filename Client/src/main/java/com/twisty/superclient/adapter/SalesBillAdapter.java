@@ -8,27 +8,27 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.Bill;
+import com.twisty.superclient.bean.SalesBill;
 
 import java.util.List;
 
 /**
  * Created by twisty on 14-8-16.
  */
-public class BillAdapter extends BaseAdapter {
-    private List<Bill> data;
+public class SalesBillAdapter extends BaseAdapter {
+    private List<SalesBill> data;
     private LayoutInflater inflater;
 
-    public BillAdapter(Context context,List<Bill> data) {
+    public SalesBillAdapter(Context context, List<SalesBill> data) {
         this.data = data;
         inflater = LayoutInflater.from(context);
     }
 
-    public List<Bill> getData() {
+    public List<SalesBill> getData() {
         return data;
     }
 
-    public void setData(List<Bill> data) {
+    public void setData(List<SalesBill> data) {
         this.data = data;
     }
 
@@ -52,7 +52,7 @@ public class BillAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        Bill bill = data.get(position);
+        SalesBill salesBill = data.get(position);
         if(convertView==null){
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.sales_bill_item,null);
@@ -71,16 +71,16 @@ public class BillAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.BillCode.setText(bill.getBillCode());
-        viewHolder.BillDate.setText(bill.getBillDate());
-        viewHolder.BillKindName.setText(bill.getBillKindName());
-        viewHolder.BillStateName.setText(bill.getBillStateName());
-        viewHolder.TraderName.setText(bill.getTraderName());
-        viewHolder.Amount.setText(bill.getAmount()+"");
-        viewHolder.ReferAmt.setText(bill.getReferAmt()+"");
-        viewHolder.UnReferAmt.setText((bill.getAmount()-bill.getReferAmt())+"");
-        viewHolder.OpName.setText(bill.getOpName());
-        viewHolder.Checkor.setText(bill.getCheckor());
+        viewHolder.BillCode.setText(salesBill.getBillCode());
+        viewHolder.BillDate.setText(salesBill.getBillDate());
+        viewHolder.BillKindName.setText(salesBill.getBillKindName());
+        viewHolder.BillStateName.setText(salesBill.getBillStateName());
+        viewHolder.TraderName.setText(salesBill.getTraderName());
+        viewHolder.Amount.setText(salesBill.getAmount()+"");
+        viewHolder.ReferAmt.setText(salesBill.getReferAmt()+"");
+        viewHolder.UnReferAmt.setText((salesBill.getAmount()- salesBill.getReferAmt())+"");
+        viewHolder.OpName.setText(salesBill.getOpName());
+        viewHolder.Checkor.setText(salesBill.getCheckor());
 
         return convertView;
     }

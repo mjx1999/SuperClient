@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.BillSaveResp;
 import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.bean.ParamsSalesBill;
 import com.twisty.superclient.bean.Request;
@@ -35,7 +36,6 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
     private Button searchBTN, saveBTN;
     private boolean isAddNew = true;
     private boolean isCommit;
-    private ParamsSalesBill params;
     private SalesBillMasterData salesBillMasterData = new SalesBillMasterData();
     private ProgressDialog pd;
     private Handler handler = new Handler() {
@@ -57,6 +57,11 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                     if(msg.obj!=null){
                         CommonUtil.showToastError(SalesBillActivity.this,String.valueOf(msg.obj),null);
                     }
+                    break;
+                case RESULT_OK:
+                    CommonUtil.showToastInfo(SalesBillActivity.this,"保存成功!",null);
+                    fragmentSalesBIllHeader.setSalesBillMasterData(null);
+                    fragmentSalesBillDetail.setSalesBillDetail1Datas(null);
                     break;
                 case RESULT_CANCELED:
                     CommonUtil.showToastError(SalesBillActivity.this, String.valueOf(msg.obj),null);
@@ -268,11 +273,12 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                         log.i(salesBillDetail1Datas.size());
                     }
                 }
+                pd = ProgressDialog.show(this,null,"正在保存销售单.");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                        params = new ParamsSalesBill();
+                        ParamsSalesBill params = new ParamsSalesBill();
                         params.setBillName("s_sale");
                         params.setOperate("Save");
                         params.setAddnew(isAddNew);
@@ -280,20 +286,32 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                         params.setDetail1Data(salesBillDetail1Datas);
                         request.setParams(params);
                         ReqClient client = ReqClient.newInstance();
+                        Message message = handler.obtainMessage();
                         try {
                             boolean isSuccess = client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
                             if (isSuccess) {
-                                CommonUtil.getGson().toJson(request);
-                                log.i(SuperClient.getCurrentIP());
-                                log.i(SuperClient.getCurrentPort());
-                                log.i(SuperClient.getCurrentLoginRequest());
                                 String saveJson = client.requestData(request);
                                 log.i(saveJson);
+                                BillSaveResp billSaveResp = gson.fromJson(saveJson,BillSaveResp.class);
+                                if(billSaveResp!=null){
+                                    if(billSaveResp.isCorrect()){
+                                        message.what = RESULT_OK;
+                                    }else{
+                                        message.what = RESULT_CANCELED;
+                                        message.obj = billSaveResp.getErrMessage();
+                                    }
+                                }else{
+                                    message.what = RESULT_CANCELED;
+                                    message.obj="保存失败.";
+                                }
                             }
                         } catch (Exception e) {
+                            message.what = RESULT_CANCELED;
+                            message.obj="保存失败.";
                             e.printStackTrace();
                         } finally {
                             client.close();
+                            handler.sendMessage(message);
                         }
                     }
                 }).start();

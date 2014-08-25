@@ -3,7 +3,7 @@ package com.twisty.superclient.bean;
 /**
  * Created by twisty on 14-8-16.
  */
-public class Bill {
+public class SalesBill {
     private long BillID;
     private String BillCode;
     private String BillDate;

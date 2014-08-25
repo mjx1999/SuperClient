@@ -33,7 +33,7 @@
             android:id="@+id/Amount"
             android:paddingLeft="10dp"
             android:textSize="18sp"
-            android:text="333333.3333"
+            android:text="0.0"
             android:gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />

@@ -5,11 +5,11 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-16.
  */
-public class BillListResp extends Response {
+public class SalesBillListResp extends Response {
     private int TotalCount;
     private int PageNo;
     private int PageSize;
-    private ArrayList<Bill> ListData;
+    private ArrayList<SalesBill> ListData;
 
 
 
@@ -22,11 +22,11 @@ public class BillListResp extends Response {
                 '}';
     }
 
-    public ArrayList<Bill> getListData() {
+    public ArrayList<SalesBill> getListData() {
         return ListData;
     }
 
-    public void setListData(ArrayList<Bill> listData) {
+    public void setListData(ArrayList<SalesBill> listData) {
         ListData = listData;
     }
 

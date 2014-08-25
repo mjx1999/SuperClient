@@ -10,9 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.adapter.BillAdapter;
-import com.twisty.superclient.bean.Bill;
-import com.twisty.superclient.bean.BillListResp;
+import com.twisty.superclient.adapter.SalesBillAdapter;
+import com.twisty.superclient.bean.SalesBill;
+import com.twisty.superclient.bean.SalesBillListResp;
 import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.net.ReqClient;
@@ -23,8 +23,8 @@ import java.util.List;
 
 public class SalesBillListActivity extends BaseActivity {
     private ListView listView;
-    private BillAdapter adapter;
-    private List<Bill> adapterData;
+    private SalesBillAdapter adapter;
+    private List<SalesBill> adapterData;
     private ProgressDialog pd;
     private Request request;
     private ReqClient client;
@@ -34,7 +34,7 @@ public class SalesBillListActivity extends BaseActivity {
             super.handleMessage(msg);
             if (pd != null) pd.dismiss();
             if(adapter==null){
-                adapter = new BillAdapter(SalesBillListActivity.this,adapterData);
+                adapter = new SalesBillAdapter(SalesBillListActivity.this,adapterData);
                 listView.setAdapter(adapter);
             }else{
                 adapter.setData(adapterData);
@@ -57,17 +57,17 @@ public class SalesBillListActivity extends BaseActivity {
                     client.connectServer(SuperClient.getCurrentIP(),SuperClient.getCurrentPort(),SuperClient.getCurrentLoginRequest());
                     String billListJson = client.requestData(request);
                     log.i(billListJson);
-                    BillListResp billListResp = CommonUtil.getGson().fromJson(billListJson,BillListResp.class);
-                    if(billListResp!=null){
-                        if(billListResp.isCorrect()){
+                    SalesBillListResp salesBillListResp = CommonUtil.getGson().fromJson(billListJson,SalesBillListResp.class);
+                    if(salesBillListResp !=null){
+                        if(salesBillListResp.isCorrect()){
                             if(adapter==null){
-                                adapterData = billListResp.getListData();
+                                adapterData = salesBillListResp.getListData();
                             }else{
-                                adapterData.addAll(billListResp.getListData());
+                                adapterData.addAll(salesBillListResp.getListData());
                             }
                             handler.sendEmptyMessage(RESULT_OK);
                         }else{
-                            CommonUtil.showToastError(SalesBillListActivity.this,billListResp.getErrMessage(),null);
+                            CommonUtil.showToastError(SalesBillListActivity.this, salesBillListResp.getErrMessage(),null);
                         }
                         handler.sendEmptyMessage(RESULT_OK);
                     }

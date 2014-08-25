@@ -71,7 +71,16 @@
                 android:background="@android:drawable/editbox_background"
                 android:textSize="14sp" />
         </TableRow>
+        <TableRow style="@style/headerRowStyle">
 
+            <TextView android:text="订货人:" />
+
+            <EditText
+                android:id="@+id/Contactor"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:textSize="14sp" />
+        </TableRow>
         <TableRow style="@style/headerRowStyle">
 
             <TextView android:text="收货人:" />
@@ -120,25 +129,25 @@
         <!--android:inputType="numberDecimal" />-->
         <!--</TableRow>-->
 
-        <TableRow style="@style/headerRowStyle">
+        <!--<TableRow style="@style/headerRowStyle">-->
 
-            <TextView android:text="结算账户:" />
+            <!--<TextView android:text="结算账户:" />-->
 
-            <TextView
-                android:id="@+id/Account"
-                style="@style/headerItemStyle"
-                android:background="@drawable/spinner_back" />
-        </TableRow>
+            <!--<TextView-->
+                <!--android:id="@+id/Account"-->
+                <!--style="@style/headerItemStyle"-->
+                <!--android:background="@drawable/spinner_back" />-->
+        <!--</TableRow>-->
 
-        <TableRow style="@style/headerRowStyle">
+        <!--<TableRow style="@style/headerRowStyle">-->
 
-            <TextView android:text="发票类型:" />
+            <!--<TextView android:text="发票类型:" />-->
 
-            <TextView
-                android:id="@+id/NoteType"
-                style="@style/headerItemStyle"
-                android:background="@drawable/spinner_back" />
-        </TableRow>
+            <!--<TextView-->
+                <!--android:id="@+id/NoteType"-->
+                <!--style="@style/headerItemStyle"-->
+                <!--android:background="@drawable/spinner_back" />-->
+        <!--</TableRow>-->
 
         <TableRow style="@style/headerRowStyle">
 

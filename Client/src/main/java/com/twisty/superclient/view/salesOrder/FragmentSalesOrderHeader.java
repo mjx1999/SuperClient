@@ -25,9 +25,12 @@ import com.twisty.superclient.bean.TraderDao;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.view.BaseFragment;
 import com.twisty.superclient.view.filter.EmployeeFilterActivity;
+import com.twisty.superclient.view.filter.PayMethodPop;
 import com.twisty.superclient.view.filter.TraderFilterActivity;
 
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,8 +39,8 @@ import org.joda.time.DateTime;
 public class FragmentSalesOrderHeader extends BaseFragment implements View.OnClickListener {
     private SalesOrderMasterData masterData = new SalesOrderMasterData();
     private TextView BillCode,BillDate,RevDate,ValidDate,TraderName
-            ,Employee;
-    private EditText BillTo,LinkMan,ContactPhone;
+            ,Employee,PayMethod;
+    private EditText BillTo,LinkMan,ContactPhone,Contactor;
     private DateTime dateTime = new DateTime();
     private PayMethodDao payMethodDao;
     private AccountDao accountDao;
@@ -56,12 +59,26 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
         masterData.setValidDate(ValidDate.getText().toString());
         masterData.setOpID(SuperClient.getCurrentOperator().getOpID());
         masterData.setAmount(123123.123);
+        masterData.setContactor(Contactor.getText().toString());
         masterData.setLinkMan(LinkMan.getText().toString());
         return masterData;
     }
 
     public void setMasterData(SalesOrderMasterData masterData) {
-        this.masterData = masterData;
+        if(masterData!=null){
+            this.masterData = masterData;
+            BillCode.setText(masterData.getBillCode());
+            BillDate.setText(masterData.getBillDate());
+            RevDate.setText(masterData.getRevDate());
+            ValidDate.setText(masterData.getValidDate());
+            TraderName.setText(masterData.getTraderName());
+            BillTo.setText(masterData.getBillto());
+            Contactor.setText(masterData.getContactor());
+            LinkMan.setText(masterData.getLinkMan());
+            ContactPhone.setText(masterData.getContactPhone());
+            PayMethod.setText(masterData.getPaymethodName());
+            Employee.setText(masterData.getEmpName());
+        }
     }
 
     public FragmentSalesOrderHeader() {
@@ -90,12 +107,14 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
         RevDate = (TextView) view.findViewById(R.id.RevDate);
         ValidDate = (TextView) view.findViewById(R.id.ValidDate);
         LinkMan = (EditText) view.findViewById(R.id.LinkMan);
+        Contactor = (EditText) view.findViewById(R.id.Contactor);
+        PayMethod = (TextView) view.findViewById(R.id.PayMethod);
         Employee.setOnClickListener(this);
         TraderName.setOnClickListener(this);
         BillDate.setOnClickListener(this);
         RevDate.setOnClickListener(this);
         ValidDate.setOnClickListener(this);
-
+        PayMethod.setOnClickListener(this);
         String billCode = "SO-" + SuperClient.getDefaultStoreCode() + "-" + dateTime.toString("YYYYMMdd-HHmmss");
         BillCode.setText(billCode);
         BillDate.setText(dateTime.toString("YYYY-MM-dd"));
@@ -115,40 +134,51 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + i2 + "-" + i3;
+                        String billDate = i + "-" + (i2+1) + "-" + i3;
                         BillDate.setText(billDate);
                         masterData.setBillDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear() + 1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
                 dpd.show();
                 break;
             case R.id.RevDate:
                 DatePickerDialog dpdRev = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + i2 + "-" + i3;
+                        String billDate = i + "-" + (i2+1) + "-" + i3;
                         RevDate.setText(billDate);
                         masterData.setRevDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear() + 1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
                 dpdRev.show();
                 break;
             case R.id.ValidDate:
                 DatePickerDialog dpdVali = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + i2 + "-" + i3;
+                        String billDate = i + "-" + (i2+1) + "-" + i3;
                         ValidDate.setText(billDate);
                         masterData.setValidDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear() + 1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
                 dpdVali.show();
                 break;
             case R.id.Employee:
                 Intent intent1 = new Intent(getActivity(), EmployeeFilterActivity.class);
                 startActivityForResult(intent1, 2);
                 break;
-
+            case R.id.PayMethod:
+                List<com.twisty.superclient.bean.PayMethod> payMethods =  payMethodDao.loadAll();
+                PayMethodPop payMethodPop = new PayMethodPop(getActivity(),payMethods,new PayMethodPop.onItemClickListener() {
+                    @Override
+                    public void onItemClick(com.twisty.superclient.bean.PayMethod payMethod) {
+                        PayMethod.setText(payMethod.getPaymethodName());
+                        masterData.setPaymethodID(payMethod.getPayMethodID());
+                        masterData.setPaymethodName(payMethod.getPaymethodName());
+                    }
+                });
+                payMethodPop.showPopupWindow(v);
+                break;
         }
     }
 

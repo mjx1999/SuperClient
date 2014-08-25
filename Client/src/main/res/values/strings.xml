@@ -18,12 +18,13 @@
     <string name="title_activity_filter">过滤条件</string>
     <string name="title_activity_trader_filter">选择往来单位</string>
     <string name="title_activity_employee_filter">选择业务员</string>
-    <string name="title_activity_add_goods">添加明细</string>
+    <string name="title_activity_add_goods">添加销售单明细</string>
     <string name="title_activity_goods_filter">选择货品</string>
     <string name="title_activity_sales_order">客户订单</string>
-    <string name="title_activity_sales_order_add_goods">添加明细</string>
+    <string name="title_activity_sales_order_add_goods">添加订单明细</string>
     <string name="title_activity_sales_order_list">客户订单列表</string>
     <string name="title_activity_transfer">调拨单</string>
     <string name="title_activity_stock_check">盘点单</string>
+    <string name="title_activity_sales_order_filter">SalesOrderFilterActivity</string>
 
 </resources>

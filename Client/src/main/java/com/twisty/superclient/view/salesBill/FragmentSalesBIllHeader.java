@@ -109,11 +109,11 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + i2 + "-" + i3;
+                        String billDate = i + "-" + (i2+1) + "-" + i3;
                         BillDate.setText(billDate);
                         salesBillMasterData.setBillDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear() + 1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
                 dpd.show();
                 break;
             case R.id.Employee:

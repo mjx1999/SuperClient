@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:orientation="horizontal">
+<!--         BillCode,BillDate,BillStateName,RevDate,ValidDate,TraderName,
+LinkMan,PaymethodName,Amount,ForwardAmt,OpName,EmpName,Checkor;-->
+
+    <TextView
+        android:id="@+id/BillCode"
+        style="@style/billItemStyle"
+        android:layout_width="180dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/BillDate"
+        style="@style/billItemStyle"
+        android:layout_width="150dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/BillStateName"
+        style="@style/billItemStyle"
+        android:layout_width="70dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/RevDate"
+        style="@style/billItemStyle"
+        android:layout_width="150dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/ValidDate"
+        style="@style/billItemStyle"
+        android:layout_width="150dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/TraderName"
+        style="@style/billItemStyle"
+        android:layout_width="100dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/LinkMan"
+        style="@style/billItemStyle"
+        android:layout_width="50dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/ShipTypeName"
+        style="@style/billItemStyle"
+        android:layout_width="80dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/PaymethodName"
+        style="@style/billItemStyle"
+        android:layout_width="100dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <!--234234-->
+    <TextView
+        android:id="@+id/Amount"
+        style="@style/billItemStyle"
+        android:layout_width="100dp"
+        android:gravity="center_vertical|end" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/ForwardAmt"
+        style="@style/billItemStyle"
+        android:layout_width="100dp"
+        android:gravity="center_vertical|end" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:paddingLeft="5dp"
+        android:id="@+id/OpName"
+        style="@style/billItemStyle"
+        android:layout_width="65dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/CheckorName"
+        style="@style/billItemStyle"
+        android:layout_width="65dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:paddingLeft="5dp"
+        android:id="@+id/EmpName"
+        style="@style/billItemStyle"
+        android:layout_width="65dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/DepartmentName"
+        style="@style/billItemStyle"
+        android:layout_width="65dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+    <TextView
+        android:id="@+id/Closed"
+        style="@style/billItemStyle"
+        android:layout_width="40dp" />
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider"
+        />
+
+</LinearLayout>

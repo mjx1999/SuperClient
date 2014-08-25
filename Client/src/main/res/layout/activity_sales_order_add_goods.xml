@@ -26,7 +26,7 @@
 
         <TableRow style="@style/headerRowStyle">
 
-            <TextView android:text="开单日期:" />
+            <TextView android:text="交货日期:" />
 
             <TextView
                 android:id="@+id/ChargeDate"
