@@ -14,7 +14,7 @@
 
             <TextView android:text="单据编号:" />
 
-            <TextView
+            <EditText
                 android:id="@+id/BillCode"
                 style="@style/headerItemStyle"
                 android:background="@android:drawable/editbox_background" />

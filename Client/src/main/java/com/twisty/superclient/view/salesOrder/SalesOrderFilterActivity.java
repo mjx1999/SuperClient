@@ -115,7 +115,7 @@ public class SalesOrderFilterActivity extends BaseActivity implements View.OnCli
                 DatePickerDialog dpdStart = new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        begDateView.setText(year + "-" + (monthOfYear+1) + "-" + dayOfMonth);
+                        begDateView.setText(year + "-" + String.format("%02d",(monthOfYear+1)) + "-" + dayOfMonth);
                     }
                 }, startDateTime.getYear(), startDateTime.getMonthOfYear()-1, startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
                 dpdStart.show();
@@ -124,7 +124,7 @@ public class SalesOrderFilterActivity extends BaseActivity implements View.OnCli
                 DatePickerDialog dpdEnd = new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        endDateView.setText(year + "-" + (monthOfYear +1)+ "-" + dayOfMonth);
+                        endDateView.setText(year + "-" + String.format("%02d",(monthOfYear+1))+ "-" + dayOfMonth);
                     }
                 }, endDateTime.getYear(), endDateTime.getMonthOfYear() -1, endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
                 dpdEnd.show();

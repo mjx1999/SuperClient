@@ -38,9 +38,9 @@ import java.util.List;
  */
 public class FragmentSalesOrderHeader extends BaseFragment implements View.OnClickListener {
     private SalesOrderMasterData masterData = new SalesOrderMasterData();
-    private TextView BillCode,BillDate,RevDate,ValidDate,TraderName
+    private TextView BillDate,RevDate,ValidDate,TraderName
             ,Employee,PayMethod;
-    private EditText BillTo,LinkMan,ContactPhone,Contactor;
+    private EditText BillCode,BillTo,LinkMan,ContactPhone,Contactor;
     private DateTime dateTime = new DateTime();
     private PayMethodDao payMethodDao;
     private AccountDao accountDao;
@@ -98,7 +98,7 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sales_order_header, container, false);
-        BillCode = (TextView) view.findViewById(R.id.BillCode);
+        BillCode = (EditText) view.findViewById(R.id.BillCode);
         TraderName = (TextView) view.findViewById(R.id.TraderName);
         BillDate = (TextView) view.findViewById(R.id.BillDate);
         BillTo = (EditText) view.findViewById(R.id.BillTo);
@@ -134,7 +134,7 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + (i2+1) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
                         BillDate.setText(billDate);
                         masterData.setBillDate(billDate);
                     }
@@ -145,7 +145,7 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
                 DatePickerDialog dpdRev = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + (i2+1) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
                         RevDate.setText(billDate);
                         masterData.setRevDate(billDate);
                     }
@@ -156,7 +156,7 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
                 DatePickerDialog dpdVali = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + (i2+1) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
                         ValidDate.setText(billDate);
                         masterData.setValidDate(billDate);
                     }

@@ -40,8 +40,8 @@ import de.greenrobot.dao.query.QueryBuilder;
 
 public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClickListener {
     DateTime dateTime = new DateTime();
-    private TextView BillCode, TraderName, BillDate, EmpName, Account, NoteType, PayMethod;
-    private EditText BillTo, ContactPhone, PayAmt;
+    private TextView  TraderName, BillDate, EmpName, Account, NoteType, PayMethod;
+    private EditText BillCode,BillTo, ContactPhone, PayAmt;
     private SalesBillMasterData salesBillMasterData = new SalesBillMasterData();
     private PayMethodDao payMethodDao;
     private AccountDao accountDao;
@@ -70,7 +70,7 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sales_bill_header, container, false);
-        BillCode = (TextView) view.findViewById(R.id.BillCode);
+        BillCode = (EditText) view.findViewById(R.id.BillCode);
         TraderName = (TextView) view.findViewById(R.id.TraderName);
         BillDate = (TextView) view.findViewById(R.id.BillDate);
         BillTo = (EditText) view.findViewById(R.id.BillTo);
@@ -109,7 +109,7 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + (i2+1) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
                         BillDate.setText(billDate);
                         salesBillMasterData.setBillDate(billDate);
                     }

@@ -63,8 +63,7 @@ public class SalesOrderActivity extends BaseActivity implements View.OnClickList
                     break;
                 case RESULT_OK:
                     CommonUtil.showToastInfo(SalesOrderActivity.this,"保存成功!",null);
-                    fragmentSalesOrderHeader.setMasterData(null);
-                    fragmentSalesOrderDetail.setDetail1Data(null);
+                    isCommit = true;
                     break;
                 case RESULT_CANCELED:
                     CommonUtil.showToastError(SalesOrderActivity.this, String.valueOf(msg.obj), null);
@@ -247,7 +246,7 @@ public class SalesOrderActivity extends BaseActivity implements View.OnClickList
                     public void run() {
                         Request request = new Request(GlobalConstant.METHOD_DO_BILL);
                         ParamsSalesOrder params = new ParamsSalesOrder();
-                        params.setBillName("s_sale");
+                        params.setBillName("s_sorder");
                         params.setOperate("Save");
                         params.setAddnew(isAddNew);
                         params.setMasterData(salesOrderMasterData);

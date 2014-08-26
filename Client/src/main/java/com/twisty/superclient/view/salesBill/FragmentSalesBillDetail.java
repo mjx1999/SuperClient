@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesBillDetailAdapter;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 public class FragmentSalesBillDetail extends BaseFragment {
 
     private ListView listView;
-    private TextView Amount;
     private SalesBillDetailAdapter adapter;
     private ArrayList<SalesBillDetail1Data> adapterData;
     private static final int ADDGOODS = 1;
@@ -83,7 +81,6 @@ public class FragmentSalesBillDetail extends BaseFragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
-        Amount = (TextView) view.findViewById(R.id.Amount);
         return  view;
     }
 
@@ -116,7 +113,6 @@ public class FragmentSalesBillDetail extends BaseFragment {
                 for (SalesBillDetail1Data salesBillDetail1Data :adapterData){
                     amount+= salesBillDetail1Data.getAmount();
                 }
-                Amount.setText(amount+"");
             }
 
         }

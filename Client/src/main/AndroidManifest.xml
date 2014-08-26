@@ -127,6 +127,10 @@
             android:name=".view.salesOrder.SalesOrderFilterActivity"
             android:label="@string/title_activity_sales_order_filter" >
         </activity>
+        <activity
+            android:name=".view.stockCheck.StockCheckAddGoodsActivity"
+            android:label="@string/title_activity_stock_check_add_goods" >
+        </activity>
     </application>
 
 </manifest>

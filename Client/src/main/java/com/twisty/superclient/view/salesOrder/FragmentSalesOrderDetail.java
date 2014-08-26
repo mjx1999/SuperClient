@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesOrderDetailAdapter;
@@ -27,7 +26,6 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     private ListView listView;
     private ArrayList<SalesOrderDetail1Data> Detail1Data = new ArrayList<SalesOrderDetail1Data>();
     private SalesOrderDetailAdapter adapter;
-    private TextView Amount;
     private Double amount;
     private static final int ADDGOODS = 1;
 
@@ -85,7 +83,6 @@ public class FragmentSalesOrderDetail extends BaseFragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
-        Amount = (TextView) view.findViewById(R.id.Amount);
         return  view;
     }
 
@@ -127,7 +124,6 @@ public class FragmentSalesOrderDetail extends BaseFragment {
                         for (SalesOrderDetail1Data salesOrderDetail1Data :Detail1Data){
                             amount+= salesOrderDetail1Data.getAmount();
                         }
-                        Amount.setText(amount+"");
                     }
 
                 }

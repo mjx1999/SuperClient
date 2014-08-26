@@ -2,15 +2,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.twisty.superclient.view.transfer.TransferActivity">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    tools:context="com.twisty.superclient.view.salesBill.SalesBillActivity">
+    <LinearLayout
 
+        android:orientation="horizontal"
+        android:id="@+id/fragment_content"
+        android:layout_above="@+id/buttonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+    <LinearLayout
+        android:id="@id/buttonBar"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp">
+        <Button
+            android:id="@+id/search"
+            android:text="查单"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        <Button
+            android:id="@+id/save"
+            android:text="保存"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
 </RelativeLayout>
