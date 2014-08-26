@@ -14,14 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.AMKindDao;
-import com.twisty.superclient.bean.AccountDao;
 import com.twisty.superclient.bean.Employee;
-import com.twisty.superclient.bean.EmployeeDao;
 import com.twisty.superclient.bean.PayMethodDao;
 import com.twisty.superclient.bean.SalesOrderMasterData;
 import com.twisty.superclient.bean.Trader;
-import com.twisty.superclient.bean.TraderDao;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.view.BaseFragment;
 import com.twisty.superclient.view.filter.EmployeeFilterActivity;
@@ -43,10 +39,10 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
     private EditText BillCode,BillTo,LinkMan,ContactPhone,Contactor;
     private DateTime dateTime = new DateTime();
     private PayMethodDao payMethodDao;
-    private AccountDao accountDao;
-    private AMKindDao amKindDao;
-    private TraderDao traderDao;
-    private EmployeeDao employeeDao;
+//    private AccountDao accountDao;
+//    private AMKindDao amKindDao;
+//    private TraderDao traderDao;
+//    private EmployeeDao employeeDao;
     public SalesOrderMasterData getMasterData() {
         masterData.setBillState(0);
         if (masterData.getBillID() == null || masterData.getBillID() == 0)
@@ -88,10 +84,10 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         payMethodDao = SuperClient.getDaoSession(getActivity()).getPayMethodDao();
-        accountDao = SuperClient.getDaoSession(getActivity()).getAccountDao();
-        amKindDao = SuperClient.getDaoSession(getActivity()).getAMKindDao();
-        traderDao = SuperClient.getDaoSession(getActivity()).getTraderDao();
-        employeeDao = SuperClient.getDaoSession(getActivity()).getEmployeeDao();
+//        accountDao = SuperClient.getDaoSession(getActivity()).getAccountDao();
+//        amKindDao = SuperClient.getDaoSession(getActivity()).getAMKindDao();
+//        traderDao = SuperClient.getDaoSession(getActivity()).getTraderDao();
+//        employeeDao = SuperClient.getDaoSession(getActivity()).getEmployeeDao();
     }
 
     @Override

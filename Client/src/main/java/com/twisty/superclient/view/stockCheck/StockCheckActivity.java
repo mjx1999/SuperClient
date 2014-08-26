@@ -3,6 +3,7 @@ package com.twisty.superclient.view.stockCheck;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,22 +14,26 @@ import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.BillSaveResp;
 import com.twisty.superclient.bean.Params;
+import com.twisty.superclient.bean.ParamsStockCheck;
 import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.bean.StockCheckDetail1Data;
 import com.twisty.superclient.bean.StockCheckMasterData;
+import com.twisty.superclient.bean.StockCheckResp;
 import com.twisty.superclient.global.GlobalConstant;
+import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.net.ReqClient;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseActivity;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class StockCheckActivity extends BaseActivity implements ActionBar.TabListener,View.OnClickListener {
     private FragmentStockCheckHeader fragmentStockCheckHeader;
     private FragmentStockCheckDetail fragmentStockCheckDetail;
     private StockCheckMasterData stockCheckMasterData;
-    private List<StockCheckDetail1Data> stockCheckDetail1Datas;
+    private ArrayList<StockCheckDetail1Data> stockCheckDetail1Datas;
     private static final int PRE_RESULT = 3, NEXT_RESULT = 4;
     private ActionBar actionBar;
     private Button searchBTN, saveBTN;
@@ -42,23 +47,21 @@ public class StockCheckActivity extends BaseActivity implements ActionBar.TabLis
             if (pd != null) pd.dismiss();
             switch (msg.what) {
                 case PRE_RESULT:
-//                    fragmentSalesOrderHeader.setMasterData(salesOrderMasterData);
-//                    fragmentSalesOrderDetail.setDetail1Data(salesOrderDetail1Datas);
+                    fragmentStockCheckHeader.setMasterData(stockCheckMasterData);
+                    fragmentStockCheckDetail.setDetail1Data(stockCheckDetail1Datas);
                     if (msg.obj != null) {
                         CommonUtil.showToastError(StockCheckActivity.this, String.valueOf(msg.obj), null);
                     }
                     break;
                 case NEXT_RESULT:
-//                    fragmentSalesOrderHeader.setMasterData(salesOrderMasterData);
-//                    fragmentSalesOrderDetail.setDetail1Data(salesOrderDetail1Datas);
+                    fragmentStockCheckHeader.setMasterData(stockCheckMasterData);
+                    fragmentStockCheckDetail.setDetail1Data(stockCheckDetail1Datas);
                     if (msg.obj != null) {
                         CommonUtil.showToastError(StockCheckActivity.this, String.valueOf(msg.obj), null);
                     }
                     break;
                 case RESULT_OK:
                     CommonUtil.showToastInfo(StockCheckActivity.this,"保存成功!",null);
-//                    fragmentSalesOrderHeader.setMasterData(null);
-//                    fragmentSalesOrderDetail.setDetail1Data(null);
                     break;
                 case RESULT_CANCELED:
                     CommonUtil.showToastError(StockCheckActivity.this, String.valueOf(msg.obj), null);
@@ -120,44 +123,44 @@ public class StockCheckActivity extends BaseActivity implements ActionBar.TabLis
                     @Override
                     public void run() {
 
-//                        ReqClient client = ReqClient.newInstance();
-//                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-//                        Params paramsPRE = new Params();
-//                        paramsPRE.setOperate("GetPriorBill");
-//                        paramsPRE.setBillName("s_sorder");
-//                        paramsPRE.setBillCode(fragmentSalesOrderHeader.getMasterData().getBillCode());
-//                        request.setParams(paramsPRE);
-//                        try {
-//                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
-//                            String preBillJson = client.requestData(request);
-//                            log.i(preBillJson);
-//                            SalesOrderResp salesOrderResp = gson.fromJson(preBillJson, SalesOrderResp.class);
-//                            Message message = handler.obtainMessage();
-//                            if (salesOrderResp != null) {
-//                                if (salesOrderResp.isCorrect()) {
-//                                    if (salesOrderResp.getMasterData() != null) {
-//                                        salesOrderMasterData = salesOrderResp.getMasterData();
-//                                    }
-//                                    if (salesOrderResp.getDetail1Data() != null) {
-//                                        salesOrderDetail1Datas = salesOrderResp.getDetail1Data();
-//                                    }
-//                                } else {
-//                                    message.obj = salesOrderResp.getErrMessage();
-//                                }
-//                            } else {
-//                                message.obj = "服务器错误";
-//                            }
-//                            message.what = PRE_RESULT;
-//                            handler.sendMessage(message);
-//                        } catch (Exception e) {
-//                            Message message = handler.obtainMessage();
-//                            message.what = RESULT_CANCELED;
-//                            message.obj = "加载数据失败,请重试...";
-//                            handler.sendMessage(message);
-//                            e.printStackTrace();
-//                        } finally {
-//                            client.close();
-//                        }
+                        ReqClient client = ReqClient.newInstance();
+                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                        Params paramsPRE = new Params();
+                        paramsPRE.setOperate("GetPriorBill");
+                        paramsPRE.setBillName("i_balitem");
+                        paramsPRE.setBillCode(fragmentStockCheckHeader.getMasterData().getBillCode());
+                        request.setParams(paramsPRE);
+                        Message message = handler.obtainMessage();
+                        try {
+                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                            String preBillJson = client.requestData(request);
+                            log.i(preBillJson);
+                            StockCheckResp stockCheckResp = gson.fromJson(preBillJson, StockCheckResp.class);
+                            if (stockCheckResp != null) {
+                                if (stockCheckResp.isCorrect()) {
+                                    if (stockCheckResp.getMasterData() != null) {
+                                        stockCheckMasterData = stockCheckResp.getMasterData();
+                                    }
+                                    if (stockCheckResp.getDetail1Data() != null) {
+                                        stockCheckDetail1Datas = stockCheckResp.getDetail1Data();
+                                    }
+                                } else {
+                                    message.obj = stockCheckResp.getErrMessage();
+                                }
+                            } else {
+                                message.obj = "服务器错误";
+                            }
+                            message.what = PRE_RESULT;
+                        } catch (Exception e) {
+                            message = handler.obtainMessage();
+                            message.what = RESULT_CANCELED;
+                            message.obj = "加载数据失败,请重试...";
+                            handler.sendMessage(message);
+                            e.printStackTrace();
+                        } finally {
+                            handler.sendMessage(message);
+                            client.close();
+                        }
                     }
                 }).start();
 
@@ -173,39 +176,39 @@ public class StockCheckActivity extends BaseActivity implements ActionBar.TabLis
                         Request request = new Request(GlobalConstant.METHOD_DO_BILL);
                         Params paramsPRE = new Params();
                         paramsPRE.setOperate("GetNextBill");
-                        paramsPRE.setBillName("s_sorder");
-//                        paramsPRE.setBillCode(fragmentSalesOrderHeader.getMasterData().getBillCode());
-//                        request.setParams(paramsPRE);
-//                        try {
-//                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
-//                            String nextBillJson = client.requestData(request);
-//                            log.i(nextBillJson);
-//                            SalesOrderResp salesOrderResp = gson.fromJson(nextBillJson, SalesOrderResp.class);
-//                            Message message = handler.obtainMessage();
-//                            if(salesOrderResp!=null){
-//                                if(salesOrderResp.isCorrect()){
-//                                    if (salesOrderResp.getMasterData() != null) {
-//                                        salesOrderMasterData = salesOrderResp.getMasterData();
-//                                    }
-//                                    if (salesOrderResp.getDetail1Data() != null) {
-//                                        salesOrderDetail1Datas = salesOrderResp.getDetail1Data();
-//                                    }
-//                                }else{
-//                                    log.i(salesOrderResp.getErrMessage());
-//                                    message.obj = salesOrderResp.getErrMessage();
-//                                }
-//                            }else{
-//                                message.obj = "服务器错误";
-//                            }
-//                            message.what=NEXT_RESULT;
-//                            handler.sendMessage(message);
-//                        } catch (Exception e) {
-//                            Message message = handler.obtainMessage();
-//                            message.what = RESULT_CANCELED;
-//                            message.obj="加载数据失败,请重试...";
-//                            handler.sendMessage(message);
-//                            e.printStackTrace();
-//                        }
+                        paramsPRE.setBillName("i_balitem");
+                        paramsPRE.setBillCode(fragmentStockCheckHeader.getMasterData().getBillCode());
+                        request.setParams(paramsPRE);
+                        Message message = handler.obtainMessage();
+                        try {
+                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                            String preBillJson = client.requestData(request);
+                            log.i(preBillJson);
+                            StockCheckResp stockCheckResp = gson.fromJson(preBillJson, StockCheckResp.class);
+                            if (stockCheckResp != null) {
+                                if (stockCheckResp.isCorrect()) {
+                                    if (stockCheckResp.getMasterData() != null) {
+                                        stockCheckMasterData = stockCheckResp.getMasterData();
+                                    }
+                                    if (stockCheckResp.getDetail1Data() != null) {
+                                        stockCheckDetail1Datas = stockCheckResp.getDetail1Data();
+                                    }
+                                } else {
+                                    message.obj = stockCheckResp.getErrMessage();
+                                }
+                            } else {
+                                message.obj = "服务器错误";
+                            }
+                            message.what = PRE_RESULT;
+                        } catch (Exception e) {
+                            message = handler.obtainMessage();
+                            message.what = RESULT_CANCELED;
+                            message.obj = "加载数据失败,请重试...";
+                            e.printStackTrace();
+                        } finally {
+                            handler.sendMessage(message);
+                            client.close();
+                        }
                     }
                 }).start();
                 return true;
@@ -237,6 +240,65 @@ public class StockCheckActivity extends BaseActivity implements ActionBar.TabLis
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.search:
+                Intent intent = new Intent(this, StockCheckFilterActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.save:
+                if(fragmentStockCheckHeader.getMasterData()!=null){
+                    stockCheckMasterData = fragmentStockCheckHeader.getMasterData();
+                }
+                if (stockCheckMasterData.getStoreID() == null) {
+                    CommonUtil.showToastError(this, "仓库不能为空!",null);
+                    return;
+                }
+                if(fragmentStockCheckDetail.getDetail1Data()!=null){
+                    stockCheckDetail1Datas = fragmentStockCheckDetail.getDetail1Data();
+                }
+                pd = ProgressDialog.show(this,null,"正在保存盘点单.");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                        ParamsStockCheck params = new ParamsStockCheck();
+                        params.setBillName("i_balitem");
+                        params.setOperate("Save");
+                        params.setAddnew(isAddNew);
+                        params.setMasterData(stockCheckMasterData);
+                        params.setDetail1Data(stockCheckDetail1Datas);
+                        request.setParams(params);
+                        ReqClient client = ReqClient.newInstance();
+                        Message message = handler.obtainMessage();
+                        try {
+                            boolean isSuccess = client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                            if (isSuccess) {
+                                String saveJson = client.requestData(request);
+                                log.i(saveJson);
+                                BillSaveResp billSaveResp = gson.fromJson(saveJson,BillSaveResp.class);
+                                if(billSaveResp!=null){
+                                    if(billSaveResp.isCorrect()){
+                                        message.what = RESULT_OK;
+                                    }else{
+                                        message.what = RESULT_CANCELED;
+                                        message.obj = billSaveResp.getErrMessage();
+                                    }
+                                }else{
+                                    message.what = RESULT_CANCELED;
+                                    message.obj="保存失败.";
+                                }
+                            }
+                        } catch (Exception e) {
+                            message.what = RESULT_CANCELED;
+                            message.obj="保存失败.";
+                            e.printStackTrace();
+                        } finally {
+                            handler.sendMessage(message);
+                            client.close();
+                        }
+                    }
+                }).start();
+                break;
+        }
     }
 }

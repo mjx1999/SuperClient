@@ -131,6 +131,14 @@
             android:name=".view.stockCheck.StockCheckAddGoodsActivity"
             android:label="@string/title_activity_stock_check_add_goods" >
         </activity>
+        <activity
+            android:name=".view.stockCheck.StockCheckFilterActivity"
+            android:label="@string/title_activity_stock_check_filter" >
+        </activity>
+        <activity
+            android:name=".view.stockCheck.StockCheckListActivity"
+            android:label="@string/title_activity_stock_check_list" >
+        </activity>
     </application>
 
 </manifest>

@@ -66,8 +66,8 @@ public class SalesBillFilterActivity extends BaseActivity implements View.OnClic
         cancelBTN.setOnClickListener(this);
         startDateTime = new DateTime();
         endDateTime = new DateTime();
-        begDateView.setText(startDateTime.getYear()+"-"+startDateTime.getMonthOfYear()+"-"+startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
-        endDateView.setText(endDateTime.getYear()+"-"+endDateTime.getMonthOfYear()+"-"+endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
+        begDateView.setText(startDateTime.getYear()+"-"+ String.format("%02d",startDateTime.getMonthOfYear()) +"-"+startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
+        endDateView.setText(endDateTime.getYear()+"-"+ String.format("%02d",endDateTime.getMonthOfYear())+"-"+endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
         session = SuperClient.getDaoSession(this);
         stateView.setOnClickListener(this);
         operatorView.setOnClickListener(this);

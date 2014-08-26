@@ -1,4 +1,4 @@
-package com.twisty.superclient.view.salesOrder;
+package com.twisty.superclient.view.stockCheck;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -16,13 +16,14 @@ import com.twisty.superclient.bean.DaoSession;
 import com.twisty.superclient.bean.Operator;
 import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.bean.Request;
-import com.twisty.superclient.bean.Trader;
+import com.twisty.superclient.bean.Store;
+import com.twisty.superclient.bean.StoreDao;
 import com.twisty.superclient.global.GlobalConstant;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.view.BaseActivity;
 import com.twisty.superclient.view.filter.AMKindPop;
 import com.twisty.superclient.view.filter.OperatorPop;
-import com.twisty.superclient.view.filter.TraderFilterActivity;
+import com.twisty.superclient.view.filter.StorePop;
 
 import org.joda.time.DateTime;
 
@@ -32,27 +33,26 @@ import java.util.Locale;
 
 import de.greenrobot.dao.query.QueryBuilder;
 
-public class SalesOrderFilterActivity extends BaseActivity implements View.OnClickListener {
+public class StockCheckFilterActivity extends BaseActivity implements View.OnClickListener {
     private EditText billCodeView;
-    private TextView begDateView, endDateView,traderView;
+    private TextView begDateView, endDateView,storeView;
     private TextView stateView,operatorView;
     private Button commitBTN, cancelBTN;
     private DateTime startDateTime, endDateTime;
     private DaoSession session;
     private String billType;
-//    private long billKind;
-    private long traderID = -1;
+    private long storeID = -1;
     private long billState = -1;
     private long opID = -1;
+    private StoreDao storeDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sales_order_filter);
-        billType = getIntent().getStringExtra("BillType");
-//        billKind = getIntent().getIntExtra("BillKind", -1);
+        setContentView(R.layout.activity_stock_check_filter);
+        storeDao = SuperClient.getDaoSession(this).getStoreDao();
         begDateView = (TextView) findViewById(R.id.beginDate);
         endDateView = (TextView) findViewById(R.id.endDate);
-        traderView = (TextView) findViewById(R.id.trader);
+        storeView = (TextView) findViewById(R.id.StoreName);
         stateView = (TextView) findViewById(R.id.state);
         billCodeView = (EditText) findViewById(R.id.billCode);
         operatorView = (TextView) findViewById(R.id.operator);
@@ -60,33 +60,22 @@ public class SalesOrderFilterActivity extends BaseActivity implements View.OnCli
         cancelBTN = (Button) findViewById(R.id.cancel);
         begDateView.setOnClickListener(this);
         endDateView.setOnClickListener(this);
-        traderView.setOnClickListener(this);
+        storeView.setOnClickListener(this);
         commitBTN.setOnClickListener(this);
         cancelBTN.setOnClickListener(this);
         startDateTime = new DateTime();
         endDateTime = new DateTime();
-        begDateView.setText(startDateTime.getYear()+"-"+ String.format("%02d",startDateTime.getMonthOfYear()) +"-"+startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
-        endDateView.setText(endDateTime.getYear()+"-"+ String.format("%02d",endDateTime.getMonthOfYear())+"-"+endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
+        begDateView.setText(startDateTime.getYear()+"-"+ String.format("%02d", startDateTime.getMonthOfYear()) +"-"+startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
+        endDateView.setText(endDateTime.getYear()+"-"+ String.format("%02d", endDateTime.getMonthOfYear())+"-"+endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
         session = SuperClient.getDaoSession(this);
         stateView.setOnClickListener(this);
         operatorView.setOnClickListener(this);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            switch (requestCode){
-                case 1:
-                    Trader trader = (Trader) data.getSerializableExtra("Data");
-                    traderID = trader.getTraderID();
-                    traderView.setText(trader.getTraderName());
-                    break;
-            }
-        }
-    }
+
 
     @Override
     public void onClick(View v) {
+
         int id = v.getId();
         switch (id) {
             case R.id.beginDate:
@@ -108,10 +97,15 @@ public class SalesOrderFilterActivity extends BaseActivity implements View.OnCli
                 }, endDateTime.getYear(), endDateTime.getMonthOfYear() -1, endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
                 dpdEnd.show();
                 break;
-            case R.id.trader:
-                Intent intent2 = new Intent(this, TraderFilterActivity.class);
-                intent2.putExtra("CoV","C");
-                startActivityForResult(intent2, 1);
+            case R.id.StoreName:
+                StorePop storePop = new StorePop(this,storeDao.loadAll(),new StorePop.onItemClickListener() {
+                    @Override
+                    public void onItemClick(Store store) {
+                        storeID = store.getStoreID();
+                        storeView.setText(store.getStoreCode());
+                    }
+                });
+                storePop.showPopupWindow(v);
                 break;
             case R.id.state:
                 AMKindDao amKindDao = session.getAMKindDao();
@@ -141,19 +135,18 @@ public class SalesOrderFilterActivity extends BaseActivity implements View.OnCli
             case R.id.commit:
                 Request request = new Request(GlobalConstant.METHOD_DO_BILL);
                 Params params = new Params();
-                params.setBillName(billType);
+                params.setBillName("i_balitem");
                 params.setOperate("GetListBill");
                 params.setPageSize(30);
                 params.setPageNo(1);
                 params.setBegDate(begDateView.getText().toString());
                 params.setEndDate(endDateView.getText().toString());
-//                params.setBillKind(billKind);
-                params.setTraderID(traderID);
+                params.setStoreID(storeID);
                 params.setBillState(billState);
                 params.setBillCode(billCodeView.getText().toString());
                 params.setOpID(opID);
                 request.setParams(params);
-                Intent intent = new Intent(this, SalesOrderListActivity.class);
+                Intent intent = new Intent(this, StockCheckListActivity.class);
                 intent.putExtra("Request", request);
                 startActivity(intent);
                 break;

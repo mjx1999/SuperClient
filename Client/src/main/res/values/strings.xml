@@ -27,5 +27,7 @@
     <string name="title_activity_stock_check">盘点单</string>
     <string name="title_activity_sales_order_filter">SalesOrderFilterActivity</string>
     <string name="title_activity_stock_check_add_goods">StockCheckAddGoodsActivity</string>
+    <string name="title_activity_stock_check_filter">StockCheckFilterActivity</string>
+    <string name="title_activity_stock_check_list">盘点单列表</string>
 
 </resources>

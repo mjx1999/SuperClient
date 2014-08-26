@@ -214,7 +214,6 @@ public class DaoGerner {
 
 
 
-
         //销售单
         Entity salesBillMasterData = schema.addEntity("SalesBillMasterData");
         salesBillMasterData.addLongProperty("BillID").index();
@@ -256,7 +255,6 @@ public class DaoGerner {
         salesBillMasterData.implementsSerializable();
 
 
-
         Entity salesBillDetail1Data = schema.addEntity("SalesBillDetail1Data");
 
         salesBillDetail1Data.addLongProperty("BillID").index();
@@ -295,7 +293,6 @@ public class DaoGerner {
         salesBillDetail1Data.addStringProperty("UserDef9");
         salesBillDetail1Data.addStringProperty("UserDef10");
         salesBillDetail1Data.implementsSerializable();
-
 
 
         Entity salesOrderMasterData = schema.addEntity("SalesOrderMasterData");
@@ -353,8 +350,6 @@ public class DaoGerner {
         salesOrderMasterData.implementsSerializable();
 
 
-
-
         Entity salesOrderDetail1Data = schema.addEntity("SalesOrderDetail1Data");
         salesOrderDetail1Data.addLongProperty("BillID");
         salesOrderDetail1Data.addIntProperty("ItemNo");
@@ -406,6 +401,152 @@ public class DaoGerner {
         salesOrderDetail1Data.addStringProperty("UserDef5");
 
         salesOrderDetail1Data.implementsSerializable();
+
+
+        Entity transferMasterData = schema.addEntity("TransferMasterData");
+        transferMasterData.addLongProperty("BillID").index();
+        transferMasterData.addIntProperty("BillKind");
+        transferMasterData.addIntProperty("BillState");
+        transferMasterData.addStringProperty("BillCode");
+        transferMasterData.addStringProperty("BillKindName");
+        transferMasterData.addStringProperty("BillStateName");
+        transferMasterData.addStringProperty("BillDate");
+        transferMasterData.addStringProperty("CheckorCode");
+        transferMasterData.addStringProperty("CheckorName");
+        transferMasterData.addStringProperty("DepartmentCode");
+        transferMasterData.addStringProperty("DepartmentName");
+        transferMasterData.addStringProperty("EmpCode");
+        transferMasterData.addStringProperty("EmpName");
+        transferMasterData.addStringProperty("InStoreCode");
+        transferMasterData.addStringProperty("StoreCode");
+        transferMasterData.addStringProperty("InStoreName");
+        transferMasterData.addStringProperty("StoreName");
+        transferMasterData.addStringProperty("UpdateTime");
+        transferMasterData.addStringProperty("BillTo");
+        transferMasterData.addStringProperty("OpCode");
+        transferMasterData.addStringProperty("OpName");
+        transferMasterData.addDoubleProperty("Amount");
+        transferMasterData.addLongProperty("CheckorID");
+        transferMasterData.addLongProperty("DepartmentID");
+        transferMasterData.addLongProperty("EmpID");
+        transferMasterData.addLongProperty("InStoreID");
+        transferMasterData.addLongProperty("OpID");
+        transferMasterData.addLongProperty("ShipType");
+        transferMasterData.addLongProperty("ShopID");
+        transferMasterData.addLongProperty("StoreID");
+        transferMasterData.addIntProperty("ReferCount");
+        transferMasterData.addStringProperty("Remark");
+        transferMasterData.addStringProperty("ShipTypeName");
+        transferMasterData.addStringProperty("SFlag");
+        transferMasterData.addStringProperty("UserDef1");
+        transferMasterData.addStringProperty("UserDef2");
+        transferMasterData.addStringProperty("UserDef3");
+        transferMasterData.addStringProperty("UserDef4");
+        transferMasterData.addStringProperty("UserDef5");
+        transferMasterData.implementsSerializable();
+
+
+        Entity transferDetail1Data = schema.addEntity("TransferDetail1Data");
+        transferDetail1Data.addLongProperty("BillID").index();
+        transferDetail1Data.addLongProperty("GoodsID");
+        transferDetail1Data.addLongProperty("ReferBillID");
+        transferDetail1Data.addLongProperty("UnitID");
+        transferDetail1Data.addIntProperty("ItemNo");
+        transferDetail1Data.addIntProperty("ReferCount");
+        transferDetail1Data.addIntProperty("ReferItemNo");
+        transferDetail1Data.addIntProperty("ReferBillType");
+        transferDetail1Data.addDoubleProperty("APrice");
+        transferDetail1Data.addDoubleProperty("BeforePrice");
+        transferDetail1Data.addDoubleProperty("Amount");
+        transferDetail1Data.addDoubleProperty("UnitPrice");
+        transferDetail1Data.addDoubleProperty("Price");
+        transferDetail1Data.addDoubleProperty("Quantity");
+        transferDetail1Data.addDoubleProperty("IOQty");
+        transferDetail1Data.addDoubleProperty("OIQty");
+        transferDetail1Data.addDoubleProperty("UnitQuantity");
+        transferDetail1Data.addDoubleProperty("UnitRate");
+        transferDetail1Data.addStringProperty("BarCode");
+        transferDetail1Data.addStringProperty("GoodsCode");
+        transferDetail1Data.addStringProperty("ReferBillCode");
+        transferDetail1Data.addStringProperty("Remark");
+        transferDetail1Data.addStringProperty("GoodsName");
+        transferDetail1Data.addStringProperty("ShortName");
+        transferDetail1Data.addStringProperty("Specs");
+        transferDetail1Data.addStringProperty("UnitName");
+
+        transferDetail1Data.addStringProperty("UserDef1");
+        transferDetail1Data.addStringProperty("UserDef2");
+        transferDetail1Data.addStringProperty("UserDef3");
+        transferDetail1Data.addStringProperty("UserDef4");
+        transferDetail1Data.addStringProperty("UserDef5");
+        transferDetail1Data.implementsSerializable();
+
+
+        Entity stockCheckMasterData = schema.addEntity("StockCheckMasterData");
+        stockCheckMasterData.addLongProperty("BillID").index();
+        stockCheckMasterData.addLongProperty("CheckorID");
+        stockCheckMasterData.addLongProperty("EmpID");
+        stockCheckMasterData.addLongProperty("OpID");
+        stockCheckMasterData.addLongProperty("IOTypeID");
+        stockCheckMasterData.addLongProperty("StoreID");
+        stockCheckMasterData.addLongProperty("DepartmentID");
+        stockCheckMasterData.addDoubleProperty("Amount");
+        stockCheckMasterData.addStringProperty("BillCode");
+        stockCheckMasterData.addStringProperty("BillDate");
+        stockCheckMasterData.addStringProperty("BillStateName");
+        stockCheckMasterData.addStringProperty("CheckorCode");
+        stockCheckMasterData.addStringProperty("CheckorName");
+        stockCheckMasterData.addStringProperty("DepartmentName");
+        stockCheckMasterData.addStringProperty("DeppartmentCode");
+        stockCheckMasterData.addStringProperty("EmpCode");
+        stockCheckMasterData.addStringProperty("EmpName");
+        stockCheckMasterData.addStringProperty("IOTypeName");
+        stockCheckMasterData.addStringProperty("OpCode");
+        stockCheckMasterData.addStringProperty("OpName");
+        stockCheckMasterData.addStringProperty("Remark");
+        stockCheckMasterData.addStringProperty("StoreName");
+        stockCheckMasterData.addStringProperty("UpdateTime");
+        stockCheckMasterData.addStringProperty("StoreCode");
+        stockCheckMasterData.addIntProperty("BillState");
+        stockCheckMasterData.addIntProperty("ReferCount");
+        stockCheckMasterData.addIntProperty("SFlag");
+        stockCheckMasterData.addIntProperty("UserDef1");
+        stockCheckMasterData.addIntProperty("UserDef2");
+        stockCheckMasterData.addIntProperty("UserDef3");
+        stockCheckMasterData.addIntProperty("UserDef4");
+        stockCheckMasterData.addIntProperty("UserDef5");
+        stockCheckMasterData.implementsSerializable();
+
+
+
+        Entity stockCheckDetail1Data = schema.addEntity("StockCheckDetail1Data");
+        stockCheckDetail1Data.addLongProperty("BillID").index();
+        stockCheckDetail1Data.addLongProperty("GoodsID");
+        stockCheckDetail1Data.addLongProperty("UnitID");
+        stockCheckDetail1Data.addIntProperty("ItemNo");
+        stockCheckDetail1Data.addIntProperty("ReferCount");
+        stockCheckDetail1Data.addDoubleProperty("APrice");
+        stockCheckDetail1Data.addDoubleProperty("UnitPrice");
+        stockCheckDetail1Data.addDoubleProperty("UnitRate");
+        stockCheckDetail1Data.addDoubleProperty("UnitQuantity");
+        stockCheckDetail1Data.addDoubleProperty("UnitRealQty");
+        stockCheckDetail1Data.addDoubleProperty("AccQty");
+        stockCheckDetail1Data.addDoubleProperty("Amount");
+        stockCheckDetail1Data.addDoubleProperty("IOQty");
+        stockCheckDetail1Data.addDoubleProperty("Price");
+        stockCheckDetail1Data.addDoubleProperty("Quantity");
+        stockCheckDetail1Data.addStringProperty("GoodsCode");
+        stockCheckDetail1Data.addStringProperty("GoodsName");
+        stockCheckDetail1Data.addStringProperty("Remark");
+        stockCheckDetail1Data.addStringProperty("Specs");
+        stockCheckDetail1Data.addStringProperty("UnitName");
+        stockCheckDetail1Data.addStringProperty("UserDef1");
+        stockCheckDetail1Data.addStringProperty("UserDef2");
+        stockCheckDetail1Data.addStringProperty("UserDef3");
+        stockCheckDetail1Data.addStringProperty("UserDef4");
+        stockCheckDetail1Data.addStringProperty("UserDef5");
+
+        stockCheckDetail1Data.implementsSerializable();
 
 
 

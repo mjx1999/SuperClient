@@ -187,7 +187,7 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
                     @Override
                     public void onItemClick(Store store) {
                         salesBillDetail1Data.setStoreID(store.getStoreID());
-                        StoreCode.setText(store.getStoreCode());
+                        StoreCode.setText(store.getStoreCode()+"  "+store.getStoreName());
                     }
                 });
                 storePop.showPopupWindow(v);

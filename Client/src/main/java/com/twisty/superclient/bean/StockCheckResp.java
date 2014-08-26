@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by twisty on 14-8-26.
  */
-public class ParamsStockCheck extends Params {
+public class StockCheckResp extends Response {
     private StockCheckMasterData MasterData;
     private ArrayList<StockCheckDetail1Data> Detail1Data;
 
