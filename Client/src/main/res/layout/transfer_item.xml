@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/BillCode"
+        style="@style/billItemStyle"
+        android:layout_width="180dp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/BillDate"
+        style="@style/billItemStyle"
+        android:layout_width="150dp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/BillKindName"
+        style="@style/billItemStyle"
+        android:layout_width="70dp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/BillStateName"
+        style="@style/billItemStyle"
+        android:layout_width="70dp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/TraderName"
+        style="@style/billItemStyle"
+        android:layout_width="120dp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/Amount"
+        style="@style/billItemStyle"
+        android:layout_width="120dp"
+        android:gravity="center_vertical|end" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/ReferAmt"
+        style="@style/billItemStyle"
+        android:layout_width="120dp"
+        android:gravity="center_vertical|end" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/UnReferAmt"
+        style="@style/billItemStyle"
+        android:layout_width="120dp"
+        android:gravity="center_vertical|end" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/OpName"
+        style="@style/billItemStyle"
+        android:layout_width="100dp"
+        android:paddingLeft="5dp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/Checkor"
+        style="@style/billItemStyle"
+        android:layout_width="100dp" />
+</LinearLayout>

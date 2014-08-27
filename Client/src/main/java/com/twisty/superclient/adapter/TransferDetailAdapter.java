@@ -8,12 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.DaoSession;
-import com.twisty.superclient.bean.GoodsDao;
-import com.twisty.superclient.bean.StoreDao;
 import com.twisty.superclient.bean.TransferDetail1Data;
-import com.twisty.superclient.bean.UnitDao;
-import com.twisty.superclient.global.SuperClient;
 
 import java.util.List;
 
@@ -23,16 +18,16 @@ import java.util.List;
 public class TransferDetailAdapter extends BaseAdapter {
     private List<TransferDetail1Data> data;
     private LayoutInflater inflater;
-    private StoreDao storeDao;
-    private GoodsDao goodsDao;
-    private UnitDao unitDao;
+//    private StoreDao storeDao;
+//    private GoodsDao goodsDao;
+//    private UnitDao unitDao;
 
     public TransferDetailAdapter(Context context, List<TransferDetail1Data> data) {
         this.data = data;
-        DaoSession session = SuperClient.getDaoSession(context);
-        storeDao = session.getStoreDao();
-        goodsDao = session.getGoodsDao();
-        unitDao = session.getUnitDao();
+//        DaoSession session = SuperClient.getDaoSession(context);
+//        storeDao = session.getStoreDao();
+//        goodsDao = session.getGoodsDao();
+//        unitDao = session.getUnitDao();
         inflater = LayoutInflater.from(context);
     }
 
@@ -58,7 +53,7 @@ public class TransferDetailAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return data.get(position).getBillID()==null?-1:data.get(position).getBillID();
+        return data.get(position).getBillID() == null ? -1 : data.get(position).getBillID();
     }
 
     @Override
@@ -67,24 +62,32 @@ public class TransferDetailAdapter extends BaseAdapter {
         TransferDetail1Data transferDetail1Data = data.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.sales_bill_detail_item, null);
-
+            convertView = inflater.inflate(R.layout.transfer_detail_item, null);
+            viewHolder.GoodsCode = (TextView) convertView.findViewById(R.id.GoodsCode);
+            viewHolder.GoodsName = (TextView) convertView.findViewById(R.id.GoodsName);
+            viewHolder.Spec = (TextView) convertView.findViewById(R.id.Spec);
+            viewHolder.UnitName = (TextView) convertView.findViewById(R.id.Unit);
+            viewHolder.Quantity = (TextView) convertView.findViewById(R.id.Quantity);
+            viewHolder.UnitPrice = (TextView) convertView.findViewById(R.id.UnitPrice);
+            viewHolder.Amount = (TextView) convertView.findViewById(R.id.Amount);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        viewHolder.GoodsCode.setText(transferDetail1Data.getGoodsCode());
+        viewHolder.GoodsName.setText(transferDetail1Data.getGoodsName());
+        viewHolder.Spec.setText(transferDetail1Data.getSpecs());
+        viewHolder.UnitName.setText(transferDetail1Data.getUnitName());
+        viewHolder.Quantity.setText(transferDetail1Data.getQuantity() + "");
+        viewHolder.UnitPrice.setText(transferDetail1Data.getUnitPrice() + "");
+        viewHolder.Amount.setText(transferDetail1Data.getAmount() + "");
         return convertView;
     }
 
     class ViewHolder {
-        TextView StoreCode, StoreName,
+        TextView
                 GoodsCode, GoodsName,
-                Spec, Unit,
-
-                Quantity,
-                OrigTaxPrice, Disc,
-                TaxPrice, UnitPrice,
-                TaxRate, TaxAmt, Amount;
+                Spec, UnitName,
+                Quantity, UnitPrice, Amount;
     }
 }

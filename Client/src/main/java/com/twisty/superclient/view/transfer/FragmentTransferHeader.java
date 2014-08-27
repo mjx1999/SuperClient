@@ -34,29 +34,35 @@ import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * A simple {@link Fragment} subclass.
- *
  */
 public class FragmentTransferHeader extends BaseFragment implements View.OnClickListener {
-    private TextView BillDate,BillKind,OutStore,InStore, EmpName,ShipTypeName;
-    private EditText BillTo,BillCode;
+    private TextView BillDate, BillKind, OutStore, InStore, EmpName, ShipTypeName;
+    private EditText BillTo, BillCode;
     private TransferMasterData masterData = new TransferMasterData();
     private DateTime dateTime;
     private StoreDao storeDao;
     private AMKindDao amKindDao;
 
-    public TransferMasterData getMasterData() {
+    public FragmentTransferHeader() {
+    }
 
+    public TransferMasterData getMasterData() {
+        if (masterData.getBillID() == null) masterData.setBillID(-1L);
+        masterData.setBillTo(BillTo.getText().toString());
         return masterData;
     }
 
     public void setMasterData(TransferMasterData masterData) {
-        if(masterData!=null){
-
+        if (masterData != null) {
             this.masterData = masterData;
+            BillCode.setText(masterData.getBillCode());
+            BillDate.setText(masterData.getBillDate());
+            BillKind.setText(masterData.getBillKindName());
+            InStore.setText(masterData.getInStoreName());
+            OutStore.setText(masterData.getStoreName());
+            ShipTypeName.setText(masterData.getShipTypeName());
+            BillTo.setText(masterData.getBillTo());
         }
-    }
-
-    public FragmentTransferHeader() {
     }
 
     @Override
@@ -70,7 +76,7 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_transfer_header, container, false);
+        View view = inflater.inflate(R.layout.fragment_transfer_header, container, false);
 
         BillCode = (EditText) view.findViewById(R.id.BillCode);
         BillDate = (TextView) view.findViewById(R.id.BillDate);
@@ -89,36 +95,36 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
         String billCode = "AL-" + SuperClient.getDefaultStoreCode() + "-" + dateTime.toString("YYYYMMdd-HHmmss");
         BillCode.setText(billCode);
         BillDate.setText(dateTime.toString("YYYY-MM-dd"));
-        return  view;
+        return view;
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.BillDate:
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d", (i2 + 1)) + "-" + i3;
                         BillDate.setText(billDate);
                         masterData.setBillDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth());
                 dpd.show();
                 break;
             case R.id.InStore:
-                StorePop inStorePop = new StorePop(getActivity(),storeDao.loadAll(),new StorePop.onItemClickListener() {
+                StorePop inStorePop = new StorePop(getActivity(), storeDao.loadAll(), new StorePop.onItemClickListener() {
                     @Override
                     public void onItemClick(Store store) {
                         masterData.setStoreID(store.getStoreID());
-                        InStore.setText(store.getStoreCode()+"  "+store.getStoreName());
+                        InStore.setText(store.getStoreCode() + "  " + store.getStoreName());
                     }
                 });
                 inStorePop.showPopupWindow(v);
                 break;
             case R.id.OutStore:
-                StorePop outStorePop = new StorePop(getActivity(),storeDao.loadAll(),new StorePop.onItemClickListener() {
+                StorePop outStorePop = new StorePop(getActivity(), storeDao.loadAll(), new StorePop.onItemClickListener() {
                     @Override
                     public void onItemClick(Store store) {
                         masterData.setInStoreID(store.getStoreID());
@@ -131,7 +137,7 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
                 QueryBuilder<AMKind> shipTypeQueryBuilder = amKindDao.queryBuilder();
                 shipTypeQueryBuilder.where(AMKindDao.Properties.Kind.eq(100));
                 List<AMKind> shipTypes = shipTypeQueryBuilder.list();
-                AMKindPop shipTypePop = new AMKindPop(getActivity(),shipTypes,new AMKindPop.onItemClickListener() {
+                AMKindPop shipTypePop = new AMKindPop(getActivity(), shipTypes, new AMKindPop.onItemClickListener() {
                     @Override
                     public void onItemClick(AMKind amKind) {
                         masterData.setShipType(amKind.getID());
@@ -164,8 +170,8 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK){
-            switch (requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case 2:
                     Employee employee = (Employee) data.getSerializableExtra("Data");
                     EmpName.setText(employee.getEmpName());

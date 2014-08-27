@@ -13,19 +13,30 @@ import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.Params;
+import com.twisty.superclient.bean.Request;
+import com.twisty.superclient.bean.TransferDetail1Data;
+import com.twisty.superclient.bean.TransferMasterData;
+import com.twisty.superclient.bean.TransferResp;
+import com.twisty.superclient.global.GlobalConstant;
+import com.twisty.superclient.global.SuperClient;
+import com.twisty.superclient.net.ReqClient;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseActivity;
 
-public class TransferActivity extends BaseActivity implements ActionBar.TabListener ,View.OnClickListener{
+import java.util.ArrayList;
+
+public class TransferActivity extends BaseActivity implements ActionBar.TabListener, View.OnClickListener {
     private static final int PRE_RESULT = 3, NEXT_RESULT = 4;
     private FragmentTransferHeader fragmentTransferHeader;
     private FragmentTransferDetail fragmentTransferDetail;
+    private TransferMasterData transferMasterData;
+    private ArrayList<TransferDetail1Data> transferDetail1Datas;
     private ActionBar actionBar;
     private Button searchBTN, saveBTN;
     private boolean isAddNew = true;
     private boolean isCommit;
     private ProgressDialog pd;
-    private Gson gson;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -33,23 +44,21 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
             if (pd != null) pd.dismiss();
             switch (msg.what) {
                 case PRE_RESULT:
-//                    fragmentSalesOrderHeader.setMasterData(salesOrderMasterData);
-//                    fragmentSalesOrderDetail.setDetail1Data(salesOrderDetail1Datas);
+                    fragmentTransferHeader.setMasterData(transferMasterData);
+                    fragmentTransferDetail.setDetail1Data(transferDetail1Datas);
                     if (msg.obj != null) {
                         CommonUtil.showToastError(TransferActivity.this, String.valueOf(msg.obj), null);
                     }
                     break;
                 case NEXT_RESULT:
-//                    fragmentSalesOrderHeader.setMasterData(salesOrderMasterData);
-//                    fragmentSalesOrderDetail.setDetail1Data(salesOrderDetail1Datas);
+                    fragmentTransferHeader.setMasterData(transferMasterData);
+                    fragmentTransferDetail.setDetail1Data(transferDetail1Datas);
                     if (msg.obj != null) {
                         CommonUtil.showToastError(TransferActivity.this, String.valueOf(msg.obj), null);
                     }
                     break;
                 case RESULT_OK:
-                    CommonUtil.showToastInfo(TransferActivity.this,"保存成功!",null);
-//                    fragmentSalesOrderHeader.setMasterData(null);
-//                    fragmentSalesOrderDetail.setDetail1Data(null);
+                    CommonUtil.showToastInfo(TransferActivity.this, "保存成功!", null);
                     break;
                 case RESULT_CANCELED:
                     CommonUtil.showToastError(TransferActivity.this, String.valueOf(msg.obj), null);
@@ -57,6 +66,8 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
             }
         }
     };
+    private Gson gson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,49 +116,49 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
                 return true;
             case R.id.preOrder:
                 isAddNew = false;
-                pd = ProgressDialog.show(this,null,"正在加载数据...");
+                pd = ProgressDialog.show(this, null, "正在加载数据...");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-//
-//                        ReqClient client = ReqClient.newInstance();
-//                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-//                        Params paramsPRE = new Params();
-//                        paramsPRE.setOperate("GetPriorBill");
-//                        paramsPRE.setBillName("s_sorder");
-//                        paramsPRE.setBillCode(fragmentSalesOrderHeader.getMasterData().getBillCode());
-//                        request.setParams(paramsPRE);
-//                        try {
-//                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
-//                            String preBillJson = client.requestData(request);
-//                            log.i(preBillJson);
-//                            SalesOrderResp salesOrderResp = gson.fromJson(preBillJson, SalesOrderResp.class);
-//                            Message message = handler.obtainMessage();
-//                            if (salesOrderResp != null) {
-//                                if (salesOrderResp.isCorrect()) {
-//                                    if (salesOrderResp.getMasterData() != null) {
-//                                        salesOrderMasterData = salesOrderResp.getMasterData();
-//                                    }
-//                                    if (salesOrderResp.getDetail1Data() != null) {
-//                                        salesOrderDetail1Datas = salesOrderResp.getDetail1Data();
-//                                    }
-//                                } else {
-//                                    message.obj = salesOrderResp.getErrMessage();
-//                                }
-//                            } else {
-//                                message.obj = "服务器错误";
-//                            }
-//                            message.what = PRE_RESULT;
-//                            handler.sendMessage(message);
-//                        } catch (Exception e) {
-//                            Message message = handler.obtainMessage();
-//                            message.what = RESULT_CANCELED;
-//                            message.obj = "加载数据失败,请重试...";
-//                            handler.sendMessage(message);
-//                            e.printStackTrace();
-//                        } finally {
-//                            client.close();
-//                        }
+
+                        ReqClient client = ReqClient.newInstance();
+                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                        Params paramsPRE = new Params();
+                        paramsPRE.setOperate("GetPriorBill");
+                        paramsPRE.setBillName("i_allot");
+                        paramsPRE.setBillCode(fragmentTransferHeader.getMasterData().getBillCode());
+                        request.setParams(paramsPRE);
+                        try {
+                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                            String preBillJson = client.requestData(request);
+                            log.i(preBillJson);
+                            TransferResp transferResp = gson.fromJson(preBillJson, TransferResp.class);
+                            Message message = handler.obtainMessage();
+                            if (transferResp != null) {
+                                if (transferResp.isCorrect()) {
+                                    if (transferResp.getMasterData() != null) {
+                                        transferMasterData = transferResp.getMasterData();
+                                    }
+                                    if (transferResp.getDetail1Data() != null) {
+                                        transferDetail1Datas = transferResp.getDetail1Data();
+                                    }
+                                } else {
+                                    message.obj = transferResp.getErrMessage();
+                                }
+                            } else {
+                                message.obj = "服务器错误";
+                            }
+                            message.what = PRE_RESULT;
+                            handler.sendMessage(message);
+                        } catch (Exception e) {
+                            Message message = handler.obtainMessage();
+                            message.what = RESULT_CANCELED;
+                            message.obj = "加载数据失败,请重试...";
+                            handler.sendMessage(message);
+                            e.printStackTrace();
+                        } finally {
+                            client.close();
+                        }
                     }
                 }).start();
 
@@ -155,47 +166,47 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
                 return true;
             case R.id.nextOrder:
                 isAddNew = false;
-                pd = ProgressDialog.show(this,null,"正在加载数据...");
+                pd = ProgressDialog.show(this, null, "正在加载数据...");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-//                        ReqClient client = ReqClient.newInstance();
-//                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-//                        Params paramsPRE = new Params();
-//                        paramsPRE.setOperate("GetNextBill");
-//                        paramsPRE.setBillName("s_sorder");
-//                        paramsPRE.setBillCode(fragmentSalesOrderHeader.getMasterData().getBillCode());
-//                        request.setParams(paramsPRE);
-//                        try {
-//                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
-//                            String nextBillJson = client.requestData(request);
-//                            log.i(nextBillJson);
-//                            SalesOrderResp salesOrderResp = gson.fromJson(nextBillJson, SalesOrderResp.class);
-//                            Message message = handler.obtainMessage();
-//                            if(salesOrderResp!=null){
-//                                if(salesOrderResp.isCorrect()){
-//                                    if (salesOrderResp.getMasterData() != null) {
-//                                        salesOrderMasterData = salesOrderResp.getMasterData();
-//                                    }
-//                                    if (salesOrderResp.getDetail1Data() != null) {
-//                                        salesOrderDetail1Datas = salesOrderResp.getDetail1Data();
-//                                    }
-//                                }else{
-//                                    log.i(salesOrderResp.getErrMessage());
-//                                    message.obj = salesOrderResp.getErrMessage();
-//                                }
-//                            }else{
-//                                message.obj = "服务器错误";
-//                            }
-//                            message.what=NEXT_RESULT;
-//                            handler.sendMessage(message);
-//                        } catch (Exception e) {
-//                            Message message = handler.obtainMessage();
-//                            message.what = RESULT_CANCELED;
-//                            message.obj="加载数据失败,请重试...";
-//                            handler.sendMessage(message);
-//                            e.printStackTrace();
-//                        }
+                        ReqClient client = ReqClient.newInstance();
+                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                        Params paramsPRE = new Params();
+                        paramsPRE.setOperate("GetNextBill");
+                        paramsPRE.setBillName("i_allot");
+                        paramsPRE.setBillCode(fragmentTransferHeader.getMasterData().getBillCode());
+                        request.setParams(paramsPRE);
+                        try {
+                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                            String nextBillJson = client.requestData(request);
+                            log.i(nextBillJson);
+                            TransferResp transferResp = gson.fromJson(nextBillJson, TransferResp.class);
+                            Message message = handler.obtainMessage();
+                            if (transferResp != null) {
+                                if (transferResp.isCorrect()) {
+                                    if (transferResp.getMasterData() != null) {
+                                        transferMasterData = transferResp.getMasterData();
+                                    }
+                                    if (transferResp.getDetail1Data() != null) {
+                                        transferDetail1Datas = transferResp.getDetail1Data();
+                                    }
+                                } else {
+                                    log.i(transferResp.getErrMessage());
+                                    message.obj = transferResp.getErrMessage();
+                                }
+                            } else {
+                                message.obj = "服务器错误";
+                            }
+                            message.what = NEXT_RESULT;
+                            handler.sendMessage(message);
+                        } catch (Exception e) {
+                            Message message = handler.obtainMessage();
+                            message.what = RESULT_CANCELED;
+                            message.obj = "加载数据失败,请重试...";
+                            handler.sendMessage(message);
+                            e.printStackTrace();
+                        }
                     }
                 }).start();
                 return true;
@@ -227,6 +238,13 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.search:
 
+                break;
+            case R.id.save:
+
+                break;
+        }
     }
 }

@@ -1,0 +1,108 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:paddingBottom="2dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="2dp">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        tools:context="com.twisty.superclient.view.salesBill.FragmentSalesBIllHeader">
+
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="货品条码:" />
+
+            <EditText
+                android:id="@+id/Barcode"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:singleLine="true">
+
+                <requestFocus />
+            </EditText>
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="货品编码:" />
+
+            <EditText
+                android:id="@+id/GoodsCode"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="货品名称:" />
+
+            <TextView
+                android:id="@+id/GoodsName"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="规格:" />
+
+            <TextView
+                android:id="@+id/Spec"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="单位:" />
+
+            <TextView
+                android:id="@+id/Unit"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="调入数量:" />
+
+            <EditText
+                android:id="@+id/Quantity"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="number" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="业务单价:" />
+
+            <EditText
+                android:id="@+id/UnitPrice"
+
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="number" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="金额:" />
+
+            <EditText
+                android:id="@+id/Amount"
+
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="number" />
+        </TableRow>
+    </TableLayout>
+</ScrollView>

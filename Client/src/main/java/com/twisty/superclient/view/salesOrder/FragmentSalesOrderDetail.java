@@ -23,11 +23,11 @@ import java.util.ArrayList;
 
 public class FragmentSalesOrderDetail extends BaseFragment {
 
+    private static final int ADDGOODS = 1;
     private ListView listView;
     private ArrayList<SalesOrderDetail1Data> Detail1Data = new ArrayList<SalesOrderDetail1Data>();
     private SalesOrderDetailAdapter adapter;
     private Double amount;
-    private static final int ADDGOODS = 1;
 
     public FragmentSalesOrderDetail() {
     }
@@ -37,13 +37,15 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     }
 
     public void setDetail1Data(ArrayList<SalesOrderDetail1Data> detail1Data) {
-        Detail1Data = detail1Data;
-        if(adapter==null){
-            adapter = new SalesOrderDetailAdapter(getActivity(),Detail1Data);
-            listView.setAdapter(adapter);
-        }else{
-            adapter.setData(Detail1Data);
-            adapter.notifyDataSetChanged();
+        if (detail1Data != null) {
+            Detail1Data = detail1Data;
+            if (adapter == null) {
+                adapter = new SalesOrderDetailAdapter(getActivity(), Detail1Data);
+                listView.setAdapter(adapter);
+            } else {
+                adapter.setData(Detail1Data);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -60,20 +62,21 @@ public class FragmentSalesOrderDetail extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.sales_detail,menu);
+        inflater.inflate(R.menu.sales_detail, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemID  = item.getItemId();
-        switch (itemID){
+        int itemID = item.getItemId();
+        switch (itemID) {
             case R.id.add:
                 Intent intent = new Intent(getActivity(), SalesOrderAddGoodsActivity.class);
                 startActivityForResult(intent, ADDGOODS);
-                return  true;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -81,9 +84,9 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
-        return  view;
+        return view;
     }
 
     @Override
@@ -93,7 +96,7 @@ public class FragmentSalesOrderDetail extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((ListView)parent).setItemChecked(position,true);
+                ((ListView) parent).setItemChecked(position, true);
             }
         });
     }
@@ -101,31 +104,31 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-                if(resultCode==Activity.RESULT_OK){
-                    if(requestCode==ADDGOODS){
-                        ArrayList<SalesOrderDetail1Data> retunData = (ArrayList<SalesOrderDetail1Data>) data.getSerializableExtra("com.twisty.superclient.Data");
-                        if(adapter==null){
-                            Detail1Data = retunData;
-                            if(Detail1Data!=null){
-                                adapter = new SalesOrderDetailAdapter(getActivity(),Detail1Data);
-                                listView.setAdapter(adapter);
-                            }
-                        }else{
-                            if(Detail1Data!=null){
-                                Detail1Data.addAll(retunData);
-                                adapter.setData(Detail1Data);
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                        setDetail1Data(Detail1Data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ADDGOODS) {
+                ArrayList<SalesOrderDetail1Data> retunData = (ArrayList<SalesOrderDetail1Data>) data.getSerializableExtra("com.twisty.superclient.Data");
+                if (adapter == null) {
+                    Detail1Data = retunData;
+                    if (Detail1Data != null) {
+                        adapter = new SalesOrderDetailAdapter(getActivity(), Detail1Data);
+                        listView.setAdapter(adapter);
                     }
-                    if(Detail1Data!=null){
-                        double amount = 0;
-                        for (SalesOrderDetail1Data salesOrderDetail1Data :Detail1Data){
-                            amount+= salesOrderDetail1Data.getAmount();
-                        }
+                } else {
+                    if (Detail1Data != null) {
+                        Detail1Data.addAll(retunData);
+                        adapter.setData(Detail1Data);
+                        adapter.notifyDataSetChanged();
                     }
-
                 }
+                setDetail1Data(Detail1Data);
+            }
+            if (Detail1Data != null) {
+                double amount = 0;
+                for (SalesOrderDetail1Data salesOrderDetail1Data : Detail1Data) {
+                    amount += salesOrderDetail1Data.getAmount();
+                }
+            }
+
+        }
     }
 }

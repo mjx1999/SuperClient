@@ -29,5 +29,6 @@
     <string name="title_activity_stock_check_add_goods">StockCheckAddGoodsActivity</string>
     <string name="title_activity_stock_check_filter">StockCheckFilterActivity</string>
     <string name="title_activity_stock_check_list">盘点单列表</string>
+    <string name="title_activity_transfer_add_goods">添加调拨单明细</string>
 
 </resources>
