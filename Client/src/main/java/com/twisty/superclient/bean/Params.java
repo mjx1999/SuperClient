@@ -35,15 +35,6 @@ public class Params implements Serializable {
 
     //新增销售单
     private boolean IsAddnew;
-    private Long StoreID;
-
-    public Long getStoreID() {
-        return StoreID;
-    }
-
-    public void setStoreID(Long storeID) {
-        StoreID = storeID;
-    }
 
     public String getBillName() {
         return BillName;

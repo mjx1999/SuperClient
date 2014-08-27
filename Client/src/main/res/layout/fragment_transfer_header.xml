@@ -1,13 +1,96 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.twisty.superclient.view.transfer.FragmentTransferHeader">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        tools:context="com.twisty.superclient.view.salesBill.FragmentSalesBIllHeader">
 
-</FrameLayout>
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="单据编号:" />
+
+            <EditText
+                android:id="@+id/BillCode"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background" />
+        </TableRow>
+
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="开单日期:" />
+
+            <TextView
+                android:id="@+id/BillDate"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="单据类型:" />
+
+            <TextView
+                android:id="@+id/BillKindName"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="调出仓库:" />
+
+            <TextView
+                android:id="@+id/OutStore"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="调入仓库:" />
+
+            <TextView
+                android:id="@+id/InStore"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="送货方式:" />
+
+            <TextView
+                android:id="@+id/ShipTypeName"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+
+
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="送货地址:" />
+
+            <EditText
+                android:id="@+id/BillTo"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:textSize="14sp" />
+        </TableRow>
+
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="业务员:" />
+
+            <TextView
+                android:id="@+id/Employee"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+    </TableLayout>
+</ScrollView>

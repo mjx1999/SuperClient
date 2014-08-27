@@ -30,7 +30,15 @@
                 style="@style/headerItemStyle"
                 android:background="@drawable/spinner_back" />
         </TableRow>
+        <TableRow style="@style/headerRowStyle">
 
+            <TextView android:text="单据类型:" />
+
+            <TextView
+                android:id="@+id/BillKindName"
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
+        </TableRow>
         <TableRow style="@style/headerRowStyle">
 
             <TextView android:text="客户名称:" />

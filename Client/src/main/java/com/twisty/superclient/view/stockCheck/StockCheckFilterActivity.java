@@ -14,7 +14,7 @@ import com.twisty.superclient.bean.AMKind;
 import com.twisty.superclient.bean.AMKindDao;
 import com.twisty.superclient.bean.DaoSession;
 import com.twisty.superclient.bean.Operator;
-import com.twisty.superclient.bean.Params;
+import com.twisty.superclient.bean.ParamsStockCheck;
 import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.bean.Store;
 import com.twisty.superclient.bean.StoreDao;
@@ -134,7 +134,7 @@ public class StockCheckFilterActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.commit:
                 Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                Params params = new Params();
+                ParamsStockCheck params = new ParamsStockCheck();
                 params.setBillName("i_balitem");
                 params.setOperate("GetListBill");
                 params.setPageSize(30);

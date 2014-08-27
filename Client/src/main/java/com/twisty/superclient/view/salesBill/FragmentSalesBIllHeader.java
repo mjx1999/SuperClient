@@ -40,7 +40,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 
 public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClickListener {
     DateTime dateTime = new DateTime();
-    private TextView  TraderName, BillDate, EmpName, Account, NoteType, PayMethod;
+    private TextView  TraderName, BillDate, EmpName, Account, NoteType, PayMethod,BillKind;
     private EditText BillCode,BillTo, ContactPhone, PayAmt;
     private SalesBillMasterData salesBillMasterData = new SalesBillMasterData();
     private PayMethodDao payMethodDao;
@@ -70,6 +70,7 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sales_bill_header, container, false);
+        BillKind = (TextView) view.findViewById(R.id.BillKindName);
         BillCode = (EditText) view.findViewById(R.id.BillCode);
         TraderName = (TextView) view.findViewById(R.id.TraderName);
         BillDate = (TextView) view.findViewById(R.id.BillDate);
@@ -156,6 +157,20 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                 });
                 payMethodPop.showPopupWindow(view);
                 break;
+            case R.id.BillKindName:
+                QueryBuilder<AMKind> billKindQueryBuilder = amKindDao.queryBuilder();
+                billKindQueryBuilder.where(AMKindDao.Properties.Kind.eq(6));
+                List<AMKind> billkinds = billKindQueryBuilder.list();
+                log.i(billkinds.size());
+                AMKindPop billKindPop = new AMKindPop(getActivity(), billkinds, new AMKindPop.onItemClickListener() {
+                    @Override
+                    public void onItemClick(AMKind amKind) {
+                        BillKind.setText(amKind.getName());
+                        salesBillMasterData.setBillKind(amKind.getID().intValue());
+                    }
+                });
+                billKindPop.showPopupWindow(view);
+                break;
         }
     }
 
@@ -165,7 +180,6 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
     }
 
     public SalesBillMasterData getSalesBillMasterData() {
-        salesBillMasterData.setBillKind(1);
         salesBillMasterData.setBillState(0);
         if (salesBillMasterData.getBillID() == null || salesBillMasterData.getBillID() == 0)
             salesBillMasterData.setBillID(-1L);

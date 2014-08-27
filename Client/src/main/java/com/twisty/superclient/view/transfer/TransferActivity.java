@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import com.google.gson.Gson;
@@ -15,8 +16,10 @@ import com.twisty.superclient.R;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseActivity;
 
-public class TransferActivity extends BaseActivity implements ActionBar.TabListener {
+public class TransferActivity extends BaseActivity implements ActionBar.TabListener ,View.OnClickListener{
     private static final int PRE_RESULT = 3, NEXT_RESULT = 4;
+    private FragmentTransferHeader fragmentTransferHeader;
+    private FragmentTransferDetail fragmentTransferDetail;
     private ActionBar actionBar;
     private Button searchBTN, saveBTN;
     private boolean isAddNew = true;
@@ -58,6 +61,31 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer);
+        gson = CommonUtil.getGson();
+        searchBTN = (Button) findViewById(R.id.search);
+        saveBTN = (Button) findViewById(R.id.save);
+        searchBTN.setOnClickListener(this);
+        saveBTN.setOnClickListener(this);
+        actionBar = getActionBar();
+        assert actionBar != null;
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.Tab headerTab1 = actionBar.newTab().setText("表头").setTabListener(this);
+        ActionBar.Tab orderDetailTab = actionBar.newTab().setText("明细").setTabListener(this);
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
+        fragmentTransferDetail = new FragmentTransferDetail();
+        fragmentTransferDetail.setRetainInstance(true);
+        fragmentTransferHeader = new FragmentTransferHeader();
+        fragmentTransferHeader.setRetainInstance(true);
+
+
+        fragmentTransaction.add(R.id.fragment_content, fragmentTransferDetail, "detail").add(R.id.fragment_content, fragmentTransferHeader, "header").commit();
+
+
+        actionBar.addTab(headerTab1);
+        actionBar.addTab(orderDetailTab);
     }
 
 
@@ -177,7 +205,14 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-
+        ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
+        if (tab.getText().equals("明细")) {
+            ft.hide(fragmentTransferHeader);
+            ft.show(fragmentTransferDetail);
+        } else if (tab.getText().equals("表头")) {
+            ft.hide(fragmentTransferDetail);
+            ft.show(fragmentTransferHeader);
+        }
     }
 
     @Override
@@ -187,6 +222,11 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }

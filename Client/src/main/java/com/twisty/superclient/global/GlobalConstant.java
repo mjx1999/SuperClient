@@ -9,9 +9,12 @@ public interface GlobalConstant {
 
 
     public static final String METHOD_GET_ACC_LIST = "GetAccList";
-    public static final String METHOD_DOWNLOAD_OPERATOR = "DownloadOperator";
     public static final String METHOD_LOGIN = "Login";
     public static final String METHOD_DO_BILL = "DoBill";
+    public static final String METHOD_GET_ACC_ONHAND = "GetAccOnhand";
+    public static final String MEHOTD_DOWNLOAD_LINKMAN = "DownloadLinkman";
+
+    public static final String METHOD_DOWNLOAD_OPERATOR = "DownloadOperator";
     public static final String METHOD_DOWNLOAD_TRADER_TYPE = "DownloadTraderType";
     public static final String METHOD_DOWNLOAD_AREA = "DownloadArea";
     public static final String METHOD_DOWNLOAD_DEPARTMENT = "DownloadDepartment";
@@ -29,7 +32,6 @@ public interface GlobalConstant {
     public static final String METHOD_DOWNLOAD_GOODS_PICTURE = "DownloadGoodsPicture";
     public static final String METHOD_DOWNLOAD_ONHAND = "DownloadOnhand";
     public static final String METHOD_DOWNLOAD_ACCOUNT = "DownloadAccount";
-
 
     public static final String METHOD_DOWNLOAD_PAYMETHOD = "DownloadPaymethod";
 

@@ -152,10 +152,8 @@ public class StockCheckActivity extends BaseActivity implements ActionBar.TabLis
                             }
                             message.what = PRE_RESULT;
                         } catch (Exception e) {
-                            message = handler.obtainMessage();
                             message.what = RESULT_CANCELED;
                             message.obj = "加载数据失败,请重试...";
-                            handler.sendMessage(message);
                             e.printStackTrace();
                         } finally {
                             handler.sendMessage(message);
@@ -199,9 +197,8 @@ public class StockCheckActivity extends BaseActivity implements ActionBar.TabLis
                             } else {
                                 message.obj = "服务器错误";
                             }
-                            message.what = PRE_RESULT;
+                            message.what = NEXT_RESULT;
                         } catch (Exception e) {
-                            message = handler.obtainMessage();
                             message.what = RESULT_CANCELED;
                             message.obj = "加载数据失败,请重试...";
                             e.printStackTrace();
