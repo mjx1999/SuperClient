@@ -18,6 +18,7 @@ import com.twisty.superclient.bean.BillSaveResp;
 import com.twisty.superclient.bean.Params;
 import com.twisty.superclient.bean.ParamsSalesBill;
 import com.twisty.superclient.bean.Request;
+import com.twisty.superclient.bean.Response;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
 import com.twisty.superclient.bean.SalesBillMasterData;
 import com.twisty.superclient.bean.SalesBillResp;
@@ -31,7 +32,7 @@ import com.twisty.superclient.view.BluetoothListActivity;
 import java.util.ArrayList;
 
 public class SalesBillActivity extends BaseActivity implements View.OnClickListener, ActionBar.TabListener {
-    private static final int PRE_RESULT = 3, NEXT_RESULT = 4;
+    private static final int PRE_RESULT = 3, NEXT_RESULT = 4, DELETE_RESULT = 5;
     private ActionBar actionBar;
     private Button searchBTN, saveBTN;
     private boolean isAddNew = true;
@@ -55,6 +56,13 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                 case NEXT_RESULT:
                     fragmentSalesBIllHeader.setSalesBillMasterData(salesBillMasterData);
                     fragmentSalesBillDetail.setSalesBillDetail1Datas(salesBillDetail1Datas);
+                    if (msg.obj != null) {
+                        CommonUtil.showToastError(SalesBillActivity.this, String.valueOf(msg.obj), null);
+                    }
+                    break;
+                case DELETE_RESULT:
+                    fragmentSalesBIllHeader.setSalesBillMasterData(null);
+                    fragmentSalesBillDetail.setSalesBillDetail1Datas(null);
                     if (msg.obj != null) {
                         CommonUtil.showToastError(SalesBillActivity.this, String.valueOf(msg.obj), null);
                     }
@@ -128,6 +136,48 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                 } else {
                     CommonUtil.showToastError(this, "保存单据之后才能打印!", null);
                 }
+
+                return true;
+            case R.id.delete:
+                pd = ProgressDialog.show(this, null, "正在删除...");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ReqClient client = ReqClient.newInstance();
+                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                        Params paramsDel = new Params();
+                        paramsDel.setOperate("Delete");
+                        paramsDel.setBillName("s_sale");
+                        paramsDel.setBillID(fragmentSalesBIllHeader.getSalesBillMasterData().getBillID());
+                        request.setParams(paramsDel);
+                        Message message = handler.obtainMessage();
+                        try {
+                            if (client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest())) {
+                                String delJson = client.requestData(request);
+                                log.i(delJson);
+                                Response response = gson.fromJson(delJson, Response.class);
+                                if (response.isCorrect()) {
+                                    message.obj = "删除成功!";
+                                    message.what = DELETE_RESULT;
+                                } else {
+                                    message.what = DELETE_RESULT;
+                                    message.obj = response.getErrMessage();
+                                }
+                            } else {
+                                message.what = RESULT_CANCELED;
+                                message.obj = "连接服务器超时!";
+                            }
+                        } catch (Exception e) {
+                            message.what = RESULT_CANCELED;
+                            message.obj = "连接服务器超时!";
+                            e.printStackTrace();
+                        } finally {
+                            handler.sendMessage(message);
+                            client.close();
+                        }
+                    }
+                }).start();
 
                 return true;
             case R.id.preOrder:

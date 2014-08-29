@@ -3,6 +3,7 @@ package com.twisty.superclient.view.salesBill;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,18 +18,20 @@ import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesBillDetailAdapter;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
 import com.twisty.superclient.bean.Trader;
+import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseFragment;
 
 import java.util.ArrayList;
 
 public class FragmentSalesBillDetail extends BaseFragment {
 
-    private static final int ADDGOODS = 1;
+    public static final int ADDGOODS = 1, UPDATAGOODS = 2;
     private ListView listView;
     private SalesBillDetailAdapter adapter;
-    private ArrayList<SalesBillDetail1Data> adapterData;
     private ArrayList<SalesBillDetail1Data> salesBillDetail1Datas;
     private Trader trader;
+    private SalesBillDetail1Data currentDetail;
+    private int currentItemNo;
 
     public FragmentSalesBillDetail() {
         // Required empty public constructor
@@ -80,8 +83,11 @@ public class FragmentSalesBillDetail extends BaseFragment {
         switch (itemID) {
             case R.id.add:
                 FragmentSalesBIllHeader fragmentSalesBIllHeader = (FragmentSalesBIllHeader) getFragmentManager().findFragmentByTag("header");
-                long traderid = fragmentSalesBIllHeader.getSalesBillMasterData().getTraderID();
-
+                Long traderid = fragmentSalesBIllHeader.getSalesBillMasterData().getTraderID();
+                if (traderid == null) {
+                    CommonUtil.showToastError(getActivity(), "请选择客户!", null);
+                    return true;
+                }
                 Intent intent = new Intent(getActivity(), SalesBillAddGoodsActivity.class);
                 startActivityForResult(intent, ADDGOODS);
                 return true;
@@ -105,26 +111,32 @@ public class FragmentSalesBillDetail extends BaseFragment {
             if (requestCode == ADDGOODS) {
                 ArrayList<SalesBillDetail1Data> retunData = (ArrayList<SalesBillDetail1Data>) data.getSerializableExtra("com.twisty.superclient.Data");
                 if (adapter == null) {
-                    adapterData = retunData;
-                    if (adapterData != null) {
-                        adapter = new SalesBillDetailAdapter(getActivity(), adapterData);
+                    salesBillDetail1Datas = retunData;
+                    if (salesBillDetail1Datas != null) {
+                        adapter = new SalesBillDetailAdapter(getActivity(), salesBillDetail1Datas);
                         listView.setAdapter(adapter);
                     }
                 } else {
-                    if (adapterData != null) {
-                        adapterData.addAll(retunData);
-                        adapter.setData(adapterData);
+                    if (salesBillDetail1Datas != null) {
+                        salesBillDetail1Datas.addAll(retunData);
+                        adapter.setData(salesBillDetail1Datas);
                         adapter.notifyDataSetChanged();
                     }
                 }
-                setSalesBillDetail1Datas(adapterData);
+                setSalesBillDetail1Datas(salesBillDetail1Datas);
+            } else if (requestCode == UPDATAGOODS) {
+                SalesBillDetail1Data returnData = (SalesBillDetail1Data) data.getSerializableExtra("Data");
+                salesBillDetail1Datas.remove(currentItemNo);
+                salesBillDetail1Datas.add(currentItemNo, returnData);
+                adapter.setData(salesBillDetail1Datas);
+                adapter.notifyDataSetChanged();
             }
-            if (adapterData != null) {
-                double amount = 0;
-                for (SalesBillDetail1Data salesBillDetail1Data : adapterData) {
-                    amount += salesBillDetail1Data.getAmount();
-                }
-            }
+//            if (salesBillDetail1Datas != null) {
+//                double amount = 0;
+//                for (SalesBillDetail1Data salesBillDetail1Data : salesBillDetail1Datas) {
+//                    amount += salesBillDetail1Data.getAmount();
+//                }
+//            }
 
         }
     }
@@ -139,7 +151,35 @@ public class FragmentSalesBillDetail extends BaseFragment {
                 ((ListView) parent).setItemChecked(position, true);
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                currentDetail = (SalesBillDetail1Data) parent.getItemAtPosition(position);
+                currentItemNo = position;
+                return false;
+            }
+        });
+        listView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.add("删除");
+                menu.add("修改");
+            }
+        });
     }
 
-
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle().equals("删除")) {
+            salesBillDetail1Datas.remove(currentDetail);
+            adapter.setData(salesBillDetail1Datas);
+            adapter.notifyDataSetChanged();
+        } else {
+            Intent intent = new Intent(getActivity(), SalesBillAddGoodsActivity.class);
+            intent.putExtra("CurrentData", currentDetail);
+            intent.putExtra("Type", UPDATAGOODS);
+            startActivityForResult(intent, UPDATAGOODS);
+        }
+        return super.onContextItemSelected(item);
+    }
 }

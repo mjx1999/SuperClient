@@ -1,18 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.twisty.superclient.view.salesBill.SalesBillActivity" >
-    <item android:id="@+id/preOrder"
-        android:title="@string/preOrder"
+    tools:context="com.twisty.superclient.view.salesBill.SalesBillActivity">
+    <item
+        android:id="@+id/preOrder"
         android:orderInCategory="1"
         android:showAsAction="always|withText"
-        />
+        android:title="@string/preOrder" />
     <item
         android:id="@+id/nextOrder"
         android:orderInCategory="2"
         android:showAsAction="always|withText"
         android:title="@string/nextOrder" />
-    <item android:id="@+id/print"
-        android:title="打印"
+    <item
+        android:id="@+id/print"
+        android:orderInCategory="88"
+        android:showAsAction="never"
+        android:title="打印" />
+    <item
+        android:id="@+id/delete"
         android:orderInCategory="100"
-        android:showAsAction="always|withText" />
+        android:showAsAction="never"
+        android:title="删除" />
 </menu>

@@ -43,11 +43,14 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
     private GoodsDao goodsDao;
     private Trader trader;
     private PriceUtil priceUtil;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_bill_add_goods);
+        type = getIntent().getIntExtra("Type", FragmentSalesBillDetail.ADDGOODS);
+        SalesBillDetail1Data currentData = (SalesBillDetail1Data) getIntent().getSerializableExtra("CurrentData");
         priceUtil = new PriceUtil(this);
         DaoSession session = SuperClient.getDaoSession(this);
         trader = (Trader) getIntent().getSerializableExtra("Trader");
@@ -71,6 +74,26 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
         StoreCode.setOnClickListener(this);
         GoodsName.setOnClickListener(this);
         StoreCode.setText(SuperClient.getDefaultStoreCode());
+        if (type == FragmentSalesBillDetail.UPDATAGOODS && currentData != null) {
+            salesBillDetail1Data = currentData;
+            BarCode.setText(salesBillDetail1Data.getBarCode());
+            StoreCode.setText(salesBillDetail1Data.getStoreCode() + " " + salesBillDetail1Data.getStoreName());
+            GoodsName.setText(salesBillDetail1Data.getGoodsName());
+            Spec.setText(salesBillDetail1Data.getSpecs());
+            Unit.setText(salesBillDetail1Data.getUnitName());
+
+            GoodsCode.setText(salesBillDetail1Data.getGoodsCode());
+            UnitQuanty.setText(salesBillDetail1Data.getUnitQuantity() + "");
+            OrigTaxPrice.setText(salesBillDetail1Data.getOrigTaxPrice() + "");
+            Disc.setText(salesBillDetail1Data.getDisc() + "");
+            TaxPrice.setText(salesBillDetail1Data.getTaxPrice() + "");
+            UnitPrice.setText(salesBillDetail1Data.getUnitPrice() + "");
+            TaxRate.setText(salesBillDetail1Data.getTaxRate() + "");
+            TaxAmt.setText(salesBillDetail1Data.getTaxAmt() + "");
+            Amount.setText(salesBillDetail1Data.getAmount() + "");
+        }
+
+
         BarCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -157,30 +180,62 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
 //                return true;
 //            }
 
-            salesBillDetail1Data.setAmount(22.2);
-            salesBillDetail1Data.setQuantity(23.2);
-            salesBillDetail1Data.setOrigPrice(23.00);
-            salesBillDetail1Data.setDisc(22.0);
-            salesBillDetail1Data.setTaxPrice(2.3);
-            salesBillDetail1Data.setTaxRate(2.33);
-            salesBillDetail1Data.setTaxAmt(22.222);
-            salesBillDetail1Data.setBillID(-1L);
-            salesBillDetail1Data.setItemNO(-1);
-            salesBillDetail1Data.setUnitPrice(222.22222);
-            salesBillDetail1Data.setUnitQuantity(333333.333);
-            salesBillDetail1Data.setUnitRate(13.2);
-            salesBillDetail1Data.setAmount(3444444.44);
-            salesBillDetail1Data.setGoodsAmt(124444.1231);
-            salesBillDetail1Data.setIsLargess(0);
-            salesBillDetail1Data.setAPrice(123.123);
-            salesBillDetail1Data.setDisc(1231.123);
-            salesBillDetail1Data.setOrigTaxPrice(234.234);
-            salesBillDetail1Datas.add(salesBillDetail1Data);
-            salesBillDetail1Data.setStoreID(SuperClient.getDefaultStoreID());
-            Intent intent = new Intent();
-            intent.putExtra("com.twisty.superclient.Data", salesBillDetail1Datas);
-            setResult(RESULT_OK, intent);
-            finish();
+
+            if (type == FragmentSalesBillDetail.UPDATAGOODS) {
+
+
+                salesBillDetail1Data.setAmount(22.2);
+                salesBillDetail1Data.setQuantity(23.2);
+                salesBillDetail1Data.setOrigPrice(23.00);
+                salesBillDetail1Data.setDisc(22.0);
+                salesBillDetail1Data.setTaxPrice(28.3);
+                salesBillDetail1Data.setTaxRate(288.0);
+                salesBillDetail1Data.setTaxAmt(22.22);
+                salesBillDetail1Data.setBillID(-1L);
+                salesBillDetail1Data.setItemNO(-1);
+                salesBillDetail1Data.setUnitPrice(222.22);
+                salesBillDetail1Data.setUnitQuantity(333333.33);
+                salesBillDetail1Data.setUnitRate(13.2);
+                salesBillDetail1Data.setAmount(67868744.44);
+                salesBillDetail1Data.setGoodsAmt(124466744.1231);
+                salesBillDetail1Data.setIsLargess(0);
+                salesBillDetail1Data.setAPrice(12883.12);
+                salesBillDetail1Data.setDisc(128831.13);
+                salesBillDetail1Data.setOrigTaxPrice(234.24);
+
+
+                Intent intent = new Intent();
+                intent.putExtra("Data", salesBillDetail1Data);
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+
+
+                salesBillDetail1Data.setAmount(22.2);
+                salesBillDetail1Data.setQuantity(23.2);
+                salesBillDetail1Data.setOrigPrice(23.00);
+                salesBillDetail1Data.setDisc(22.0);
+                salesBillDetail1Data.setTaxPrice(2.3);
+                salesBillDetail1Data.setTaxRate(2.33);
+                salesBillDetail1Data.setTaxAmt(22.222);
+                salesBillDetail1Data.setBillID(-1L);
+                salesBillDetail1Data.setItemNO(-1);
+                salesBillDetail1Data.setUnitPrice(222.22222);
+                salesBillDetail1Data.setUnitQuantity(333333.333);
+                salesBillDetail1Data.setUnitRate(13.2);
+                salesBillDetail1Data.setAmount(3444444.44);
+                salesBillDetail1Data.setGoodsAmt(124444.1231);
+                salesBillDetail1Data.setIsLargess(0);
+                salesBillDetail1Data.setAPrice(123.123);
+                salesBillDetail1Data.setDisc(1231.123);
+                salesBillDetail1Data.setOrigTaxPrice(234.234);
+                salesBillDetail1Datas.add(salesBillDetail1Data);
+                Intent intent = new Intent();
+                intent.putExtra("com.twisty.superclient.Data", salesBillDetail1Datas);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);

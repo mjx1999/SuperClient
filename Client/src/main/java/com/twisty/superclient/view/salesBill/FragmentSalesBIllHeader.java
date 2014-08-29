@@ -268,6 +268,20 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
             } else {
                 EmpName.setText("");
             }
+        } else {
+            this.salesBillMasterData = new SalesBillMasterData();
+            String billCode = "SS-" + SuperClient.getDefaultStoreCode() + "-" + dateTime.toString("YYYYMMdd-HHmmss");
+            BillCode.setText(billCode);
+            BillDate.setText(dateTime.toString("YYYY-MM-dd"));
+            TraderName.setText("");
+            EmpName.setText("");
+            Account.setText("");
+            NoteType.setText("");
+            PayMethod.setText("");
+            BillKind.setText("");
+            BillTo.setText("");
+            ContactPhone.setText("");
+            PayAmt.setText("");
         }
 
     }
