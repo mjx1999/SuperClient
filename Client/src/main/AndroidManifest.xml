@@ -87,50 +87,56 @@
             android:name=".view.salesBill.SalesBillAddGoodsActivity"
             android:label="@string/title_activity_add_goods"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.filter.GoodsFilterActivity"
             android:label="@string/title_activity_goods_filter"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.salesOrder.SalesOrderActivity"
             android:label="@string/title_activity_sales_order"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.salesOrder.SalesOrderAddGoodsActivity"
             android:label="@string/title_activity_sales_order_add_goods"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.salesOrder.SalesOrderListActivity"
-            android:label="@string/title_activity_sales_order_list"></activity>
+            android:label="@string/title_activity_sales_order_list" />
         <activity
             android:name=".view.transfer.TransferActivity"
             android:label="@string/title_activity_transfer"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.stockCheck.StockCheckActivity"
             android:label="@string/title_activity_stock_check"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.salesOrder.SalesOrderFilterActivity"
-            android:label="@string/title_activity_sales_order_filter"></activity>
+            android:label="@string/title_activity_sales_order_filter" />
         <activity
             android:name=".view.stockCheck.StockCheckAddGoodsActivity"
-            android:label="@string/title_activity_stock_check_add_goods"></activity>
+            android:label="@string/title_activity_stock_check_add_goods" />
         <activity
             android:name=".view.stockCheck.StockCheckFilterActivity"
-            android:label="@string/title_activity_stock_check_filter"></activity>
+            android:label="@string/title_activity_stock_check_filter" />
         <activity
             android:name=".view.stockCheck.StockCheckListActivity"
-            android:label="@string/title_activity_stock_check_list"></activity>
+            android:label="@string/title_activity_stock_check_list" />
         <activity
             android:name=".view.transfer.TransferAddGoodsActivity"
-            android:label="@string/title_activity_transfer_add_goods"></activity>
+            android:label="@string/title_activity_transfer_add_goods" />
+        <activity
+            android:name=".view.transfer.TransferFilterActivity"
+            android:label="@string/title_activity_transfer_filter"></activity>
+        <activity
+            android:name=".view.transfer.TransferListActivity"
+            android:label="@string/title_activity_transfer_list"></activity>
     </application>
 
 </manifest>

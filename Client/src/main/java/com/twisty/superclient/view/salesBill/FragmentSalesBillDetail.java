@@ -16,18 +16,36 @@ import android.widget.ListView;
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesBillDetailAdapter;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
+import com.twisty.superclient.bean.Trader;
 import com.twisty.superclient.view.BaseFragment;
 
 import java.util.ArrayList;
 
 public class FragmentSalesBillDetail extends BaseFragment {
 
+    private static final int ADDGOODS = 1;
     private ListView listView;
     private SalesBillDetailAdapter adapter;
     private ArrayList<SalesBillDetail1Data> adapterData;
-    private static final int ADDGOODS = 1;
     private ArrayList<SalesBillDetail1Data> salesBillDetail1Datas;
+    private Trader trader;
 
+    public FragmentSalesBillDetail() {
+        // Required empty public constructor
+    }
+
+    public static FragmentSalesBillDetail newInstance() {
+        FragmentSalesBillDetail fragment = new FragmentSalesBillDetail();
+        return fragment;
+    }
+
+    public Trader getTrader() {
+        return trader;
+    }
+
+    public void setTrader(Trader trader) {
+        this.trader = trader;
+    }
 
     public ArrayList<SalesBillDetail1Data> getSalesBillDetail1Datas() {
         return salesBillDetail1Datas;
@@ -35,21 +53,13 @@ public class FragmentSalesBillDetail extends BaseFragment {
 
     public void setSalesBillDetail1Datas(ArrayList<SalesBillDetail1Data> salesBillDetail1Datas) {
         this.salesBillDetail1Datas = salesBillDetail1Datas;
-        if(adapter==null){
-            adapter = new SalesBillDetailAdapter(getActivity(),salesBillDetail1Datas);
+        if (adapter == null) {
+            adapter = new SalesBillDetailAdapter(getActivity(), salesBillDetail1Datas);
             listView.setAdapter(adapter);
-        }else{
+        } else {
             adapter.setData(salesBillDetail1Datas);
             adapter.notifyDataSetChanged();
         }
-    }
-
-    public static FragmentSalesBillDetail newInstance() {
-        FragmentSalesBillDetail fragment = new FragmentSalesBillDetail();
-        return fragment;
-    }
-    public FragmentSalesBillDetail() {
-        // Required empty public constructor
     }
 
     @Override
@@ -61,17 +71,20 @@ public class FragmentSalesBillDetail extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.sales_detail,menu);
+        inflater.inflate(R.menu.sales_detail, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemID  = item.getItemId();
-        switch (itemID){
+        int itemID = item.getItemId();
+        switch (itemID) {
             case R.id.add:
+                FragmentSalesBIllHeader fragmentSalesBIllHeader = (FragmentSalesBIllHeader) getFragmentManager().findFragmentByTag("header");
+                long traderid = fragmentSalesBIllHeader.getSalesBillMasterData().getTraderID();
+
                 Intent intent = new Intent(getActivity(), SalesBillAddGoodsActivity.class);
                 startActivityForResult(intent, ADDGOODS);
-                return  true;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -79,28 +92,26 @@ public class FragmentSalesBillDetail extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
-        return  view;
+        return view;
     }
-
-
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==Activity.RESULT_OK){
-            if(requestCode==ADDGOODS){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ADDGOODS) {
                 ArrayList<SalesBillDetail1Data> retunData = (ArrayList<SalesBillDetail1Data>) data.getSerializableExtra("com.twisty.superclient.Data");
-                if(adapter==null){
+                if (adapter == null) {
                     adapterData = retunData;
-                    if(adapterData!=null){
-                        adapter = new SalesBillDetailAdapter(getActivity(),adapterData);
+                    if (adapterData != null) {
+                        adapter = new SalesBillDetailAdapter(getActivity(), adapterData);
                         listView.setAdapter(adapter);
                     }
-                }else{
-                    if(adapterData!=null){
+                } else {
+                    if (adapterData != null) {
                         adapterData.addAll(retunData);
                         adapter.setData(adapterData);
                         adapter.notifyDataSetChanged();
@@ -108,10 +119,10 @@ public class FragmentSalesBillDetail extends BaseFragment {
                 }
                 setSalesBillDetail1Datas(adapterData);
             }
-            if(adapterData!=null){
+            if (adapterData != null) {
                 double amount = 0;
-                for (SalesBillDetail1Data salesBillDetail1Data :adapterData){
-                    amount+= salesBillDetail1Data.getAmount();
+                for (SalesBillDetail1Data salesBillDetail1Data : adapterData) {
+                    amount += salesBillDetail1Data.getAmount();
                 }
             }
 
@@ -125,7 +136,7 @@ public class FragmentSalesBillDetail extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((ListView)parent).setItemChecked(position,true);
+                ((ListView) parent).setItemChecked(position, true);
             }
         });
     }

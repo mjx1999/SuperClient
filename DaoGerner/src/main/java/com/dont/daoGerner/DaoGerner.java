@@ -57,7 +57,7 @@ public class DaoGerner {
         trader.addIntProperty("IsVendor");
         trader.addLongProperty("TraderTypeID");
         trader.addLongProperty("AreaID").index();
-        trader.addStringProperty("Lev");
+        trader.addIntProperty("Lev");
         trader.addLongProperty("EmpID").index();
         trader.addLongProperty("DepartmentID").index();
         trader.addStringProperty("Legalrep");
@@ -158,7 +158,6 @@ public class DaoGerner {
         goodsUnit.implementsSerializable();
 
 
-
         Entity traderType = schema.addEntity("TraderPrice");
         traderType.addLongProperty("ID").index();
         traderType.addLongProperty("TraderID").index();
@@ -212,19 +211,50 @@ public class DaoGerner {
         amKind.implementsSerializable();
 
 
+//        "AccountID":null,"AccountName":null,"Amount":123123.12,"BillCode":"SS-01-20140825-222903",
+//                "BillDate":"2014-08-25 00:00:00","BillID":12,"BillKind":1, "BillKindName":"销售开单",
+//                "BillState":0, "BillStateName":"待审核","BillTo":"上海松江区胡角公路600号","CheckNo":null,
+//                "Checkor":null, "CheckorID":null, "ContactFax":null,"ContactPhone":"021-57899208",
+//                "DepartmentCode":null, "DepartmentID":null,"DepartmentName":null, "Disc":100.0,
+//                "EmpCode":null, "EmpID":null, "EmpName":null,"InvoiceAmt":0.0, "IsCashTrader":0,
+//                "LinkManID":null, "Linkman":null,"NoteNo":null,"NoteTypeID":0, "NoteTypeName":null,
+//                "OpID":0, "OpName":"系统管理员", "PayAmt":0.0, "PayDate":null,"PayMethodID":null,
+//                "PaymethodCode":null,"PaymethodName":null, "Printed":0, "ReferAmt":0.0,"Remark":null,
+//                "SFlag":0, "ScAmt":0.0, "ShipType":null,"ShipTypeName":null, "ShopID":0, "TermDays":0,
+//                "TraderCode":"K0020", "TraderID":54,"TraderName":"雅森公司", "UpdateTime":"2014-08-25 22:29:01",
 
 
         //销售单
         Entity salesBillMasterData = schema.addEntity("SalesBillMasterData");
         salesBillMasterData.addLongProperty("BillID").index();
+        salesBillMasterData.addLongProperty("CheckorID").index();
         salesBillMasterData.addIntProperty("BillKind");
         salesBillMasterData.addIntProperty("BillState");
+        salesBillMasterData.addIntProperty("IsCashTrader");
         salesBillMasterData.addStringProperty("BillCode");
+        salesBillMasterData.addStringProperty("Checkor");
+        salesBillMasterData.addStringProperty("TraderCode");
+        salesBillMasterData.addStringProperty("TraderName");
+        salesBillMasterData.addStringProperty("DepartmentCode");
+        salesBillMasterData.addStringProperty("PaymethodCode");
+        salesBillMasterData.addStringProperty("PaymethodName");
+        salesBillMasterData.addStringProperty("ShipTypeName");
+        salesBillMasterData.addStringProperty("NoteTypeName");
+        salesBillMasterData.addStringProperty("EmpName");
+        salesBillMasterData.addStringProperty("EmpCode");
+        salesBillMasterData.addStringProperty("DepartmentName");
         salesBillMasterData.addStringProperty("BillDate");
+        salesBillMasterData.addStringProperty("BillKindName");
+        salesBillMasterData.addStringProperty("OpName");
+        salesBillMasterData.addStringProperty("BillStateName");
         salesBillMasterData.addStringProperty("BillTo");
         salesBillMasterData.addLongProperty("AccountID");
         salesBillMasterData.addDoubleProperty("Amount");
+        salesBillMasterData.addStringProperty("Remark");
+        salesBillMasterData.addDoubleProperty("ReferAmt");
+        salesBillMasterData.addDoubleProperty("InvoiceAmt");
         salesBillMasterData.addStringProperty("CheckNo");
+        salesBillMasterData.addStringProperty("AccountName");
         salesBillMasterData.addStringProperty("ContactFax");
         salesBillMasterData.addStringProperty("ContactPhone");
         salesBillMasterData.addLongProperty("DepartmentID");
@@ -239,7 +269,6 @@ public class DaoGerner {
         salesBillMasterData.addStringProperty("PayDate");
         salesBillMasterData.addLongProperty("PayMethodID");
         salesBillMasterData.addIntProperty("Printed");
-        salesBillMasterData.addStringProperty("Remark");
         salesBillMasterData.addIntProperty("SFlag");
         salesBillMasterData.addLongProperty("ShipType");
         salesBillMasterData.addLongProperty("ShopID");
@@ -255,6 +284,37 @@ public class DaoGerner {
         salesBillMasterData.implementsSerializable();
 
 
+//
+//                "APrice": 123.123,
+//                "Amount": 3444444.44,
+//                "BReferID": null,
+//                "BarCode": null,
+//                "BillID": 15,
+//                "Disc": 1231.123,"DiscAmt": -69643016.930000007, "GoodsAmt": 124444.12, "GoodsCode": "1008","GoodsID": 8,
+//                "GoodsName": "麦克风",   "IOQty": 0.0,  "IsLargess": 0,    "ItemNO": 2,
+//                "OrigPrice": 23.0,
+//                "OrigTaxPrice": 234.234,
+//                "Quantity": 23.2,
+//                "ReferBillCode": null,
+//                "ReferBillID": null,
+//                "ReferBillType": 0,
+//                "ReferItemNo": null,
+//                "ReferQty": 0.0,
+//                "ShortName": "",
+//                "Specs": "大朋",
+//                "StoreCode": null,
+//                "StoreID": null,
+//                "StoreName": null,
+//                "TaxAmt": 22.22,
+//                "TaxPrice": 0.0,
+//                "TaxRate": 2.33,
+//                "UnitID": 129,
+//                "UnitName": "对",
+//                "UnitPrice": 222.22222,
+//                "UnitQuantity": 333333.333,
+//                "UnitRate": 1.0
+
+
         Entity salesBillDetail1Data = schema.addEntity("SalesBillDetail1Data");
 
         salesBillDetail1Data.addLongProperty("BillID").index();
@@ -264,6 +324,8 @@ public class DaoGerner {
         salesBillDetail1Data.addLongProperty("BReferID");
         salesBillDetail1Data.addDoubleProperty("Disc");
         salesBillDetail1Data.addDoubleProperty("DiscAmt");
+        salesBillDetail1Data.addDoubleProperty("ReferQty");
+        salesBillDetail1Data.addDoubleProperty("IOQty");
         salesBillDetail1Data.addLongProperty("GoodsID");
         salesBillDetail1Data.addDoubleProperty("GoodsAmt");
         salesBillDetail1Data.addIntProperty("IsLargess");
@@ -271,6 +333,14 @@ public class DaoGerner {
         salesBillDetail1Data.addDoubleProperty("OrigTaxPrice");
         salesBillDetail1Data.addDoubleProperty("Quantity");
         salesBillDetail1Data.addStringProperty("ReferBillCode");
+        salesBillDetail1Data.addStringProperty("UnitName");
+        salesBillDetail1Data.addStringProperty("StoreCode");
+        salesBillDetail1Data.addStringProperty("Specs");
+        salesBillDetail1Data.addStringProperty("StoreName");
+        salesBillDetail1Data.addStringProperty("GoodsName");
+        salesBillDetail1Data.addStringProperty("GoodsCode");
+        salesBillDetail1Data.addStringProperty("BarCode");
+        salesBillDetail1Data.addStringProperty("ShortName");
         salesBillDetail1Data.addLongProperty("ReferBillID");
         salesBillDetail1Data.addIntProperty("ReferBillType");
         salesBillDetail1Data.addIntProperty("ReferItemNo");
@@ -518,7 +588,6 @@ public class DaoGerner {
         stockCheckMasterData.implementsSerializable();
 
 
-
         Entity stockCheckDetail1Data = schema.addEntity("StockCheckDetail1Data");
         stockCheckDetail1Data.addLongProperty("BillID").index();
         stockCheckDetail1Data.addLongProperty("GoodsID");
@@ -549,11 +618,15 @@ public class DaoGerner {
         stockCheckDetail1Data.implementsSerializable();
 
 
+        Entity sysParam = schema.addEntity("SysParam");
+        sysParam.addLongProperty("ParamID");
+        sysParam.addStringProperty("ParamName");
+        sysParam.addStringProperty("DataValue");
+        sysParam.addStringProperty("Content");
+        sysParam.addStringProperty("LCode");
+        sysParam.implementsSerializable();
 
-
-
-
-        new DaoGenerator().generateAll(schema,"./DaoGerner/Gen");
+        new DaoGenerator().generateAll(schema, "./DaoGerner/Gen");
     }
 }
 

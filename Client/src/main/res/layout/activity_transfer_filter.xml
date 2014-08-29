@@ -36,10 +36,21 @@
 
         <TableRow>
 
-            <TextView android:text="往来单位:" />
+            <TextView android:text="调出仓库:" />
 
             <TextView
-                android:id="@+id/trader"
+                android:id="@+id/OutStore"
+                style="@style/headerItemStyle"
+
+                android:background="@drawable/spinner_back" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:text="调入仓库:" />
+
+            <TextView
+                android:id="@+id/InStore"
                 style="@style/headerItemStyle"
 
                 android:background="@drawable/spinner_back" />
@@ -61,7 +72,7 @@
             <TextView android:text="单据状态:" />
 
             <TextView
-                android:id="@+id/state"
+                android:id="@+id/BillStateName"
                 style="@style/headerItemStyle"
 
                 android:background="@drawable/spinner_back" />
@@ -90,5 +101,6 @@
         </TableRow>
 
     </TableLayout>
+
 
 </RelativeLayout>

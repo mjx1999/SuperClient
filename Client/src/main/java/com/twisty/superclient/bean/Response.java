@@ -3,13 +3,15 @@ package com.twisty.superclient.bean;
 import com.twisty.superclient.util.CommonLog;
 import com.twisty.superclient.util.LogFactory;
 
+import java.io.Serializable;
+
 /**
  * Created by twisty on 14-8-3.
  */
-public class Response {
+public class Response implements Serializable {
+    protected CommonLog log = LogFactory.createLog();
     private int ErrNo;
     private String ErrMessage;
-    protected CommonLog log = LogFactory.createLog();
 
     public int getErrNo() {
         return ErrNo;
@@ -35,11 +37,9 @@ public class Response {
                 '}';
     }
 
-    public boolean isCorrect(){
-        return ErrNo ==0;
+    public boolean isCorrect() {
+        return ErrNo == 0;
     }
-
-
 
 
 }

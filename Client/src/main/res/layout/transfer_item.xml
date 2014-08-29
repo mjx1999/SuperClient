@@ -6,6 +6,18 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:orientation="horizontal">
 
+    <!--  //            "BillID": 3,                       /*单据ID*/
+      //            "Amount": 140.07,                  /*金额*/
+      //            "CheckorName": "系统管理员",       /*审核人姓名*/
+      //            "DepartmentName": null,            /*部门名称*/
+      //            "EmpName": null,                   /*业务员姓名*/
+      //            "InStoreName": "分厂成品仓",       /*调入仓名称*/
+      //            "OpName": "系统管理员",            /*制单人姓名*/
+      //            "SFlag": 0,                        /*冲红标志*/
+      //            "ShopID": 0,                       /*分支机构ID*/
+      //            "StoreName": "成品仓"              /*调出仓库名称*/
+      -->
+
     <TextView
         android:id="@+id/BillCode"
         style="@style/billItemStyle"
@@ -47,14 +59,25 @@
         android:background="?android:attr/listDivider" />
 
     <TextView
-        android:id="@+id/TraderName"
+        android:id="@+id/InStoreName"
         style="@style/billItemStyle"
-        android:layout_width="120dp" />
+        android:layout_width="70dp" />
 
     <View
         android:layout_width="1px"
         android:layout_height="fill_parent"
         android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/OutStore"
+        style="@style/billItemStyle"
+        android:layout_width="70dp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/listDivider" />
+
 
     <TextView
         android:id="@+id/Amount"
@@ -67,27 +90,6 @@
         android:layout_height="fill_parent"
         android:background="?android:attr/listDivider" />
 
-    <TextView
-        android:id="@+id/ReferAmt"
-        style="@style/billItemStyle"
-        android:layout_width="120dp"
-        android:gravity="center_vertical|end" />
-
-    <View
-        android:layout_width="1px"
-        android:layout_height="fill_parent"
-        android:background="?android:attr/listDivider" />
-
-    <TextView
-        android:id="@+id/UnReferAmt"
-        style="@style/billItemStyle"
-        android:layout_width="120dp"
-        android:gravity="center_vertical|end" />
-
-    <View
-        android:layout_width="1px"
-        android:layout_height="fill_parent"
-        android:background="?android:attr/listDivider" />
 
     <TextView
         android:id="@+id/OpName"
@@ -101,7 +103,7 @@
         android:background="?android:attr/listDivider" />
 
     <TextView
-        android:id="@+id/Checkor"
+        android:id="@+id/CheckorName"
         style="@style/billItemStyle"
         android:layout_width="100dp" />
 </LinearLayout>

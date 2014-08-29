@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.twisty.superclient.view.transfer.TransferFilterActivity">
+    <item
+        android:id="@+id/filterBtn"
+        android:orderInCategory="100"
+        android:showAsAction="always|withText"
+        android:title="确定" />
+</menu>

@@ -6,6 +6,10 @@ package com.twisty.superclient.global;
 public interface GlobalConstant {
     public static final String DB_NAME = "SuperClientDB";
 
+    public static final int BILL_TYPE_SALES_BILL = 1;
+    public static final int BILL_TYPE_SALES_ORDER = 2;
+    public static final int BILL_TYPE_TRANSFER = 3;
+    public static final int BILL_TYPE_STOCK_CHECK = 4;
 
 
     public static final String METHOD_GET_ACC_LIST = "GetAccList";
@@ -13,6 +17,8 @@ public interface GlobalConstant {
     public static final String METHOD_DO_BILL = "DoBill";
     public static final String METHOD_GET_ACC_ONHAND = "GetAccOnhand";
     public static final String MEHOTD_DOWNLOAD_LINKMAN = "DownloadLinkman";
+
+    public static final String METHOD_DOWNLOADSYSPARAM = "downloadsysparam";
 
     public static final String METHOD_DOWNLOAD_OPERATOR = "DownloadOperator";
     public static final String METHOD_DOWNLOAD_TRADER_TYPE = "DownloadTraderType";

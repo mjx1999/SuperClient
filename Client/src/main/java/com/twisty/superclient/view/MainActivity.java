@@ -45,6 +45,8 @@ import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.bean.Response;
 import com.twisty.superclient.bean.Store;
 import com.twisty.superclient.bean.StoreResp;
+import com.twisty.superclient.bean.SysParam;
+import com.twisty.superclient.bean.SysParamResp;
 import com.twisty.superclient.bean.TradeType;
 import com.twisty.superclient.bean.TradeTypeResp;
 import com.twisty.superclient.bean.Trader;
@@ -72,10 +74,10 @@ public class MainActivity extends BaseActivity {
             if (pd != null) pd.dismiss();
             switch (msg.what) {
                 case RESULT_OK:
-                    CommonUtil.showToastInfo(MainActivity.this, "数据下载成功!",null);
+                    CommonUtil.showToastInfo(MainActivity.this, "数据下载成功!", null);
                     break;
                 case RESULT_CANCELED:
-                    CommonUtil.showToastError(MainActivity.this, msg.obj.toString(),null);
+                    CommonUtil.showToastError(MainActivity.this, msg.obj.toString(), null);
                     break;
             }
         }
@@ -458,6 +460,24 @@ public class MainActivity extends BaseActivity {
                                                             return;
                                                         }
 
+
+                                                        /**
+                                                         * 系统属性
+                                                         */
+                                                        String sysParamJson = client.requestData(new Request(GlobalConstant.METHOD_DOWNLOADSYSPARAM));
+                                                        log.i(sysParamJson);
+                                                        SysParamResp sysParamResp = gson.fromJson(sysParamJson, SysParamResp.class);
+                                                        if (sysParamResp != null && sysParamResp.isCorrect()) {
+                                                            ArrayList<SysParam> sysParams;
+                                                            if ((sysParams = sysParamResp.getResultData()) != null) {
+                                                                session.getSysParamDao().deleteAll();
+                                                                session.getSysParamDao().insertInTx(sysParams);
+                                                            }
+                                                        } else {
+                                                            catchError(amKindResp);
+                                                            return;
+                                                        }
+
                                                         handler.sendEmptyMessage(RESULT_OK);
                                                     } catch (Exception e) {
                                                         e.printStackTrace();
@@ -466,7 +486,7 @@ public class MainActivity extends BaseActivity {
                                                         msg.obj = e.getMessage() == null ? "下载失败,请重试." : e.getMessage();
                                                         handler.sendMessage(msg);
                                                         log.e(e.getMessage());
-                                                    }finally {
+                                                    } finally {
                                                         client.close();
                                                     }
                                                 }
@@ -490,7 +510,7 @@ public class MainActivity extends BaseActivity {
                                     })
                                     .show();
                         } else {
-                            CommonUtil.showToastError(MainActivity.this, "当前是离线登录模式,下载资料请使用在线登录!",null);
+                            CommonUtil.showToastError(MainActivity.this, "当前是离线登录模式,下载资料请使用在线登录!", null);
                         }
                         break;
                     case 3:

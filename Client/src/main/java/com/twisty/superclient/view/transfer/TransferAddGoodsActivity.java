@@ -125,7 +125,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
         if (id == R.id.commit) {
             Intent intent = new Intent();
             try {
-                transferDetail1Data.setQuantity(Double.valueOf(Quantity.getText().toString()));
+                transferDetail1Data.setUnitQuantity(Double.valueOf(Quantity.getText().toString()));
             } catch (NumberFormatException e) {
                 CommonUtil.showToastError(this, "调入数量不能为空或者非数字!", null);
                 return true;
@@ -195,6 +195,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                                         transferDetail1Data.setUnitID(unit.getUnitID());
                                         transferDetail1Data.setUnitName(unit.getUnitName());
                                         transferDetail1Data.setBarCode(unit.getBarCode());
+                                        transferDetail1Data.setUnitRate(unit.getRate().doubleValue());
                                     }
                                 });
                                 unitPop.showPopupWindow(Unit);

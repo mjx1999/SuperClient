@@ -30,7 +30,7 @@ import com.twisty.superclient.view.BluetoothListActivity;
 
 import java.util.ArrayList;
 
-public class SalesBillActivity extends BaseActivity implements View.OnClickListener, ActionBar.TabListener{
+public class SalesBillActivity extends BaseActivity implements View.OnClickListener, ActionBar.TabListener {
     private static final int PRE_RESULT = 3, NEXT_RESULT = 4;
     private ActionBar actionBar;
     private Button searchBTN, saveBTN;
@@ -38,38 +38,37 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
     private boolean isCommit;
     private SalesBillMasterData salesBillMasterData = new SalesBillMasterData();
     private ProgressDialog pd;
+    private ArrayList<SalesBillDetail1Data> salesBillDetail1Datas = new ArrayList<SalesBillDetail1Data>();
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(pd!=null)pd.dismiss();
+            if (pd != null) pd.dismiss();
             switch (msg.what) {
                 case PRE_RESULT:
                     fragmentSalesBIllHeader.setSalesBillMasterData(salesBillMasterData);
                     fragmentSalesBillDetail.setSalesBillDetail1Datas(salesBillDetail1Datas);
-                    if(msg.obj!=null){
-                        CommonUtil.showToastError(SalesBillActivity.this,String.valueOf(msg.obj),null);
+                    if (msg.obj != null) {
+                        CommonUtil.showToastError(SalesBillActivity.this, String.valueOf(msg.obj), null);
                     }
                     break;
                 case NEXT_RESULT:
                     fragmentSalesBIllHeader.setSalesBillMasterData(salesBillMasterData);
                     fragmentSalesBillDetail.setSalesBillDetail1Datas(salesBillDetail1Datas);
-                    if(msg.obj!=null){
-                        CommonUtil.showToastError(SalesBillActivity.this,String.valueOf(msg.obj),null);
+                    if (msg.obj != null) {
+                        CommonUtil.showToastError(SalesBillActivity.this, String.valueOf(msg.obj), null);
                     }
                     break;
                 case RESULT_OK:
-                    CommonUtil.showToastInfo(SalesBillActivity.this,"保存成功!",null);
-                    fragmentSalesBIllHeader.setSalesBillMasterData(null);
-                    fragmentSalesBillDetail.setSalesBillDetail1Datas(null);
+                    CommonUtil.showToastInfo(SalesBillActivity.this, "保存成功!", null);
+                    isCommit = true;
                     break;
                 case RESULT_CANCELED:
-                    CommonUtil.showToastError(SalesBillActivity.this, String.valueOf(msg.obj),null);
+                    CommonUtil.showToastError(SalesBillActivity.this, String.valueOf(msg.obj), null);
                     break;
             }
         }
     };
-    private ArrayList<SalesBillDetail1Data> salesBillDetail1Datas = new ArrayList<SalesBillDetail1Data>();
     private FragmentSalesBillDetail fragmentSalesBillDetail;
     private FragmentSalesBIllHeader fragmentSalesBIllHeader;
     private Gson gson;
@@ -118,12 +117,22 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
         int id = item.getItemId();
         switch (id) {
             case R.id.print:
-                Intent intent = new Intent(this, BluetoothListActivity.class);
-                startActivity(intent);
+                if (!isAddNew || isCommit) {
+                    Intent intent = new Intent(this, BluetoothListActivity.class);
+                    SalesBillResp salesBillResp = new SalesBillResp();
+                    salesBillResp.setMasterData(salesBillMasterData);
+                    salesBillResp.setDetail1Data(salesBillDetail1Datas);
+                    intent.putExtra("BillType", GlobalConstant.BILL_TYPE_SALES_BILL);
+                    intent.putExtra("com.twisty.superclient.Data", salesBillResp);
+                    startActivity(intent);
+                } else {
+                    CommonUtil.showToastError(this, "保存单据之后才能打印!", null);
+                }
+
                 return true;
             case R.id.preOrder:
                 isAddNew = false;
-                pd = ProgressDialog.show(this,null,"正在加载数据...");
+                pd = ProgressDialog.show(this, null, "正在加载数据...");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -140,18 +149,18 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                             log.i(preBillJson);
                             SalesBillResp salesBillResp = gson.fromJson(preBillJson, SalesBillResp.class);
                             Message message = handler.obtainMessage();
-                            if(salesBillResp!=null){
-                                if(salesBillResp.isCorrect()){
+                            if (salesBillResp != null) {
+                                if (salesBillResp.isCorrect()) {
                                     if (salesBillResp.getMasterData() != null) {
                                         salesBillMasterData = salesBillResp.getMasterData();
                                     }
                                     if (salesBillResp.getDetail1Data() != null) {
                                         salesBillDetail1Datas = salesBillResp.getDetail1Data();
                                     }
-                                }else{
+                                } else {
                                     message.obj = salesBillResp.getErrMessage();
                                 }
-                            }else{
+                            } else {
                                 message.obj = "服务器错误";
                             }
                             message.what = PRE_RESULT;
@@ -159,7 +168,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                         } catch (Exception e) {
                             Message message = handler.obtainMessage();
                             message.what = RESULT_CANCELED;
-                            message.obj="加载数据失败,请重试...";
+                            message.obj = "加载数据失败,请重试...";
                             handler.sendMessage(message);
                             e.printStackTrace();
                         }
@@ -169,7 +178,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                 return true;
             case R.id.nextOrder:
                 isAddNew = false;
-                pd = ProgressDialog.show(this,null,"正在加载数据...");
+                pd = ProgressDialog.show(this, null, "正在加载数据...");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -186,27 +195,27 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                             log.i(nextBillJson);
                             SalesBillResp salesBillResp = gson.fromJson(nextBillJson, SalesBillResp.class);
                             Message message = handler.obtainMessage();
-                            if(salesBillResp!=null){
-                                if(salesBillResp.isCorrect()){
+                            if (salesBillResp != null) {
+                                if (salesBillResp.isCorrect()) {
                                     if (salesBillResp.getMasterData() != null) {
                                         salesBillMasterData = salesBillResp.getMasterData();
                                     }
                                     if (salesBillResp.getDetail1Data() != null) {
                                         salesBillDetail1Datas = salesBillResp.getDetail1Data();
                                     }
-                                }else{
+                                } else {
                                     log.i(salesBillResp.getErrMessage());
                                     message.obj = salesBillResp.getErrMessage();
                                 }
-                            }else{
+                            } else {
                                 message.obj = "服务器错误";
                             }
-                            message.what=NEXT_RESULT;
+                            message.what = NEXT_RESULT;
                             handler.sendMessage(message);
                         } catch (Exception e) {
                             Message message = handler.obtainMessage();
                             message.what = RESULT_CANCELED;
-                            message.obj="加载数据失败,请重试...";
+                            message.obj = "加载数据失败,请重试...";
                             handler.sendMessage(message);
                             e.printStackTrace();
                         }
@@ -261,19 +270,19 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                     log.i(salesBillMasterData.getBillCode());
                 }
                 if (salesBillMasterData.getTraderID() == null) {
-                    CommonUtil.showToastError(this, "客户不能为空!",null);
+                    CommonUtil.showToastError(this, "客户不能为空!", null);
                     return;
                 }
                 FragmentSalesBillDetail fragmentSalesBillDetail = (FragmentSalesBillDetail) getFragmentManager().findFragmentByTag("detail");
                 if (fragmentSalesBillDetail != null) {
-                    if(fragmentSalesBillDetail.getSalesBillDetail1Datas()!=null){
+                    if (fragmentSalesBillDetail.getSalesBillDetail1Datas() != null) {
                         salesBillDetail1Datas = fragmentSalesBillDetail.getSalesBillDetail1Datas();
                     }
-                    if(salesBillDetail1Datas !=null){
+                    if (salesBillDetail1Datas != null) {
                         log.i(salesBillDetail1Datas.size());
                     }
                 }
-                pd = ProgressDialog.show(this,null,"正在保存销售单.");
+                pd = ProgressDialog.show(this, null, "正在保存销售单.");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -292,22 +301,22 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                             if (isSuccess) {
                                 String saveJson = client.requestData(request);
                                 log.i(saveJson);
-                                BillSaveResp billSaveResp = gson.fromJson(saveJson,BillSaveResp.class);
-                                if(billSaveResp!=null){
-                                    if(billSaveResp.isCorrect()){
+                                BillSaveResp billSaveResp = gson.fromJson(saveJson, BillSaveResp.class);
+                                if (billSaveResp != null) {
+                                    if (billSaveResp.isCorrect()) {
                                         message.what = RESULT_OK;
-                                    }else{
+                                    } else {
                                         message.what = RESULT_CANCELED;
                                         message.obj = billSaveResp.getErrMessage();
                                     }
-                                }else{
+                                } else {
                                     message.what = RESULT_CANCELED;
-                                    message.obj="保存失败.";
+                                    message.obj = "保存失败.";
                                 }
                             }
                         } catch (Exception e) {
                             message.what = RESULT_CANCELED;
-                            message.obj="保存失败.";
+                            message.obj = "保存失败.";
                             e.printStackTrace();
                         } finally {
                             client.close();

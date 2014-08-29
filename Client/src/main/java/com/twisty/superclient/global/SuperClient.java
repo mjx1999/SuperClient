@@ -25,6 +25,15 @@ public class SuperClient extends Application {
     private static String currentIP;
     private static int currentPort;
     private static Request currentLoginRequest;
+    private static String companyName;
+
+    public static String getCompanyName() {
+        return companyName;
+    }
+
+    public static void setCompanyName(String companyName) {
+        SuperClient.companyName = companyName;
+    }
 
     public static Request getCurrentLoginRequest() {
         return currentLoginRequest;
@@ -98,7 +107,7 @@ public class SuperClient extends Application {
      */
     public static DaoMaster getDaoMaster(Context context) {
         if (daoMaster == null) {
-            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,GlobalConstant.DB_NAME, null);
+            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context, GlobalConstant.DB_NAME, null);
             daoMaster = new DaoMaster(helper.getWritableDatabase());
         }
         return daoMaster;

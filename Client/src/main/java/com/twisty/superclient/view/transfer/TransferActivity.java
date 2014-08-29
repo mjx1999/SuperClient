@@ -3,6 +3,7 @@ package com.twisty.superclient.view.transfer;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +14,9 @@ import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.BillSaveResp;
 import com.twisty.superclient.bean.Params;
+import com.twisty.superclient.bean.ParamsTransfer;
 import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.bean.TransferDetail1Data;
 import com.twisty.superclient.bean.TransferMasterData;
@@ -59,6 +62,7 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
                     break;
                 case RESULT_OK:
                     CommonUtil.showToastInfo(TransferActivity.this, "保存成功!", null);
+                    isCommit = true;
                     break;
                 case RESULT_CANCELED:
                     CommonUtil.showToastError(TransferActivity.this, String.valueOf(msg.obj), null);
@@ -240,10 +244,58 @@ public class TransferActivity extends BaseActivity implements ActionBar.TabListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
-
+                Intent intent = new Intent(this, TransferFilterActivity.class);
+                startActivity(intent);
                 break;
             case R.id.save:
-
+                if (fragmentTransferHeader.getMasterData() != null) {
+                    transferMasterData = fragmentTransferHeader.getMasterData();
+                }
+                if (fragmentTransferDetail.getDetail1Data() != null) {
+                    transferDetail1Datas = fragmentTransferDetail.getDetail1Data();
+                }
+                pd = ProgressDialog.show(this, null, "正在保存调拨单.");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                        ParamsTransfer params = new ParamsTransfer();
+                        params.setBillName("i_allot");
+                        params.setOperate("Save");
+                        params.setAddnew(isAddNew);
+                        params.setMasterData(transferMasterData);
+                        params.setDetail1Data(transferDetail1Datas);
+                        request.setParams(params);
+                        ReqClient client = ReqClient.newInstance();
+                        Message message = handler.obtainMessage();
+                        try {
+                            boolean isSuccess = client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                            if (isSuccess) {
+                                String saveJson = client.requestData(request);
+                                log.i(saveJson);
+                                BillSaveResp billSaveResp = gson.fromJson(saveJson, BillSaveResp.class);
+                                if (billSaveResp != null) {
+                                    if (billSaveResp.isCorrect()) {
+                                        message.what = RESULT_OK;
+                                    } else {
+                                        message.what = RESULT_CANCELED;
+                                        message.obj = billSaveResp.getErrMessage();
+                                    }
+                                } else {
+                                    message.what = RESULT_CANCELED;
+                                    message.obj = "保存失败.";
+                                }
+                            }
+                        } catch (Exception e) {
+                            message.what = RESULT_CANCELED;
+                            message.obj = "保存失败.";
+                            e.printStackTrace();
+                        } finally {
+                            handler.sendMessage(message);
+                            client.close();
+                        }
+                    }
+                }).start();
                 break;
         }
     }

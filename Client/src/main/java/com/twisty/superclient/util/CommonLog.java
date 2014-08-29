@@ -2,13 +2,15 @@ package com.twisty.superclient.util;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 
 /**
  * 自定义日志操作类
  *
  * @author twisty
  */
-public class CommonLog {
+public class CommonLog implements Serializable {
     public static int logLevel = Log.VERBOSE;
     public static boolean isDebug = true;
     private String tag = "SuperClient";

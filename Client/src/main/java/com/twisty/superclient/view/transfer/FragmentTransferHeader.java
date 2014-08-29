@@ -48,7 +48,9 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
 
     public TransferMasterData getMasterData() {
         if (masterData.getBillID() == null) masterData.setBillID(-1L);
+        masterData.setBillCode(BillCode.getText().toString());
         masterData.setBillTo(BillTo.getText().toString());
+        masterData.setBillDate(BillDate.getText().toString());
         return masterData;
     }
 

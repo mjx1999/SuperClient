@@ -17,10 +17,12 @@ import com.twisty.superclient.bean.GoodsDao;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
 import com.twisty.superclient.bean.Store;
 import com.twisty.superclient.bean.StoreDao;
+import com.twisty.superclient.bean.Trader;
 import com.twisty.superclient.bean.Unit;
 import com.twisty.superclient.bean.UnitDao;
 import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.util.CommonUtil;
+import com.twisty.superclient.util.PriceUtil;
 import com.twisty.superclient.view.BaseActivity;
 import com.twisty.superclient.view.filter.GoodsFilterActivity;
 import com.twisty.superclient.view.filter.StorePop;
@@ -31,19 +33,24 @@ import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
 
-public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnClickListener{
-    private TextView StoreCode,GoodsName,Spec,Unit;
-    private EditText GoodsCode,BarCode,UnitQuanty,OrigTaxPrice,Disc,TaxPrice,UnitPrice,TaxRate,TaxAmt,Amount;
-    private SalesBillDetail1Data salesBillDetail1Data = new SalesBillDetail1Data();
+public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnClickListener {
     ArrayList<SalesBillDetail1Data> salesBillDetail1Datas = new ArrayList<SalesBillDetail1Data>();
+    private TextView StoreCode, GoodsName, Spec, Unit;
+    private EditText GoodsCode, BarCode, UnitQuanty, OrigTaxPrice, Disc, TaxPrice, UnitPrice, TaxRate, TaxAmt, Amount;
+    private SalesBillDetail1Data salesBillDetail1Data = new SalesBillDetail1Data();
     private StoreDao storeDao;
     private UnitDao unitDao;
     private GoodsDao goodsDao;
+    private Trader trader;
+    private PriceUtil priceUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_bill_add_goods);
+        priceUtil = new PriceUtil(this);
         DaoSession session = SuperClient.getDaoSession(this);
+        trader = (Trader) getIntent().getSerializableExtra("Trader");
         storeDao = session.getStoreDao();
         unitDao = session.getUnitDao();
         goodsDao = session.getGoodsDao();
@@ -98,22 +105,22 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
                             QueryBuilder<Goods> goodsQueryBuilder = goodsDao.queryBuilder();
                             goodsQueryBuilder.where(GoodsDao.Properties.GoodsID.eq(unit.getGoodsID()));
                             Goods goods = goodsQueryBuilder.unique();
-                            if(goods!=null){
+                            if (goods != null) {
                                 salesBillDetail1Data.setGoodsID(goods.getGoodsID());
                                 salesBillDetail1Data.setUnitID(unit.getUnitID());
                                 GoodsCode.setText(goods.getGoodsCode());
                                 GoodsName.setText(goods.getGoodsName());
                                 Spec.setText(goods.getSpecs());
                                 Unit.setText(unit.getUnitName());
-                            }else {
-                                CommonUtil.showToastError(SalesBillAddGoodsActivity.this, "没有找到当前条码的货品!",null);
+                            } else {
+                                CommonUtil.showToastError(SalesBillAddGoodsActivity.this, "没有找到当前条码的货品!", null);
                             }
                         } else {
                             GoodsCode.setText("");
                             GoodsName.setText("");
                             Spec.setText("");
                             Unit.setText("");
-                            CommonUtil.showToastError(SalesBillAddGoodsActivity.this, "没有找到当前条码的货品!",null);
+                            CommonUtil.showToastError(SalesBillAddGoodsActivity.this, "没有找到当前条码的货品!", null);
                         }
 
                     }
@@ -172,7 +179,7 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
             salesBillDetail1Data.setStoreID(SuperClient.getDefaultStoreID());
             Intent intent = new Intent();
             intent.putExtra("com.twisty.superclient.Data", salesBillDetail1Datas);
-            setResult(RESULT_OK,intent);
+            setResult(RESULT_OK, intent);
             finish();
             return true;
         }
@@ -181,20 +188,20 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.StoreCode:
-                StorePop storePop = new StorePop(this,storeDao.loadAll(),new StorePop.onItemClickListener() {
+                StorePop storePop = new StorePop(this, storeDao.loadAll(), new StorePop.onItemClickListener() {
                     @Override
                     public void onItemClick(Store store) {
                         salesBillDetail1Data.setStoreID(store.getStoreID());
-                        StoreCode.setText(store.getStoreCode()+"  "+store.getStoreName());
+                        StoreCode.setText(store.getStoreCode() + "  " + store.getStoreName());
                     }
                 });
                 storePop.showPopupWindow(v);
                 break;
             case R.id.GoodsName:
                 Intent intent = new Intent(this, GoodsFilterActivity.class);
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, 1);
                 break;
         }
     }
@@ -202,11 +209,11 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case 1:
-                    Goods goods = (Goods) data.getSerializableExtra("Data");
-                    if(goods!=null){
+                    final Goods goods = (Goods) data.getSerializableExtra("Data");
+                    if (goods != null) {
                         salesBillDetail1Data.setGoodsID(goods.getGoodsID());
                         BarCode.setText("");
                         GoodsName.setText(goods.getGoodsName());
@@ -219,12 +226,14 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
                         Unit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                UnitPop unitPop =  new UnitPop(SalesBillAddGoodsActivity.this,units,new UnitPop.onItemClickListener() {
+                                UnitPop unitPop = new UnitPop(SalesBillAddGoodsActivity.this, units, new UnitPop.onItemClickListener() {
                                     @Override
                                     public void onItemClick(Unit unit) {
                                         BarCode.setText(unit.getBarCode());
                                         Unit.setText(unit.getUnitName());
                                         salesBillDetail1Data.setUnitID(unit.getUnitID());
+                                        double price = priceUtil.getUnitPrice(trader, unit.getUnitID(), goods);
+                                        UnitPrice.setText(price + "");
                                     }
                                 });
                                 unitPop.showPopupWindow(Unit);

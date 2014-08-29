@@ -3,8 +3,9 @@ package com.twisty.superclient.view.stockCheck;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,16 +36,15 @@ import de.greenrobot.dao.query.QueryBuilder;
 
 public class StockCheckFilterActivity extends BaseActivity implements View.OnClickListener {
     private EditText billCodeView;
-    private TextView begDateView, endDateView,storeView;
-    private TextView stateView,operatorView;
-    private Button commitBTN, cancelBTN;
+    private TextView begDateView, endDateView, storeView;
+    private TextView stateView, operatorView;
     private DateTime startDateTime, endDateTime;
     private DaoSession session;
-    private String billType;
     private long storeID = -1;
     private long billState = -1;
     private long opID = -1;
     private StoreDao storeDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,17 +56,13 @@ public class StockCheckFilterActivity extends BaseActivity implements View.OnCli
         stateView = (TextView) findViewById(R.id.state);
         billCodeView = (EditText) findViewById(R.id.billCode);
         operatorView = (TextView) findViewById(R.id.operator);
-        commitBTN = (Button) findViewById(R.id.commit);
-        cancelBTN = (Button) findViewById(R.id.cancel);
         begDateView.setOnClickListener(this);
         endDateView.setOnClickListener(this);
         storeView.setOnClickListener(this);
-        commitBTN.setOnClickListener(this);
-        cancelBTN.setOnClickListener(this);
         startDateTime = new DateTime();
         endDateTime = new DateTime();
-        begDateView.setText(startDateTime.getYear()+"-"+ String.format("%02d", startDateTime.getMonthOfYear()) +"-"+startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
-        endDateView.setText(endDateTime.getYear()+"-"+ String.format("%02d", endDateTime.getMonthOfYear())+"-"+endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
+        begDateView.setText(startDateTime.getYear() + "-" + String.format("%02d", startDateTime.getMonthOfYear()) + "-" + startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
+        endDateView.setText(endDateTime.getYear() + "-" + String.format("%02d", endDateTime.getMonthOfYear()) + "-" + endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
         session = SuperClient.getDaoSession(this);
         stateView.setOnClickListener(this);
         operatorView.setOnClickListener(this);
@@ -83,22 +79,22 @@ public class StockCheckFilterActivity extends BaseActivity implements View.OnCli
                 DatePickerDialog dpdStart = new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        begDateView.setText(year + "-" + String.format("%02d",(monthOfYear+1)) + "-" + dayOfMonth);
+                        begDateView.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + dayOfMonth);
                     }
-                }, startDateTime.getYear(), startDateTime.getMonthOfYear()-1, startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
+                }, startDateTime.getYear(), startDateTime.getMonthOfYear() - 1, startDateTime.toCalendar(Locale.CHINA).getActualMinimum(Calendar.DAY_OF_MONTH));
                 dpdStart.show();
                 break;
             case R.id.endDate:
                 DatePickerDialog dpdEnd = new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        endDateView.setText(year + "-" + String.format("%02d",(monthOfYear+1))+ "-" + dayOfMonth);
+                        endDateView.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + dayOfMonth);
                     }
-                }, endDateTime.getYear(), endDateTime.getMonthOfYear() -1, endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
+                }, endDateTime.getYear(), endDateTime.getMonthOfYear() - 1, endDateTime.toCalendar(Locale.CHINA).getActualMaximum(Calendar.DAY_OF_MONTH));
                 dpdEnd.show();
                 break;
             case R.id.StoreName:
-                StorePop storePop = new StorePop(this,storeDao.loadAll(),new StorePop.onItemClickListener() {
+                StorePop storePop = new StorePop(this, storeDao.loadAll(), new StorePop.onItemClickListener() {
                     @Override
                     public void onItemClick(Store store) {
                         storeID = store.getStoreID();
@@ -112,7 +108,7 @@ public class StockCheckFilterActivity extends BaseActivity implements View.OnCli
                 QueryBuilder<AMKind> amKindQueryBuilder = amKindDao.queryBuilder();
                 amKindQueryBuilder.where(AMKindDao.Properties.Kind.eq(99));
                 List<AMKind> amKinds = amKindQueryBuilder.list();
-                AMKindPop amKindPop = new AMKindPop(this,amKinds,new AMKindPop.onItemClickListener() {
+                AMKindPop amKindPop = new AMKindPop(this, amKinds, new AMKindPop.onItemClickListener() {
                     @Override
                     public void onItemClick(AMKind amKind) {
                         billState = amKind.getID();
@@ -123,7 +119,7 @@ public class StockCheckFilterActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.operator:
                 List<Operator> operators = session.getOperatorDao().loadAll();
-                OperatorPop operatorPop = new OperatorPop(this,operators,new OperatorPop.onItemClickListener() {
+                OperatorPop operatorPop = new OperatorPop(this, operators, new OperatorPop.onItemClickListener() {
                     @Override
                     public void onItemClick(Operator operator) {
                         opID = operator.getOpID();
@@ -132,27 +128,37 @@ public class StockCheckFilterActivity extends BaseActivity implements View.OnCli
                 });
                 operatorPop.showPopupWindow(v);
                 break;
-            case R.id.commit:
-                Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                ParamsStockCheck params = new ParamsStockCheck();
-                params.setBillName("i_balitem");
-                params.setOperate("GetListBill");
-                params.setPageSize(30);
-                params.setPageNo(1);
-                params.setBegDate(begDateView.getText().toString());
-                params.setEndDate(endDateView.getText().toString());
-                params.setStoreID(storeID);
-                params.setBillState(billState);
-                params.setBillCode(billCodeView.getText().toString());
-                params.setOpID(opID);
-                request.setParams(params);
-                Intent intent = new Intent(this, StockCheckListActivity.class);
-                intent.putExtra("Request", request);
-                startActivity(intent);
-                break;
-            case R.id.cancel:
-
-                break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.filter_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.filterBtn) {
+            Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+            ParamsStockCheck params = new ParamsStockCheck();
+            params.setBillName("i_balitem");
+            params.setOperate("GetListBill");
+            params.setPageSize(30);
+            params.setPageNo(1);
+            params.setBegDate(begDateView.getText().toString());
+            params.setEndDate(endDateView.getText().toString());
+            params.setStoreID(storeID);
+            params.setBillState(billState);
+            params.setBillCode(billCodeView.getText().toString());
+            params.setOpID(opID);
+            request.setParams(params);
+            Intent intent = new Intent(this, StockCheckListActivity.class);
+            intent.putExtra("Request", request);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

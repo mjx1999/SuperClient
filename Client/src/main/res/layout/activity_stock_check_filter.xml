@@ -11,7 +11,6 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/buttonBar"
         android:stretchColumns="1">
 
         <TableRow>
@@ -81,24 +80,4 @@
 
     </TableLayout>
 
-    <LinearLayout
-        android:id="@id/buttonBar"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/commit"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:text="确定" />
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:text="取消" />
-    </LinearLayout>
 </RelativeLayout>
