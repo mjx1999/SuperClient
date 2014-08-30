@@ -4,6 +4,7 @@ package com.twisty.superclient.view.transfer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +23,12 @@ import com.twisty.superclient.view.BaseFragment;
 import java.util.ArrayList;
 
 public class FragmentTransferDetail extends BaseFragment {
-    private static final int ADDGOODS = 1;
+    public static final int ADDGOODS = 1, UPDATAGOODS = 2;
     private ListView listView;
     private ArrayList<TransferDetail1Data> detail1Data = new ArrayList<TransferDetail1Data>();
     private TransferDetailAdapter adapter;
-
+    private TransferDetail1Data currentDetail;
+    private int currentItemNo;
     public FragmentTransferDetail() {
     }
 
@@ -89,8 +91,37 @@ public class FragmentTransferDetail extends BaseFragment {
                 ((ListView) parent).setItemChecked(position, true);
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                currentDetail = (TransferDetail1Data) parent.getItemAtPosition(position);
+                currentItemNo = position;
+                return false;
+            }
+        });
+        listView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.add("删除");
+                menu.add("修改");
+            }
+        });
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle().equals("删除")) {
+            detail1Data.remove(currentDetail);
+            adapter.setData(detail1Data);
+            adapter.notifyDataSetChanged();
+        } else {
+            Intent intent = new Intent(getActivity(), TransferAddGoodsActivity.class);
+            intent.putExtra("CurrentData", currentDetail);
+            intent.putExtra("Type", UPDATAGOODS);
+            startActivityForResult(intent, UPDATAGOODS);
+        }
+        return super.onContextItemSelected(item);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -111,6 +142,12 @@ public class FragmentTransferDetail extends BaseFragment {
                         adapter.notifyDataSetChanged();
                     }
                 }
+            } else if (requestCode == UPDATAGOODS) {
+                TransferDetail1Data returnData = (TransferDetail1Data) data.getSerializableExtra("Data");
+                detail1Data.remove(currentItemNo);
+                detail1Data.add(currentItemNo, returnData);
+                adapter.setData(detail1Data);
+                adapter.notifyDataSetChanged();
             }
 
         }

@@ -4,6 +4,7 @@ package com.twisty.superclient.view.salesOrder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,18 +18,20 @@ import android.widget.ListView;
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesOrderDetailAdapter;
 import com.twisty.superclient.bean.SalesOrderDetail1Data;
+import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseFragment;
 
 import java.util.ArrayList;
 
 public class FragmentSalesOrderDetail extends BaseFragment {
 
-    private static final int ADDGOODS = 1;
+    public static final int ADDGOODS = 1, UPDATAGOODS = 2;
     private ListView listView;
     private ArrayList<SalesOrderDetail1Data> Detail1Data = new ArrayList<SalesOrderDetail1Data>();
     private SalesOrderDetailAdapter adapter;
     private Double amount;
-
+    private SalesOrderDetail1Data currentDetail;
+    private int currentItemNo;
     public FragmentSalesOrderDetail() {
     }
 
@@ -74,6 +77,12 @@ public class FragmentSalesOrderDetail extends BaseFragment {
         int itemID = item.getItemId();
         switch (itemID) {
             case R.id.add:
+                FragmentSalesOrderHeader fragmentSalesBIllHeader = (FragmentSalesOrderHeader) getFragmentManager().findFragmentByTag("header");
+                Long traderid = fragmentSalesBIllHeader.getMasterData().getTraderId();
+                if (traderid == null) {
+                    CommonUtil.showToastError(getActivity(), "请选择客户!", null);
+                    return true;
+                }
                 Intent intent = new Intent(getActivity(), SalesOrderAddGoodsActivity.class);
                 startActivityForResult(intent, ADDGOODS);
                 return true;
@@ -99,6 +108,35 @@ public class FragmentSalesOrderDetail extends BaseFragment {
                 ((ListView) parent).setItemChecked(position, true);
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                currentDetail = (SalesOrderDetail1Data) parent.getItemAtPosition(position);
+                currentItemNo = position;
+                return false;
+            }
+        });
+        listView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.add("删除");
+                menu.add("修改");
+            }
+        });
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle().equals("删除")) {
+            Detail1Data.remove(currentDetail);
+            adapter.setData(Detail1Data);
+            adapter.notifyDataSetChanged();
+        } else {
+            Intent intent = new Intent(getActivity(), SalesOrderAddGoodsActivity.class);
+            intent.putExtra("CurrentData", currentDetail);
+            intent.putExtra("Type", UPDATAGOODS);
+            startActivityForResult(intent, UPDATAGOODS);
+        }
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -121,6 +159,12 @@ public class FragmentSalesOrderDetail extends BaseFragment {
                     }
                 }
                 setDetail1Data(Detail1Data);
+            } else if (requestCode == UPDATAGOODS) {
+                SalesOrderDetail1Data returnData = (SalesOrderDetail1Data) data.getSerializableExtra("Data");
+                Detail1Data.remove(currentItemNo);
+                Detail1Data.add(currentItemNo, returnData);
+                adapter.setData(Detail1Data);
+                adapter.notifyDataSetChanged();
             }
             if (Detail1Data != null) {
                 double amount = 0;

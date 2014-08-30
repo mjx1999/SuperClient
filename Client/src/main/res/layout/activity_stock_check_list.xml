@@ -8,182 +8,132 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:orientation="vertical">
+
         <LinearLayout
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:background="@android:color/darker_gray"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:orientation="horizontal">
-            <!--         BillCode,BillDate,BillStateName,RevDate,ValidDate,TraderName,
-            LinkMan,PaymethodName,Amount,ForwardAmt,OpName,EmpName,Checkor;-->
+            android:background="@android:color/darker_gray"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+            <!--         BillCode, BillDate, BillStateName,
+                        Amount,StoreName,
+                        OpName, CheckorName, EmpName, DepartmentName,IOTypeName;-->
 
             <TextView
-                android:text="单据编号"
                 android:id="@+id/BillCode"
                 style="@style/billItemStyle"
-                android:layout_width="180dp" />
+                android:layout_width="180dp"
+                android:text="单据编号" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="开单日期"
                 android:id="@+id/BillDate"
                 style="@style/billItemStyle"
-                android:layout_width="150dp" />
+                android:layout_width="150dp"
+                android:text="开单日期" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="单据状态"
                 android:id="@+id/BillStateName"
                 style="@style/billItemStyle"
-                android:layout_width="70dp" />
+                android:layout_width="70dp"
+                android:text="单据状态" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="交货日期"
-                android:id="@+id/RevDate"
+                android:id="@+id/StoreName"
                 style="@style/billItemStyle"
-                android:layout_width="150dp" />
+                android:layout_width="70dp"
+                android:text="仓库名" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
-            <TextView
-                android:text="失效日期"
-                android:id="@+id/ValidDate"
-                style="@style/billItemStyle"
-                android:layout_width="150dp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
-            <TextView
-                android:text="往来日期"
-                android:id="@+id/TraderName"
-                style="@style/billItemStyle"
-                android:layout_width="100dp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
-            <TextView
-                android:text="联系人"
-                android:id="@+id/LinkMan"
-                style="@style/billItemStyle"
-                android:layout_width="50dp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
-            <TextView
-                android:text="送货方式"
-                android:id="@+id/ShipTypeName"
-                style="@style/billItemStyle"
-                android:layout_width="80dp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
-            <TextView
-                android:text="付款方式"
-                android:id="@+id/PaymethodName"
-                style="@style/billItemStyle"
-                android:layout_width="100dp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
             <!--234234-->
             <TextView
-                android:text="总金额"
                 android:id="@+id/Amount"
                 style="@style/billItemStyle"
                 android:layout_width="100dp"
-                android:gravity="center_vertical|end" />
+                android:gravity="center_vertical|end"
+                android:text="金额" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="预付款"
-                android:id="@+id/ForwardAmt"
-                style="@style/billItemStyle"
-                android:layout_width="100dp"
-                android:gravity="center_vertical|end" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
-            <TextView
-                android:text="操作员"
-                android:paddingLeft="5dp"
                 android:id="@+id/OpName"
                 style="@style/billItemStyle"
-                android:layout_width="65dp" />
+                android:layout_width="65dp"
+                android:paddingLeft="5dp"
+                android:text="操作员" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="审核人"
                 android:id="@+id/CheckorName"
                 style="@style/billItemStyle"
-                android:layout_width="65dp" />
+                android:layout_width="65dp"
+                android:text="审核人" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="业务员"
-                android:paddingLeft="5dp"
                 android:id="@+id/EmpName"
                 style="@style/billItemStyle"
-                android:layout_width="65dp" />
+                android:layout_width="65dp"
+                android:paddingLeft="5dp"
+                android:text="业务员" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="部门"
                 android:id="@+id/DepartmentName"
                 style="@style/billItemStyle"
-                android:layout_width="65dp" />
+                android:layout_width="65dp"
+                android:text="部门" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
             <TextView
-                android:text="终止"
-                android:id="@+id/Closed"
+                android:id="@+id/IOTypeName"
                 style="@style/billItemStyle"
-                android:layout_width="40dp" />
+                android:layout_width="65dp"
+                android:text="出库类型" />
+
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="?android:attr/listDivider"
-                />
+                android:background="?android:attr/listDivider" />
+
 
         </LinearLayout>
 

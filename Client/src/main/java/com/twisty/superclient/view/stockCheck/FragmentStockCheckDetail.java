@@ -4,6 +4,7 @@ package com.twisty.superclient.view.stockCheck;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,12 +23,14 @@ import com.twisty.superclient.view.BaseFragment;
 import java.util.ArrayList;
 
 public class FragmentStockCheckDetail extends BaseFragment {
-    private static final int ADDGOODS = 1;
+    public static final int ADDGOODS = 1, UPDATAGOODS = 2;
+
     private ListView listView;
     private ArrayList<StockCheckDetail1Data> Detail1Data = new ArrayList<StockCheckDetail1Data>();
     private StockCheckDetailAdapter adapter;
     private Double amount;
-
+    private StockCheckDetail1Data currentDetail;
+    private int currentItemNo;
     public FragmentStockCheckDetail() {
         // Required empty public constructor
     }
@@ -83,7 +86,36 @@ public class FragmentStockCheckDetail extends BaseFragment {
                 ((ListView) parent).setItemChecked(position, true);
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                currentDetail = (StockCheckDetail1Data) parent.getItemAtPosition(position);
+                currentItemNo = position;
+                return false;
+            }
+        });
+        listView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.add("删除");
+                menu.add("修改");
+            }
+        });
         return view;
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle().equals("删除")) {
+            Detail1Data.remove(currentDetail);
+            adapter.setData(Detail1Data);
+            adapter.notifyDataSetChanged();
+        } else {
+            Intent intent = new Intent(getActivity(), StockCheckAddGoodsActivity.class);
+            intent.putExtra("CurrentData", currentDetail);
+            intent.putExtra("Type", UPDATAGOODS);
+            startActivityForResult(intent, UPDATAGOODS);
+        }
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -106,6 +138,12 @@ public class FragmentStockCheckDetail extends BaseFragment {
                     }
                 }
                 setDetail1Data(Detail1Data);
+            } else if (requestCode == UPDATAGOODS) {
+                StockCheckDetail1Data returnData = (StockCheckDetail1Data) data.getSerializableExtra("Data");
+                Detail1Data.remove(currentItemNo);
+                Detail1Data.add(currentItemNo, returnData);
+                adapter.setData(Detail1Data);
+                adapter.notifyDataSetChanged();
             }
             if (Detail1Data != null) {
                 double amount = 0;
