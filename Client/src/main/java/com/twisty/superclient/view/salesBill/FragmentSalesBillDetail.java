@@ -18,10 +18,14 @@ import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesBillDetailAdapter;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
 import com.twisty.superclient.bean.Trader;
+import com.twisty.superclient.bean.TraderDao;
+import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseFragment;
 
 import java.util.ArrayList;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class FragmentSalesBillDetail extends BaseFragment {
 
@@ -29,7 +33,6 @@ public class FragmentSalesBillDetail extends BaseFragment {
     private ListView listView;
     private SalesBillDetailAdapter adapter;
     private ArrayList<SalesBillDetail1Data> salesBillDetail1Datas;
-    private Trader trader;
     private SalesBillDetail1Data currentDetail;
     private int currentItemNo;
 
@@ -42,13 +45,6 @@ public class FragmentSalesBillDetail extends BaseFragment {
         return fragment;
     }
 
-    public Trader getTrader() {
-        return trader;
-    }
-
-    public void setTrader(Trader trader) {
-        this.trader = trader;
-    }
 
     public ArrayList<SalesBillDetail1Data> getSalesBillDetail1Datas() {
         return salesBillDetail1Datas;
@@ -88,7 +84,12 @@ public class FragmentSalesBillDetail extends BaseFragment {
                     CommonUtil.showToastError(getActivity(), "请选择客户!", null);
                     return true;
                 }
+                TraderDao traderDao = SuperClient.getDaoSession(getActivity()).getTraderDao();
+                QueryBuilder<Trader> traderQueryBuilder = traderDao.queryBuilder();
+                traderQueryBuilder.where(TraderDao.Properties.TraderID.eq(traderid));
+                Trader trader = traderQueryBuilder.unique();
                 Intent intent = new Intent(getActivity(), SalesBillAddGoodsActivity.class);
+                intent.putExtra("Trader", trader);
                 startActivityForResult(intent, ADDGOODS);
                 return true;
         }

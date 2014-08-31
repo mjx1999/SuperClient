@@ -32,7 +32,7 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
     private StockCheckDetail1Data stockCheckDetail1Data = new StockCheckDetail1Data();
     private ArrayList<StockCheckDetail1Data> stockCheckDetail1Datas = new ArrayList<StockCheckDetail1Data>();
     private TextView GoodsName, Spec, Unit;
-    private EditText GoodsCode, BarCode,AccQty,UnitRealQty,UnitPrice,Amount;
+    private EditText GoodsCode, BarCode, AccQty, UnitRealQty, UnitPrice, Amount;
     private UnitDao unitDao;
     private GoodsDao goodsDao;
 
@@ -44,7 +44,7 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
         Spec = (TextView) findViewById(R.id.Spec);
         Unit = (TextView) findViewById(R.id.Unit);
         GoodsCode = (EditText) findViewById(R.id.GoodsCode);
-        BarCode = (EditText) findViewById(R.id.Barcode);
+        BarCode = (EditText) findViewById(R.id.BarCode);
         AccQty = (EditText) findViewById(R.id.AccQty);
         UnitRealQty = (EditText) findViewById(R.id.UnitRealQty);
         UnitPrice = (EditText) findViewById(R.id.UnitPrice);

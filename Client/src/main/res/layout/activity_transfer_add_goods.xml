@@ -20,7 +20,7 @@
             <TextView android:text="货品条码:" />
 
             <EditText
-                android:id="@+id/Barcode"
+                android:id="@+id/BarCode"
                 style="@style/headerItemStyle"
                 android:background="@android:drawable/editbox_background"
                 android:singleLine="true">

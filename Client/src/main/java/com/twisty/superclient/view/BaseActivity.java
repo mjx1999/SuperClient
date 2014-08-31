@@ -11,6 +11,8 @@ import com.twisty.superclient.util.CommonLog;
 import com.twisty.superclient.util.LogFactory;
 import com.umeng.analytics.MobclickAgent;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+
 public class BaseActivity extends Activity {
     protected CommonLog log = LogFactory.createLog();
 
@@ -53,6 +55,7 @@ public class BaseActivity extends Activity {
 
     @Override
     public void finish() {
+        Crouton.cancelAllCroutons();
         super.finish();
         overridePendingTransition(R.anim.fade_in_sba, R.anim.push_right_out_sba);
     }

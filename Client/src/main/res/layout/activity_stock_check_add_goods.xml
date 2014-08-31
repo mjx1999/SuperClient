@@ -15,17 +15,17 @@
         tools:context="com.twisty.superclient.view.salesBill.FragmentSalesBIllHeader">
 
 
-
         <TableRow style="@style/headerRowStyle">
 
             <TextView android:text="货品条码:" />
 
             <EditText
-                android:singleLine="true"
-                android:id="@+id/Barcode"
+                android:id="@+id/BarCode"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background">
-                <requestFocus/>
+                android:background="@android:drawable/editbox_background"
+                android:singleLine="true">
+
+                <requestFocus />
             </EditText>
         </TableRow>
 
@@ -76,9 +76,9 @@
             <EditText
                 android:id="@+id/AccQty"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background"
-                />
+                android:background="@android:drawable/editbox_background" />
         </TableRow>
+
         <TableRow style="@style/headerRowStyle">
 
             <TextView android:text="实盘数量:" />
@@ -86,8 +86,7 @@
             <EditText
                 android:id="@+id/UnitRealQty"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background"
-                />
+                android:background="@android:drawable/editbox_background" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">

@@ -2,15 +2,12 @@ package com.twisty.superclient.util;
 
 import android.content.Context;
 
-import com.twisty.superclient.bean.Goods;
 import com.twisty.superclient.bean.Trader;
 import com.twisty.superclient.bean.TraderPrice;
 import com.twisty.superclient.bean.TraderPriceDao;
 import com.twisty.superclient.bean.Unit;
 import com.twisty.superclient.bean.UnitDao;
 import com.twisty.superclient.global.SuperClient;
-
-import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
 
@@ -26,43 +23,58 @@ public class PriceUtil {
         unitDao = SuperClient.getDaoSession(context).getUnitDao();
     }
 
-    public double getUnitPrice(Trader trader, Long unitID, Goods goods) {
+    public Double getPrice(Trader trader, Long unitID) {
         if (trader != null && unitID != null) {
             QueryBuilder<TraderPrice> traderPriceQueryBuilder = traderPriceDao.queryBuilder();
-            traderPriceQueryBuilder.where(TraderPriceDao.Properties.TraderID.eq(trader.getTraderID()), TraderPriceDao.Properties.GoodsID.eq(goods.getGoodsID()));
-            List<TraderPrice> traderPrices = traderPriceQueryBuilder.list();
-            if (traderPrices != null && traderPrices.size() > 0) {
-                for (TraderPrice traderPrice : traderPrices) {
-
-                }
-//                return traderPrice.getPrice();
+            traderPriceQueryBuilder.where(TraderPriceDao.Properties.TraderID.eq(trader.getTraderID()), TraderPriceDao.Properties.UnitID.eq(unitID));
+            TraderPrice traderPrice = traderPriceQueryBuilder.unique();
+            if (traderPrice != null) {
+                return traderPrice.getPrice();
             } else {
-                int level = trader.getLev();
+                Integer level = trader.getLev();
                 QueryBuilder<Unit> unitQueryBuilder = unitDao.queryBuilder();
                 unitQueryBuilder.where(UnitDao.Properties.UnitID.eq(unitID));
                 Unit unit = unitQueryBuilder.unique();
 
-                if (level != 0) {
+                if (level != null && level != 0) {
                     switch (level) {
                         case 1:
+                            if (unit.getLPrice1() == null || unit.getLPrice1() == 0)
+                                return unit.getSPrice();
                             return unit.getLPrice1();
                         case 2:
+                            if (unit.getLPrice2() == null || unit.getLPrice2() == 0)
+                                return unit.getSPrice();
+
                             return unit.getLPrice2();
                         case 3:
+                            if (unit.getLPrice3() == null || unit.getLPrice3() == 0)
+                                return unit.getSPrice();
                             return unit.getLPrice3();
                         case 4:
+                            if (unit.getLPrice4() == null || unit.getLPrice4() == 0)
+                                return unit.getSPrice();
                             return unit.getLPrice4();
                         case 5:
+                            if (unit.getLPrice5() == null || unit.getLPrice5() == 0)
+                                return unit.getSPrice();
                             return unit.getLPrice5();
-                        default:
-                            return 0;
-
                     }
                 } else {
                     return unit.getSPrice();
                 }
             }
         }
-        return 0;
+        return (double) 0;
     }
+
+//    public double getSPrice(Unit unit){
+//        if(unit!=null&&unit.getUnitID()!=null){
+//            QueryBuilder<Unit> unitQueryBuilder = unitDao.queryBuilder();
+//            unitQueryBuilder.where(UnitDao.Properties.UnitID.eq(unit.getUnitID()));
+//            Unit unit = unitQueryBuilder.unique();
+//            return unit.getSPrice();
+//        }
+//        return 0;
+//    }
 }

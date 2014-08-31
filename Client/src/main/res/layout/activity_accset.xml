@@ -3,42 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.twisty.superclient.view.AccsetActivity">
+
     <LinearLayout
-        android:background="@android:color/holo_blue_light"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal">
+        android:layout_height="25dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:text="帐套编号"
-            android:textSize="20sp"
             android:id="@+id/accsetCode"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:text="帐套编号"
+            android:textSize="20sp" />
 
         <TextView
-            android:text="帐套名称"
-            android:textSize="20sp"
             android:id="@+id/accsetName"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:text="帐套名称"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <ListView
-        android:layout_below="@id/header"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/listView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_below="@id/header"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-        </ListView>
+    </ListView>
 
 </RelativeLayout>

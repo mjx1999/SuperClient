@@ -16,12 +16,12 @@
 
         <!--<TableRow style="@style/headerRowStyle">-->
 
-            <!--<TextView android:text="仓库编码:" />-->
+        <!--<TextView android:text="仓库编码:" />-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/StoreCode"-->
-                <!--style="@style/headerItemStyle"-->
-                <!--android:background="@drawable/spinner_back" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/StoreCode"-->
+        <!--style="@style/headerItemStyle"-->
+        <!--android:background="@drawable/spinner_back" />-->
         <!--</TableRow>-->
 
         <TableRow style="@style/headerRowStyle">
@@ -39,11 +39,12 @@
             <TextView android:text="货品条码:" />
 
             <EditText
-                android:singleLine="true"
-                android:id="@+id/Barcode"
+                android:id="@+id/BarCode"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background">
-                <requestFocus/>
+                android:background="@android:drawable/editbox_background"
+                android:singleLine="true">
+
+                <requestFocus />
             </EditText>
         </TableRow>
 
@@ -94,8 +95,7 @@
             <EditText
                 android:id="@+id/UnitQuanty"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background"
-                />
+                android:background="@android:drawable/editbox_background" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -105,7 +105,7 @@
             <EditText
                 android:id="@+id/OrigTaxPrice"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background"/>
+                android:background="@android:drawable/editbox_background" />
 
         </TableRow>
 

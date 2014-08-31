@@ -29,11 +29,12 @@
             <TextView android:text="货品条码:" />
 
             <EditText
-                android:singleLine="true"
-                android:id="@+id/Barcode"
+                android:id="@+id/BarCode"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background">
-                <requestFocus/>
+                android:background="@android:drawable/editbox_background"
+                android:singleLine="true">
+
+            <requestFocus/>
             </EditText>
         </TableRow>
 

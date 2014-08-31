@@ -41,7 +41,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
         setContentView(R.layout.activity_transfer_add_goods);
         goodsDao = SuperClient.getDaoSession(this).getGoodsDao();
         unitDao = SuperClient.getDaoSession(this).getUnitDao();
-        Barcode = (EditText) findViewById(R.id.Barcode);
+        Barcode = (EditText) findViewById(R.id.BarCode);
         GoodsCode = (EditText) findViewById(R.id.GoodsCode);
         Quantity = (EditText) findViewById(R.id.Quantity);
         UnitPrice = (EditText) findViewById(R.id.UnitPrice);

@@ -47,7 +47,7 @@ public class SalesOrderAddGoodsActivity extends BaseActivity implements View.OnC
         Spec = (TextView) findViewById(R.id.Spec);
         Unit = (TextView) findViewById(R.id.Unit);
         GoodsCode = (EditText) findViewById(R.id.GoodsCode);
-        BarCode = (EditText) findViewById(R.id.Barcode);
+        BarCode = (EditText) findViewById(R.id.BarCode);
         UnitQuanty = (EditText) findViewById(R.id.UnitQuanty);
         OrigTaxPrice = (EditText) findViewById(R.id.OrigTaxPrice);
         Disc = (EditText) findViewById(R.id.Disc);

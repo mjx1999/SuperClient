@@ -8,19 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.DaoSession;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
-import com.twisty.superclient.bean.Goods;
-import com.twisty.superclient.bean.GoodsDao;
-import com.twisty.superclient.bean.Store;
-import com.twisty.superclient.bean.StoreDao;
-import com.twisty.superclient.bean.Unit;
-import com.twisty.superclient.bean.UnitDao;
-import com.twisty.superclient.global.SuperClient;
 
 import java.util.List;
-
-import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * Created by twisty on 14-8-16.
@@ -28,16 +18,16 @@ import de.greenrobot.dao.query.QueryBuilder;
 public class SalesBillDetailAdapter extends BaseAdapter {
     private List<SalesBillDetail1Data> data;
     private LayoutInflater inflater;
-    private StoreDao storeDao;
-    private GoodsDao goodsDao;
-    private UnitDao unitDao;
+//    private StoreDao storeDao;
+//    private GoodsDao goodsDao;
+//    private UnitDao unitDao;
 
     public SalesBillDetailAdapter(Context context, List<SalesBillDetail1Data> data) {
         this.data = data;
-        DaoSession session = SuperClient.getDaoSession(context);
-        storeDao = session.getStoreDao();
-        goodsDao = session.getGoodsDao();
-        unitDao = session.getUnitDao();
+//        DaoSession session = SuperClient.getDaoSession(context);
+//        storeDao = session.getStoreDao();
+//        goodsDao = session.getGoodsDao();
+//        unitDao = session.getUnitDao();
         inflater = LayoutInflater.from(context);
     }
 
@@ -91,34 +81,12 @@ public class SalesBillDetailAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if(salesBillDetail1Data.getStoreID()!=null){
-            QueryBuilder<Store> storeQueryBuilder = storeDao.queryBuilder();
-            storeQueryBuilder.where(StoreDao.Properties.StoreID.eq(salesBillDetail1Data.getStoreID()));
-            Store store = storeQueryBuilder.unique();
-            if(store!=null){
-                viewHolder.StoreCode.setText(store.getStoreCode());
-                viewHolder.StoreName.setText(store.getStoreName());
-            }
-        }
-        if(salesBillDetail1Data.getGoodsID()!=null){
-            QueryBuilder<Goods> goodsQueryBuilder = goodsDao.queryBuilder();
-            goodsQueryBuilder.where(GoodsDao.Properties.GoodsID.eq(salesBillDetail1Data.getGoodsID()));
-            Goods goods = goodsQueryBuilder.unique();
-            if(goods!=null){
-                viewHolder.GoodsCode.setText(goods.getGoodsCode());
-                viewHolder.GoodsName.setText(goods.getGoodsName());
-                viewHolder.Spec.setText(goods.getSpecs());
-            }
-        }
-
-        if(salesBillDetail1Data.getUnitID()!=null){
-            QueryBuilder<Unit> unitQueryBuilder = unitDao.queryBuilder();
-            unitQueryBuilder.where(UnitDao.Properties.UnitID.eq(salesBillDetail1Data.getUnitID()));
-            Unit unit = unitQueryBuilder.unique();
-            if(unit!=null){
-                viewHolder.Unit.setText(unit.getUnitName());
-            }
-        }
+        viewHolder.StoreCode.setText(salesBillDetail1Data.getStoreCode());
+        viewHolder.StoreName.setText(salesBillDetail1Data.getStoreName());
+        viewHolder.GoodsCode.setText(salesBillDetail1Data.getGoodsCode());
+        viewHolder.GoodsName.setText(salesBillDetail1Data.getGoodsName());
+        viewHolder.Spec.setText(salesBillDetail1Data.getSpecs());
+        viewHolder.Unit.setText(salesBillDetail1Data.getUnitName());
 
         viewHolder.Quantity.setText(salesBillDetail1Data.getQuantity()+"");
         viewHolder.OrigTaxPrice.setText(salesBillDetail1Data.getOrigPrice()+"");
