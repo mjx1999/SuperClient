@@ -89,7 +89,8 @@ public class SalesBillDetailAdapter extends BaseAdapter {
         viewHolder.Unit.setText(salesBillDetail1Data.getUnitName());
 
         viewHolder.Quantity.setText(salesBillDetail1Data.getQuantity()+"");
-        viewHolder.OrigTaxPrice.setText(salesBillDetail1Data.getOrigPrice()+"");
+        viewHolder.OrigTaxPrice.setText(salesBillDetail1Data.getOrigTaxPrice() + "");
+        viewHolder.TaxPrice.setText(salesBillDetail1Data.getTaxPrice() + "");
         viewHolder.Disc.setText(salesBillDetail1Data.getDisc()+"");
         viewHolder.TaxRate.setText(salesBillDetail1Data.getTaxRate()+"");
         viewHolder.UnitPrice.setText(salesBillDetail1Data.getUnitPrice()+"");

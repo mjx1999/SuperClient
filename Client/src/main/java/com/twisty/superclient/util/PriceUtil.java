@@ -39,24 +39,24 @@ public class PriceUtil {
                 if (level != null && level != 0) {
                     switch (level) {
                         case 1:
-                            if (unit.getLPrice1() == null || unit.getLPrice1() == 0)
+                            if (unit.getLPrice1() == null || unit.getLPrice1().compareTo(0D) == 0)
                                 return unit.getSPrice();
                             return unit.getLPrice1();
                         case 2:
-                            if (unit.getLPrice2() == null || unit.getLPrice2() == 0)
+                            if (unit.getLPrice2() == null || unit.getLPrice2().compareTo(0D) == 0)
                                 return unit.getSPrice();
 
                             return unit.getLPrice2();
                         case 3:
-                            if (unit.getLPrice3() == null || unit.getLPrice3() == 0)
+                            if (unit.getLPrice3() == null || unit.getLPrice3().compareTo(0D) == 0)
                                 return unit.getSPrice();
                             return unit.getLPrice3();
                         case 4:
-                            if (unit.getLPrice4() == null || unit.getLPrice4() == 0)
+                            if (unit.getLPrice4() == null || unit.getLPrice4().compareTo(0D) == 0)
                                 return unit.getSPrice();
                             return unit.getLPrice4();
                         case 5:
-                            if (unit.getLPrice5() == null || unit.getLPrice5() == 0)
+                            if (unit.getLPrice5() == null || unit.getLPrice5().compareTo(0D) == 0)
                                 return unit.getSPrice();
                             return unit.getLPrice5();
                     }

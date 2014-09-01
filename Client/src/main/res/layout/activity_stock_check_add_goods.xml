@@ -76,7 +76,8 @@
             <EditText
                 android:id="@+id/AccQty"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -85,8 +86,10 @@
 
             <EditText
                 android:id="@+id/UnitRealQty"
+
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -95,8 +98,10 @@
 
             <EditText
                 android:id="@+id/UnitPrice"
+
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -105,8 +110,10 @@
 
             <EditText
                 android:id="@+id/Amount"
+
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
         </TableRow>
     </TableLayout>
 </ScrollView>

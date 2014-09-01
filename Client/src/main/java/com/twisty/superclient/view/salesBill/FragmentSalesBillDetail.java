@@ -16,6 +16,8 @@ import android.widget.ListView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesBillDetailAdapter;
+import com.twisty.superclient.bean.AMKind;
+import com.twisty.superclient.bean.AMKindDao;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
 import com.twisty.superclient.bean.Trader;
 import com.twisty.superclient.bean.TraderDao;
@@ -80,16 +82,29 @@ public class FragmentSalesBillDetail extends BaseFragment {
             case R.id.add:
                 FragmentSalesBIllHeader fragmentSalesBIllHeader = (FragmentSalesBIllHeader) getFragmentManager().findFragmentByTag("header");
                 Long traderid = fragmentSalesBIllHeader.getSalesBillMasterData().getTraderID();
+                Long noteTypeID = fragmentSalesBIllHeader.getSalesBillMasterData().getNoteTypeID();
                 if (traderid == null) {
                     CommonUtil.showToastError(getActivity(), "请选择客户!", null);
+                    return true;
+                }
+                if (noteTypeID == null) {
+                    CommonUtil.showToastError(getActivity(), "请选择发票类型!", null);
                     return true;
                 }
                 TraderDao traderDao = SuperClient.getDaoSession(getActivity()).getTraderDao();
                 QueryBuilder<Trader> traderQueryBuilder = traderDao.queryBuilder();
                 traderQueryBuilder.where(TraderDao.Properties.TraderID.eq(traderid));
                 Trader trader = traderQueryBuilder.unique();
+
+                AMKindDao amKindDao = SuperClient.getDaoSession(getActivity()).getAMKindDao();
+                QueryBuilder<AMKind> amKindQueryBuilder = amKindDao.queryBuilder();
+                amKindQueryBuilder.where(AMKindDao.Properties.Kind.eq(14), AMKindDao.Properties.ID.eq(noteTypeID));
+                AMKind noteType = amKindQueryBuilder.unique();
+
+
                 Intent intent = new Intent(getActivity(), SalesBillAddGoodsActivity.class);
                 intent.putExtra("Trader", trader);
+                intent.putExtra("NoteType", noteType);
                 startActivityForResult(intent, ADDGOODS);
                 return true;
         }

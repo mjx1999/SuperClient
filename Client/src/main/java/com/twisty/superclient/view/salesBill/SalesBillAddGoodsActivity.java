@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.AMKind;
 import com.twisty.superclient.bean.DaoSession;
 import com.twisty.superclient.bean.Goods;
 import com.twisty.superclient.bean.GoodsDao;
@@ -43,6 +44,7 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
     private UnitDao unitDao;
     private GoodsDao goodsDao;
     private Trader trader;
+    private AMKind noteType;
     private PriceUtil priceUtil;
     private int type;
     private BigDecimal price;
@@ -56,6 +58,7 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
         priceUtil = new PriceUtil(this);
         DaoSession session = SuperClient.getDaoSession(this);
         trader = (Trader) getIntent().getSerializableExtra("Trader");
+        noteType = (AMKind) getIntent().getSerializableExtra("NoteType");
         storeDao = session.getStoreDao();
         unitDao = session.getUnitDao();
         goodsDao = session.getGoodsDao();
@@ -121,7 +124,7 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
                     Unit.setEnabled(false);
                     UnitQuanty.setText("1");
                     UnitQuanty.setSelection(1);
-//                    UnitQuanty.requestFocus();
+                    UnitQuanty.requestFocus();
                 }
             }
         });
@@ -162,19 +165,22 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
 //                return true;
 //            }
 
+            try {
 
-            salesBillDetail1Data.setOrigTaxPrice(Double.valueOf(OrigTaxPrice.getText().toString()));
-            salesBillDetail1Data.setDisc(Double.valueOf(Disc.getText().toString()));
-            salesBillDetail1Data.setTaxPrice(Double.valueOf(TaxRate.getText().toString()));
-            salesBillDetail1Data.setTaxRate(Double.valueOf(TaxRate.getText().toString()));
-            salesBillDetail1Data.setTaxAmt(Double.valueOf(TaxAmt.getText().toString()));
-            salesBillDetail1Data.setUnitPrice(Double.valueOf(UnitPrice.getText().toString()));
-            salesBillDetail1Data.setUnitQuantity(Double.valueOf(UnitQuanty.getText().toString()));
-
-
-            salesBillDetail1Data.setGoodsAmt(calAmount().subtract(new BigDecimal(TaxAmt.getText().toString())).doubleValue());
-            salesBillDetail1Data.setAmount(calAmount().doubleValue());
-            salesBillDetail1Data.setQuantity(Double.valueOf(UnitQuanty.getText().toString()) * salesBillDetail1Data.getUnitRate());
+                salesBillDetail1Data.setOrigTaxPrice(Double.valueOf(OrigTaxPrice.getText().toString()));
+                salesBillDetail1Data.setDisc(Double.valueOf(Disc.getText().toString()));
+                salesBillDetail1Data.setTaxPrice(Double.valueOf(TaxPrice.getText().toString()));
+                salesBillDetail1Data.setTaxRate(Double.valueOf(TaxRate.getText().toString()));
+                salesBillDetail1Data.setTaxAmt(Double.valueOf(TaxAmt.getText().toString()));
+                salesBillDetail1Data.setUnitPrice(Double.valueOf(UnitPrice.getText().toString()));
+                salesBillDetail1Data.setUnitQuantity(Double.valueOf(UnitQuanty.getText().toString()));
+                salesBillDetail1Data.setGoodsAmt(calAmount().subtract(new BigDecimal(TaxAmt.getText().toString())).doubleValue());
+                salesBillDetail1Data.setAmount(calAmount().doubleValue());
+                salesBillDetail1Data.setQuantity(Double.valueOf(UnitQuanty.getText().toString()) * salesBillDetail1Data.getUnitRate());
+            } catch (NumberFormatException nfe) {
+                CommonUtil.showToastError(this, "数据格式不正确,请确认!", null);
+                return true;
+            }
             if (type == FragmentSalesBillDetail.UPDATAGOODS) {
 
 
@@ -260,33 +266,26 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
                                         salesBillDetail1Data.setBarCode(unit.getBarCode());
                                         UnitQuanty.setText("1");
                                         UnitQuanty.setSelection(1);
-////                                        UnitQuanty.requestFocus();
-                                        TaxRate.setText(17 + "");
+                                        UnitQuanty.requestFocus();
+                                        TaxRate.setText(getTaxRateByNoteType(noteType) + "");
 
                                         price = new BigDecimal(priceUtil.getPrice(trader, unit.getUnitID()) + "");//不含税价/业务单价
                                         UnitPrice.setText(price.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                                         BigDecimal sprice = new BigDecimal(unit.getSPrice() + "");//参考价
 
                                         salesBillDetail1Data.setUnitPrice(sprice.doubleValue());
-                                        BigDecimal disc = new BigDecimal(100 + "");
+                                        BigDecimal disc = new BigDecimal(1 + "");
                                         if (sprice.compareTo(new BigDecimal(0 + "")) != 0) {
                                             disc = price.divide(sprice, 8, BigDecimal.ROUND_HALF_UP);//折扣
                                         }
                                         Disc.setText(disc.multiply(new BigDecimal(100 + "")).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-//                                        BigDecimal origTaxPrice = price.multiply(new BigDecimal(TaxRate.getText().toString()).multiply(new BigDecimal(100+"")));
-                                        BigDecimal origTaxPrice = price.multiply(new BigDecimal(1 + "").add(new BigDecimal(TaxRate.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP)));
-//
-//                                        Double origtp = price*(1+(Double.valueOf(TaxRate.getText().toString())/100));//原始含税价
+                                        BigDecimal origTaxPrice = calOrignPrice();
                                         OrigTaxPrice.setText(origTaxPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-                                        BigDecimal taxPrice = origTaxPrice.multiply(disc);
-//                                        Double taxPrice = origtp*disc;//折后含税价
-                                        TaxPrice.setText(taxPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-//                                        TaxPrice.setText(df.format(taxPrice));
-//
-//                                        Double taxAmt = calTaxAmt(price);//Round( 含税价 * 数量 * (税率/100.0) ,2)//税额
+//                                        BigDecimal taxPrice = origTaxPrice.multiply(disc);
+                                        TaxPrice.setText(calTaxPrice().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                                         BigDecimal taxAmt = calTaxAmt();
                                         TaxAmt.setText(taxAmt.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
-//
+                                        Amount.setText(calAmount().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                                     }
 
 
@@ -316,7 +315,41 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
                             Goods goods = goodsQueryBuilder.unique();
                             if (goods != null) {
                                 salesBillDetail1Data.setGoodsID(goods.getGoodsID());
+                                salesBillDetail1Data.setGoodsName(goods.getGoodsName());
+                                salesBillDetail1Data.setGoodsCode(goods.getGoodsCode());
+                                salesBillDetail1Data.setSpecs(goods.getSpecs());
                                 salesBillDetail1Data.setUnitID(unit.getUnitID());
+                                salesBillDetail1Data.setUnitRate(unit.getRate().doubleValue());
+                                salesBillDetail1Data.setUnitName(unit.getUnitName());
+                                salesBillDetail1Data.setUnitPrice(priceUtil.getPrice(trader, unit.getUnitID()));
+
+
+                                UnitQuanty.setText("1");
+                                UnitQuanty.setSelection(1);
+////                                        UnitQuanty.requestFocus();
+                                TaxRate.setText(getTaxRateByNoteType(noteType) + "");
+
+                                price = new BigDecimal(priceUtil.getPrice(trader, unit.getUnitID()) + "");//不含税价/业务单价
+                                UnitPrice.setText(price.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                                BigDecimal sprice = new BigDecimal(unit.getSPrice() + "");//参考价
+
+                                salesBillDetail1Data.setUnitPrice(sprice.doubleValue());
+                                BigDecimal disc = new BigDecimal(1 + "");
+                                if (sprice.compareTo(new BigDecimal(0 + "")) != 0) {
+                                    disc = price.divide(sprice, 8, BigDecimal.ROUND_HALF_UP);//折扣
+                                }
+                                Disc.setText(disc.multiply(new BigDecimal(100 + "")).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                                BigDecimal origTaxPrice = calOrignPrice();
+                                OrigTaxPrice.setText(origTaxPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+//                                        BigDecimal taxPrice = origTaxPrice.multiply(disc);
+                                TaxPrice.setText(calTaxPrice().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                                BigDecimal taxAmt = calTaxAmt();
+                                TaxAmt.setText(taxAmt.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                                Amount.setText(calAmount().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+
+
+
+
                                 GoodsCode.setText(goods.getGoodsCode());
                                 GoodsName.setText(goods.getGoodsName());
                                 Spec.setText(goods.getSpecs());
@@ -348,27 +381,93 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
                 //TODO 1
                 break;
             case R.id.OrigTaxPrice:
-                //TODO 2
+                UnitPrice.setText(calUnitPrice().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+//                OrigTaxPrice.setText(calOrignPrice().setScale(2,BigDecimal.ROUND_HALF_UP).toString());
+                TaxPrice.setText(calTaxPrice().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                TaxAmt.setText(calTaxAmt().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                Amount.setText(calAmount().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                 break;
             case R.id.UnitPrice:
-                //TODO 3
+                OrigTaxPrice.setText(calOrignPrice().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                TaxPrice.setText(calTaxPrice().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                TaxAmt.setText(calTaxAmt().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                Amount.setText(calAmount().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                 break;
         }
     }
 
     //
     private BigDecimal calAmount() {
-        return new BigDecimal(UnitQuanty.getText().toString()).multiply(new BigDecimal(TaxPrice.getText().toString()));
+        try {
+            return new BigDecimal(UnitQuanty.getText().toString()).multiply(new BigDecimal(TaxPrice.getText().toString()));
+        } catch (NumberFormatException nfe) {
+            return new BigDecimal(0);
+        }
     }
 
-    private BigDecimal calTaxAmt() {
-        return price
-                .multiply(new BigDecimal(UnitQuanty.getText().toString()))
-                .multiply(new BigDecimal(Disc.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP))
-                .multiply(new BigDecimal(TaxRate.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP));
+    private BigDecimal calTaxAmt() throws NumberFormatException {
+        try {
+
+            return price
+                    .multiply(new BigDecimal(UnitQuanty.getText().toString()))
+                    .multiply(new BigDecimal(Disc.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP))
+                    .multiply(new BigDecimal(TaxRate.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP));
+        } catch (NumberFormatException nfe) {
+            return new BigDecimal(0);
+        }
     }
 
-    private BigDecimal calTaxPrice() {
-        return price.multiply(new BigDecimal(Disc.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(1 + "").add((new BigDecimal(TaxRate.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP))));
+    private BigDecimal calTaxPrice() throws NumberFormatException {
+        try {
+
+            return price
+                    .multiply(new BigDecimal(Disc.getText().toString()).divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP))
+                    .multiply(
+                            new BigDecimal(1 + "").add((new BigDecimal(TaxRate.getText().toString())
+                                    .divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP))));
+        } catch (NumberFormatException nfe) {
+            return new BigDecimal(0);
+        }
+    }
+
+    private BigDecimal calOrignPrice() throws NumberFormatException {
+        try {
+
+            return price
+                    .multiply(
+                            new BigDecimal(1 + "")
+                                    .add(new BigDecimal(TaxRate.getText().toString())
+                                            .divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP)));
+        } catch (NumberFormatException nfe) {
+            return new BigDecimal(0);
+        }
+    }
+
+    private BigDecimal calUnitPrice() throws NumberFormatException {
+        try {
+
+            price = new BigDecimal(OrigTaxPrice.getText().toString())
+                    .divide(
+                            new BigDecimal(1 + "")
+                                    .add(new BigDecimal(TaxRate.getText().toString())
+                                            .divide(new BigDecimal(100 + ""), 8, BigDecimal.ROUND_HALF_UP)), 8, BigDecimal.ROUND_HALF_UP);
+            return price;
+        } catch (NumberFormatException nfe) {
+            return new BigDecimal(0);
+        }
+    }
+
+    private Integer getTaxRateByNoteType(AMKind noteType) {
+        if (noteType != null) {
+            Long noteTypeID = noteType.getID();
+            if (noteTypeID == 1) {
+                return 0;
+            } else if (noteTypeID == 2) {
+                return 6;
+            } else if (noteTypeID == 3) {
+                return 17;
+            }
+        }
+        return 0;
     }
 }

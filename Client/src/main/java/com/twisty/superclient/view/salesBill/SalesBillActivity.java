@@ -280,7 +280,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         log.i(tab.getText());
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
         if (tab.getText().equals("明细")) {
             ft.hide(fragmentSalesBIllHeader);
             ft.show(fragmentSalesBillDetail);

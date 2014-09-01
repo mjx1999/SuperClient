@@ -86,38 +86,8 @@
                 android:id="@+id/UnitQuanty"
                 style="@style/headerItemStyle"
                 android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal"
                 />
-        </TableRow>
-
-        <TableRow style="@style/headerRowStyle">
-
-            <TextView android:text="原始单价(含税):" />
-
-            <EditText
-                android:id="@+id/OrigTaxPrice"
-                style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background"/>
-
-        </TableRow>
-
-        <TableRow style="@style/headerRowStyle">
-
-            <TextView android:text="折扣率:" />
-
-            <EditText
-                android:id="@+id/Disc"
-                style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
-        </TableRow>
-
-        <TableRow style="@style/headerRowStyle">
-
-            <TextView android:text="含税单价:" />
-
-            <EditText
-                android:id="@+id/TaxPrice"
-                style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -127,9 +97,9 @@
             <EditText
                 android:id="@+id/UnitPrice"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
         </TableRow>
-
 
         <TableRow style="@style/headerRowStyle">
 
@@ -138,8 +108,50 @@
             <EditText
                 android:id="@+id/TaxRate"
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="number" />
         </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="原始单价(含税):" />
+
+            <EditText
+                android:id="@+id/OrigTaxPrice"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
+
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="折扣率:" />
+
+            <EditText
+                android:id="@+id/Disc"
+
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
+        </TableRow>
+
+        <TableRow style="@style/headerRowStyle">
+
+            <TextView android:text="含税单价:" />
+
+            <EditText
+                android:id="@+id/TaxPrice"
+
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
+        </TableRow>
+
+
+
+
+
 
         <TableRow style="@style/headerRowStyle">
 
@@ -147,8 +159,10 @@
 
             <EditText
                 android:id="@+id/TaxAmt"
+
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
         </TableRow>
 
         <TableRow style="@style/headerRowStyle">
@@ -157,8 +171,10 @@
 
             <EditText
                 android:id="@+id/Amount"
+
                 style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:inputType="numberDecimal" />
         </TableRow>
     </TableLayout>
 </ScrollView>
