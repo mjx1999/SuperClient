@@ -128,6 +128,7 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                     public void onItemClick(Account account) {
                         Account.setText(account.getAccountName());
                         salesBillMasterData.setAccountID(account.getAccountID());
+                        salesBillMasterData.setAccountName(account.getAccountName());
                     }
                 });
                 accountPop.showPopupWindow(view);
@@ -142,6 +143,7 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                     public void onItemClick(AMKind amKind) {
                         NoteType.setText(amKind.getName());
                         salesBillMasterData.setNoteTypeID(amKind.getID());
+                        salesBillMasterData.setNoteTypeName(amKind.getName());
                     }
                 });
                 amKindPop.showPopupWindow(view);
@@ -153,6 +155,8 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                     public void onItemClick(PayMethod payMethod) {
                         PayMethod.setText(payMethod.getPaymethodName());
                         salesBillMasterData.setPayMethodID(payMethod.getPayMethodID());
+                        salesBillMasterData.setPaymethodName(payMethod.getPaymethodName());
+                        salesBillMasterData.setPaymethodCode(payMethod.getPaymethodCode());
                     }
                 });
                 payMethodPop.showPopupWindow(view);
@@ -167,6 +171,7 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                     public void onItemClick(AMKind amKind) {
                         BillKind.setText(amKind.getName());
                         salesBillMasterData.setBillKind(amKind.getID().intValue());
+                        salesBillMasterData.setBillKindName(amKind.getKindName());
                     }
                 });
                 billKindPop.showPopupWindow(view);
@@ -199,75 +204,83 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
             this.salesBillMasterData = salesBillMasterData;
             BillCode.setText(salesBillMasterData.getBillCode());
             BillDate.setText(salesBillMasterData.getBillDate());
-            if (salesBillMasterData.getTraderID() != null) {
+//            if (salesBillMasterData.getTraderID() != null) {
+//
+//                QueryBuilder<Trader> traderQueryBuilder = traderDao.queryBuilder();
+//                traderQueryBuilder.where(TraderDao.Properties.TraderID.eq(salesBillMasterData.getTraderID()));
+//                Trader trader = traderQueryBuilder.unique();
+//                if (trader != null) {
+//                    TraderName.setText(trader.getTraderName());
+//                    ContactPhone.setText(trader.getTel1());
+//                    BillTo.setText(trader.getShipTo());
+//                } else {
+//                    TraderName.setText("");
+//                    ContactPhone.setText("");
+//                    BillTo.setText("");
+//                }
+//            } else {
+//                TraderName.setText("");
+//                ContactPhone.setText("");
+//                BillTo.setText("");
+//            }
 
-                QueryBuilder<Trader> traderQueryBuilder = traderDao.queryBuilder();
-                traderQueryBuilder.where(TraderDao.Properties.TraderID.eq(salesBillMasterData.getTraderID()));
-                Trader trader = traderQueryBuilder.unique();
-                if (trader != null) {
-                    TraderName.setText(trader.getTraderName());
-                    ContactPhone.setText(trader.getTel1());
-                    BillTo.setText(trader.getShipTo());
-                } else {
-                    TraderName.setText("");
-                    ContactPhone.setText("");
-                    BillTo.setText("");
-                }
-            } else {
-                TraderName.setText("");
-                ContactPhone.setText("");
-                BillTo.setText("");
-            }
-            if (salesBillMasterData.getPayMethodID() != null) {
-                QueryBuilder<PayMethod> payMethodQueryBuilder = payMethodDao.queryBuilder();
-                payMethodQueryBuilder.where(PayMethodDao.Properties.PayMethodID.eq(salesBillMasterData.getPayMethodID()));
-                PayMethod payMethod = payMethodQueryBuilder.unique();
-                if (payMethod != null) {
-                    PayMethod.setText(payMethod.getPaymethodName());
-                } else {
-                    PayMethod.setText("");
-                }
-            } else {
-                PayMethod.setText("");
-            }
-            if (salesBillMasterData.getPayAmt() != null)
-                PayAmt.setText(salesBillMasterData.getPayAmt().toString());
-            if (salesBillMasterData.getAccountID() != null) {
-                QueryBuilder<Account> accountQueryBuilder = accountDao.queryBuilder();
-                accountQueryBuilder.where(AccountDao.Properties.AccountID.eq(salesBillMasterData.getAccountID()));
-                Account account = accountQueryBuilder.unique();
-                if (account != null) {
-                    Account.setText(account.getAccountName());
-                } else {
-                    Account.setText("");
-                }
-            } else {
-                Account.setText("");
-            }
-            if (salesBillMasterData.getNoteTypeID() != null) {
-                QueryBuilder<AMKind> queryBuilder = amKindDao.queryBuilder();
-                queryBuilder.where(AMKindDao.Properties.Kind.eq(14), AMKindDao.Properties.ID.eq(salesBillMasterData.getNoteTypeID()));
-                AMKind amKind = queryBuilder.unique();
-                if (amKind != null) {
-                    NoteType.setText(amKind.getName());
-                } else {
-                    NoteType.setText("");
-                }
-            } else {
-                NoteType.setText("");
-            }
-            if (salesBillMasterData.getEmpID() != null) {
-                QueryBuilder<Employee> employeeQueryBuilder = employeeDao.queryBuilder();
-                employeeQueryBuilder.where(EmployeeDao.Properties.EmpID.eq(salesBillMasterData.getEmpID()));
-                Employee employee = employeeQueryBuilder.unique();
-                if (employee != null) {
-                    EmpName.setText(employee.getEmpName());
-                } else {
-                    EmpName.setText("");
-                }
-            } else {
-                EmpName.setText("");
-            }
+            TraderName.setText(salesBillMasterData.getTraderName());
+            ContactPhone.setText(salesBillMasterData.getContactPhone());
+            BillTo.setText(salesBillMasterData.getBillTo());
+
+//
+//            if (salesBillMasterData.getPayMethodID() != null) {
+//                QueryBuilder<PayMethod> payMethodQueryBuilder = payMethodDao.queryBuilder();
+//                payMethodQueryBuilder.where(PayMethodDao.Properties.PayMethodID.eq(salesBillMasterData.getPayMethodID()));
+//                PayMethod payMethod = payMethodQueryBuilder.unique();
+//                if (payMethod != null) {
+//                    PayMethod.setText(payMethod.getPaymethodName());
+//                } else {
+//                    PayMethod.setText("");
+//                }
+//            } else {
+//            }
+            PayMethod.setText(salesBillMasterData.getPaymethodName());
+            PayAmt.setText(salesBillMasterData.getPayAmt() + "");
+            Account.setText(salesBillMasterData.getAccountName());
+
+//            if (salesBillMasterData.getAccountID() != null) {
+//                QueryBuilder<Account> accountQueryBuilder = accountDao.queryBuilder();
+//                accountQueryBuilder.where(AccountDao.Properties.AccountID.eq(salesBillMasterData.getAccountID()));
+//                Account account = accountQueryBuilder.unique();
+//                if (account != null) {
+//                } else {
+//                    Account.setText("");
+//                }
+//            } else {
+//                Account.setText("");
+//            }
+//            if (salesBillMasterData.getNoteTypeID() != null) {
+//                QueryBuilder<AMKind> queryBuilder = amKindDao.queryBuilder();
+//                queryBuilder.where(AMKindDao.Properties.Kind.eq(14), AMKindDao.Properties.ID.eq(salesBillMasterData.getNoteTypeID()));
+//                AMKind amKind = queryBuilder.unique();
+//                if (amKind != null) {
+//                    NoteType.setText(amKind.getName());
+//                } else {
+//                    NoteType.setText("");
+//                }
+//            } else {
+//            }
+            NoteType.setText(salesBillMasterData.getNoteTypeName());
+            EmpName.setText(salesBillMasterData.getEmpName());
+            BillKind.setText(salesBillMasterData.getBillKindName());
+//            if (salesBillMasterData.getEmpID() != null) {
+//                QueryBuilder<Employee> employeeQueryBuilder = employeeDao.queryBuilder();
+//                employeeQueryBuilder.where(EmployeeDao.Properties.EmpID.eq(salesBillMasterData.getEmpID()));
+//                Employee employee = employeeQueryBuilder.unique();
+//                if (employee != null) {
+//                    EmpName.setText(employee.getEmpName());
+//                } else {
+//                    EmpName.setText("");
+//                }
+//            } else {
+//                EmpName.setText("");
+//            }
         } else {
             this.salesBillMasterData = new SalesBillMasterData();
             String billCode = "SS-" + SuperClient.getDefaultStoreCode() + "-" + dateTime.toString("YYYYMMdd-HHmmss");
@@ -295,6 +308,8 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                 Trader trader = (Trader) data.getSerializableExtra("Data");
                 TraderName.setText(trader.getTraderName());
                 salesBillMasterData.setTraderID(trader.getTraderID());
+                salesBillMasterData.setTraderCode(trader.getTraderCode());
+                salesBillMasterData.setTraderName(trader.getTraderName());
                 ContactPhone.setText(trader.getTel1());
                 BillTo.setText(trader.getShipTo());
             }
@@ -303,6 +318,8 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                 Employee employee = (Employee) data.getSerializableExtra("Data");
                 EmpName.setText(employee.getEmpName());
                 salesBillMasterData.setEmpID(employee.getEmpID());
+                salesBillMasterData.setEmpCode(employee.getEmpCode());
+                salesBillMasterData.setEmpName(employee.getEmpName());
             }
         }
     }

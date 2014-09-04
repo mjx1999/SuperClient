@@ -7,6 +7,8 @@ package com.twisty.superclient.bean;
  */
 public class SalesBillDetail1Data implements java.io.Serializable {
 
+    private Long id;
+    private Long MasterID;
     private Long BillID;
     private Integer ItemNO;
     private Double APrice;
@@ -56,7 +58,13 @@ public class SalesBillDetail1Data implements java.io.Serializable {
     public SalesBillDetail1Data() {
     }
 
-    public SalesBillDetail1Data(Long BillID, Integer ItemNO, Double APrice, Double Amount, Long BReferID, Double Disc, Double DiscAmt, Double ReferQty, Double IOQty, Long GoodsID, Double GoodsAmt, Integer IsLargess, Double OrigPrice, Double OrigTaxPrice, Double Quantity, String ReferBillCode, String UnitName, String StoreCode, String Specs, String StoreName, String GoodsName, String GoodsCode, String BarCode, String ShortName, Long ReferBillID, Integer ReferBillType, Integer ReferItemNo, Long StoreID, Double TaxAmt, Double TaxPrice, Double TaxRate, Long UnitID, Double UnitPrice, Double UnitQuantity, Double UnitRate, String UserDef1, String UserDef2, String UserDef3, String UserDef4, String UserDef5, String UserDef6, String UserDef7, String UserDef8, String UserDef9, String UserDef10) {
+    public SalesBillDetail1Data(Long id) {
+        this.id = id;
+    }
+
+    public SalesBillDetail1Data(Long id, Long MasterID, Long BillID, Integer ItemNO, Double APrice, Double Amount, Long BReferID, Double Disc, Double DiscAmt, Double ReferQty, Double IOQty, Long GoodsID, Double GoodsAmt, Integer IsLargess, Double OrigPrice, Double OrigTaxPrice, Double Quantity, String ReferBillCode, String UnitName, String StoreCode, String Specs, String StoreName, String GoodsName, String GoodsCode, String BarCode, String ShortName, Long ReferBillID, Integer ReferBillType, Integer ReferItemNo, Long StoreID, Double TaxAmt, Double TaxPrice, Double TaxRate, Long UnitID, Double UnitPrice, Double UnitQuantity, Double UnitRate, String UserDef1, String UserDef2, String UserDef3, String UserDef4, String UserDef5, String UserDef6, String UserDef7, String UserDef8, String UserDef9, String UserDef10) {
+        this.id = id;
+        this.MasterID = MasterID;
         this.BillID = BillID;
         this.ItemNO = ItemNO;
         this.APrice = APrice;
@@ -102,6 +110,22 @@ public class SalesBillDetail1Data implements java.io.Serializable {
         this.UserDef8 = UserDef8;
         this.UserDef9 = UserDef9;
         this.UserDef10 = UserDef10;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getMasterID() {
+        return MasterID;
+    }
+
+    public void setMasterID(Long MasterID) {
+        this.MasterID = MasterID;
     }
 
     public Long getBillID() {

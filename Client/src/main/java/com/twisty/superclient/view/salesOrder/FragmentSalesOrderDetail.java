@@ -18,10 +18,15 @@ import android.widget.ListView;
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesOrderDetailAdapter;
 import com.twisty.superclient.bean.SalesOrderDetail1Data;
+import com.twisty.superclient.bean.Trader;
+import com.twisty.superclient.bean.TraderDao;
+import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseFragment;
 
 import java.util.ArrayList;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class FragmentSalesOrderDetail extends BaseFragment {
 
@@ -32,6 +37,7 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     private Double amount;
     private SalesOrderDetail1Data currentDetail;
     private int currentItemNo;
+
     public FragmentSalesOrderDetail() {
     }
 
@@ -77,13 +83,24 @@ public class FragmentSalesOrderDetail extends BaseFragment {
         int itemID = item.getItemId();
         switch (itemID) {
             case R.id.add:
+                Intent intent = new Intent(getActivity(), SalesOrderAddGoodsActivity.class);
                 FragmentSalesOrderHeader fragmentSalesBIllHeader = (FragmentSalesOrderHeader) getFragmentManager().findFragmentByTag("header");
                 Long traderid = fragmentSalesBIllHeader.getMasterData().getTraderId();
                 if (traderid == null) {
                     CommonUtil.showToastError(getActivity(), "请选择客户!", null);
                     return true;
                 }
-                Intent intent = new Intent(getActivity(), SalesOrderAddGoodsActivity.class);
+                TraderDao traderDao = SuperClient.getDaoSession(getActivity()).getTraderDao();
+                QueryBuilder<Trader> traderQueryBuilder = traderDao.queryBuilder();
+                traderQueryBuilder.where(TraderDao.Properties.TraderID.eq(traderid));
+                Trader trader = traderQueryBuilder.unique();
+                intent.putExtra("Trader", trader);
+//                AMKindDao amKindDao = SuperClient.getDaoSession(getActivity()).getAMKindDao();
+//                QueryBuilder<AMKind> amKindQueryBuilder = amKindDao.queryBuilder();
+//                amKindQueryBuilder.where(AMKindDao.Properties.Kind.eq(14), AMKindDao.Properties.ID.eq(noteTypeID));
+//                AMKind noteType = amKindQueryBuilder.unique();
+//                intent.putExtra("NoteType", noteType);
+
                 startActivityForResult(intent, ADDGOODS);
                 return true;
         }
@@ -93,7 +110,7 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_sales_order_detail, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
         return view;
     }
@@ -124,6 +141,7 @@ public class FragmentSalesOrderDetail extends BaseFragment {
             }
         });
     }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getTitle().equals("删除")) {

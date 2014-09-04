@@ -8,19 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.DaoSession;
-import com.twisty.superclient.bean.Goods;
-import com.twisty.superclient.bean.GoodsDao;
 import com.twisty.superclient.bean.SalesOrderDetail1Data;
-import com.twisty.superclient.bean.StoreDao;
-import com.twisty.superclient.bean.Unit;
-import com.twisty.superclient.bean.UnitDao;
-import com.twisty.superclient.global.SuperClient;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * Created by twisty on 14-8-16.
@@ -28,16 +19,16 @@ import de.greenrobot.dao.query.QueryBuilder;
 public class SalesOrderDetailAdapter extends BaseAdapter {
     private List<SalesOrderDetail1Data> data;
     private LayoutInflater inflater;
-    private StoreDao storeDao;
-    private GoodsDao goodsDao;
-    private UnitDao unitDao;
+//    private StoreDao storeDao;
+//    private GoodsDao goodsDao;
+//    private UnitDao unitDao;
 
     public SalesOrderDetailAdapter(Context context, ArrayList<SalesOrderDetail1Data> data) {
         this.data = data;
-        DaoSession session = SuperClient.getDaoSession(context);
-        storeDao = session.getStoreDao();
-        goodsDao = session.getGoodsDao();
-        unitDao = session.getUnitDao();
+//        DaoSession session = SuperClient.getDaoSession(context);
+//        storeDao = session.getStoreDao();
+//        goodsDao = session.getGoodsDao();
+//        unitDao = session.getUnitDao();
         inflater = LayoutInflater.from(context);
     }
 
@@ -63,13 +54,13 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return data.get(position).getBillID()==null?-1:data.get(position).getBillID();
+        return data.get(position).getBillID() == null ? -1 : data.get(position).getBillID();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        SalesOrderDetail1Data salesBillDetail1Data = data.get(position);
+        SalesOrderDetail1Data salesOrderDetail1Data = data.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.sales_order_detail_item, null);
@@ -100,34 +91,37 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
 //                viewHolder.StoreName.setText(store.getStoreName());
 //            }
 //        }
-        if(salesBillDetail1Data.getGoodsID()!=null){
-            QueryBuilder<Goods> goodsQueryBuilder = goodsDao.queryBuilder();
-            goodsQueryBuilder.where(GoodsDao.Properties.GoodsID.eq(salesBillDetail1Data.getGoodsID()));
-            Goods goods = goodsQueryBuilder.unique();
-            if(goods!=null){
-                viewHolder.GoodsCode.setText(goods.getGoodsCode());
-                viewHolder.GoodsName.setText(goods.getGoodsName());
-                viewHolder.Spec.setText(goods.getSpecs());
-            }
-        }
+//        if(salesOrderDetail1Data.getGoodsID()!=null){
+//            QueryBuilder<Goods> goodsQueryBuilder = goodsDao.queryBuilder();
+//            goodsQueryBuilder.where(GoodsDao.Properties.GoodsID.eq(salesOrderDetail1Data.getGoodsID()));
+//            Goods goods = goodsQueryBuilder.unique();
+//            if(goods!=null){
+//                viewHolder.GoodsCode.setText(goods.getGoodsCode());
+//                viewHolder.GoodsName.setText(goods.getGoodsName());
+//                viewHolder.Spec.setText(goods.getSpecs());
+//            }
+//        }
+        viewHolder.GoodsCode.setText(salesOrderDetail1Data.getGoodsCode());
+        viewHolder.GoodsName.setText(salesOrderDetail1Data.getGoodsName());
+        viewHolder.Spec.setText(salesOrderDetail1Data.getSpecs());
+//        if(salesOrderDetail1Data.getUnitID()!=null){
+//            QueryBuilder<Unit> unitQueryBuilder = unitDao.queryBuilder();
+//            unitQueryBuilder.where(UnitDao.Properties.UnitID.eq(salesOrderDetail1Data.getUnitID()));
+//            Unit unit = unitQueryBuilder.unique();
+//            if(unit!=null){
+//            }
+//        }
+        viewHolder.Unit.setText(salesOrderDetail1Data.getUnitName());
 
-        if(salesBillDetail1Data.getUnitID()!=null){
-            QueryBuilder<Unit> unitQueryBuilder = unitDao.queryBuilder();
-            unitQueryBuilder.where(UnitDao.Properties.UnitID.eq(salesBillDetail1Data.getUnitID()));
-            Unit unit = unitQueryBuilder.unique();
-            if(unit!=null){
-                viewHolder.Unit.setText(unit.getUnitName());
-            }
-        }
-
-        viewHolder.Quantity.setText(salesBillDetail1Data.getQuantity()+"");
-        viewHolder.OrigTaxPrice.setText(salesBillDetail1Data.getOrigPrice()+"");
-        viewHolder.Disc.setText(salesBillDetail1Data.getDisc()+"");
-        viewHolder.TaxRate.setText(salesBillDetail1Data.getTaxRate()+"");
-        viewHolder.UnitPrice.setText(salesBillDetail1Data.getUnitPrice()+"");
-        viewHolder.TaxRate.setText(salesBillDetail1Data.getTaxRate()+"");
-        viewHolder.TaxAmt.setText(salesBillDetail1Data.getTaxAmt()+"");
-        viewHolder.Amount.setText(salesBillDetail1Data.getAmount()+"");
+        viewHolder.Quantity.setText(salesOrderDetail1Data.getQuantity() + "");
+        viewHolder.OrigTaxPrice.setText(salesOrderDetail1Data.getOrigTaxPrice() + "");
+        viewHolder.TaxPrice.setText(salesOrderDetail1Data.getTaxPrice() + "");
+        viewHolder.Disc.setText(salesOrderDetail1Data.getDisc() + "");
+        viewHolder.TaxRate.setText(salesOrderDetail1Data.getTaxRate() + "");
+        viewHolder.UnitPrice.setText(salesOrderDetail1Data.getUnitPrice() + "");
+        viewHolder.TaxRate.setText(salesOrderDetail1Data.getTaxRate() + "");
+        viewHolder.TaxAmt.setText(salesOrderDetail1Data.getTaxAmt() + "");
+        viewHolder.Amount.setText(salesOrderDetail1Data.getAmount() + "");
 
         return convertView;
     }
@@ -137,7 +131,7 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
                 GoodsCode, GoodsName,
                 Spec, Unit,
 
-                Quantity,
+        Quantity,
                 OrigTaxPrice, Disc,
                 TaxPrice, UnitPrice,
                 TaxRate, TaxAmt, Amount;

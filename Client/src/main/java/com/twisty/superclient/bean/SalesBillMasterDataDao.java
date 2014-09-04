@@ -13,19 +13,20 @@ import de.greenrobot.dao.internal.DaoConfig;
 /**
  * DAO for table SALES_BILL_MASTER_DATA.
  */
-public class SalesBillMasterDataDao extends AbstractDao<SalesBillMasterData, Void> {
+public class SalesBillMasterDataDao extends AbstractDao<SalesBillMasterData, Long> {
 
     public static final String TABLENAME = "SALES_BILL_MASTER_DATA";
+    private DaoSession daoSession;
+    ;
 
     public SalesBillMasterDataDao(DaoConfig config) {
         super(config);
     }
 
-    ;
-
 
     public SalesBillMasterDataDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /**
@@ -34,61 +35,64 @@ public class SalesBillMasterDataDao extends AbstractDao<SalesBillMasterData, Voi
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists ? "IF NOT EXISTS " : "";
         db.execSQL("CREATE TABLE " + constraint + "'SALES_BILL_MASTER_DATA' (" + //
-                "'BILL_ID' INTEGER," + // 0: BillID
-                "'CHECKOR_ID' INTEGER," + // 1: CheckorID
-                "'BILL_KIND' INTEGER," + // 2: BillKind
-                "'BILL_STATE' INTEGER," + // 3: BillState
-                "'IS_CASH_TRADER' INTEGER," + // 4: IsCashTrader
-                "'BILL_CODE' TEXT," + // 5: BillCode
-                "'CHECKOR' TEXT," + // 6: Checkor
-                "'TRADER_CODE' TEXT," + // 7: TraderCode
-                "'TRADER_NAME' TEXT," + // 8: TraderName
-                "'DEPARTMENT_CODE' TEXT," + // 9: DepartmentCode
-                "'PAYMETHOD_CODE' TEXT," + // 10: PaymethodCode
-                "'PAYMETHOD_NAME' TEXT," + // 11: PaymethodName
-                "'SHIP_TYPE_NAME' TEXT," + // 12: ShipTypeName
-                "'NOTE_TYPE_NAME' TEXT," + // 13: NoteTypeName
-                "'EMP_NAME' TEXT," + // 14: EmpName
-                "'EMP_CODE' TEXT," + // 15: EmpCode
-                "'DEPARTMENT_NAME' TEXT," + // 16: DepartmentName
-                "'BILL_DATE' TEXT," + // 17: BillDate
-                "'BILL_KIND_NAME' TEXT," + // 18: BillKindName
-                "'OP_NAME' TEXT," + // 19: OpName
-                "'BILL_STATE_NAME' TEXT," + // 20: BillStateName
-                "'BILL_TO' TEXT," + // 21: BillTo
-                "'ACCOUNT_ID' INTEGER," + // 22: AccountID
-                "'AMOUNT' REAL," + // 23: Amount
-                "'REMARK' TEXT," + // 24: Remark
-                "'REFER_AMT' REAL," + // 25: ReferAmt
-                "'INVOICE_AMT' REAL," + // 26: InvoiceAmt
-                "'CHECK_NO' TEXT," + // 27: CheckNo
-                "'ACCOUNT_NAME' TEXT," + // 28: AccountName
-                "'CONTACT_FAX' TEXT," + // 29: ContactFax
-                "'CONTACT_PHONE' TEXT," + // 30: ContactPhone
-                "'DEPARTMENT_ID' INTEGER," + // 31: DepartmentID
-                "'DISC' REAL," + // 32: Disc
-                "'EMP_ID' INTEGER," + // 33: EmpID
-                "'LINK_MAN_ID' INTEGER," + // 34: LinkManID
-                "'LINKMAN' TEXT," + // 35: Linkman
-                "'NOTE_NO' TEXT," + // 36: NoteNo
-                "'NOTE_TYPE_ID' INTEGER," + // 37: NoteTypeID
-                "'OP_ID' INTEGER," + // 38: OpID
-                "'PAY_AMT' REAL," + // 39: PayAmt
-                "'PAY_DATE' TEXT," + // 40: PayDate
-                "'PAY_METHOD_ID' INTEGER," + // 41: PayMethodID
-                "'PRINTED' INTEGER," + // 42: Printed
-                "'SFLAG' INTEGER," + // 43: SFlag
-                "'SHIP_TYPE' INTEGER," + // 44: ShipType
-                "'SHOP_ID' INTEGER," + // 45: ShopID
-                "'TERM_DAYS' INTEGER," + // 46: TermDays
-                "'TRADER_ID' INTEGER," + // 47: TraderID
-                "'UPDATE_TIME' TEXT," + // 48: UpdateTime
-                "'USER_DEF1' TEXT," + // 49: UserDef1
-                "'USER_DEF2' TEXT," + // 50: UserDef2
-                "'USER_DEF3' TEXT," + // 51: UserDef3
-                "'USER_DEF4' TEXT," + // 52: UserDef4
-                "'USER_DEF5' TEXT);"); // 53: UserDef5
+                "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
+                "'BILL_ID' INTEGER," + // 1: BillID
+                "'CHECKOR_ID' INTEGER," + // 2: CheckorID
+                "'BILL_KIND' INTEGER," + // 3: BillKind
+                "'BILL_STATE' INTEGER," + // 4: BillState
+                "'IS_CASH_TRADER' INTEGER," + // 5: IsCashTrader
+                "'BILL_CODE' TEXT," + // 6: BillCode
+                "'CHECKOR' TEXT," + // 7: Checkor
+                "'TRADER_CODE' TEXT," + // 8: TraderCode
+                "'TRADER_NAME' TEXT," + // 9: TraderName
+                "'DEPARTMENT_CODE' TEXT," + // 10: DepartmentCode
+                "'PAYMETHOD_CODE' TEXT," + // 11: PaymethodCode
+                "'PAYMETHOD_NAME' TEXT," + // 12: PaymethodName
+                "'SHIP_TYPE_NAME' TEXT," + // 13: ShipTypeName
+                "'NOTE_TYPE_NAME' TEXT," + // 14: NoteTypeName
+                "'EMP_NAME' TEXT," + // 15: EmpName
+                "'EMP_CODE' TEXT," + // 16: EmpCode
+                "'DEPARTMENT_NAME' TEXT," + // 17: DepartmentName
+                "'BILL_DATE' TEXT," + // 18: BillDate
+                "'BILL_KIND_NAME' TEXT," + // 19: BillKindName
+                "'OP_NAME' TEXT," + // 20: OpName
+                "'BILL_STATE_NAME' TEXT," + // 21: BillStateName
+                "'BILL_TO' TEXT," + // 22: BillTo
+                "'ACCOUNT_ID' INTEGER," + // 23: AccountID
+                "'AMOUNT' REAL," + // 24: Amount
+                "'REMARK' TEXT," + // 25: Remark
+                "'REFER_AMT' REAL," + // 26: ReferAmt
+                "'INVOICE_AMT' REAL," + // 27: InvoiceAmt
+                "'CHECK_NO' TEXT," + // 28: CheckNo
+                "'ACCOUNT_NAME' TEXT," + // 29: AccountName
+                "'CONTACT_FAX' TEXT," + // 30: ContactFax
+                "'CONTACT_PHONE' TEXT," + // 31: ContactPhone
+                "'DEPARTMENT_ID' INTEGER," + // 32: DepartmentID
+                "'DISC' REAL," + // 33: Disc
+                "'EMP_ID' INTEGER," + // 34: EmpID
+                "'LINK_MAN_ID' INTEGER," + // 35: LinkManID
+                "'LINKMAN' TEXT," + // 36: Linkman
+                "'NOTE_NO' TEXT," + // 37: NoteNo
+                "'NOTE_TYPE_ID' INTEGER," + // 38: NoteTypeID
+                "'OP_ID' INTEGER," + // 39: OpID
+                "'PAY_AMT' REAL," + // 40: PayAmt
+                "'PAY_DATE' TEXT," + // 41: PayDate
+                "'PAY_METHOD_ID' INTEGER," + // 42: PayMethodID
+                "'PRINTED' INTEGER," + // 43: Printed
+                "'SFLAG' INTEGER," + // 44: SFlag
+                "'SHIP_TYPE' INTEGER," + // 45: ShipType
+                "'SHOP_ID' INTEGER," + // 46: ShopID
+                "'TERM_DAYS' INTEGER," + // 47: TermDays
+                "'TRADER_ID' INTEGER," + // 48: TraderID
+                "'UPDATE_TIME' TEXT," + // 49: UpdateTime
+                "'USER_DEF1' TEXT," + // 50: UserDef1
+                "'USER_DEF2' TEXT," + // 51: UserDef2
+                "'USER_DEF3' TEXT," + // 52: UserDef3
+                "'USER_DEF4' TEXT," + // 53: UserDef4
+                "'USER_DEF5' TEXT);"); // 54: UserDef5
         // Add Indexes
+        db.execSQL("CREATE INDEX " + constraint + "IDX_SALES_BILL_MASTER_DATA__id ON SALES_BILL_MASTER_DATA" +
+                " (_id);");
         db.execSQL("CREATE INDEX " + constraint + "IDX_SALES_BILL_MASTER_DATA_BILL_ID ON SALES_BILL_MASTER_DATA" +
                 " (BILL_ID);");
         db.execSQL("CREATE INDEX " + constraint + "IDX_SALES_BILL_MASTER_DATA_CHECKOR_ID ON SALES_BILL_MASTER_DATA" +
@@ -110,283 +114,294 @@ public class SalesBillMasterDataDao extends AbstractDao<SalesBillMasterData, Voi
     protected void bindValues(SQLiteStatement stmt, SalesBillMasterData entity) {
         stmt.clearBindings();
 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
+
         Long BillID = entity.getBillID();
         if (BillID != null) {
-            stmt.bindLong(1, BillID);
+            stmt.bindLong(2, BillID);
         }
 
         Long CheckorID = entity.getCheckorID();
         if (CheckorID != null) {
-            stmt.bindLong(2, CheckorID);
+            stmt.bindLong(3, CheckorID);
         }
 
         Integer BillKind = entity.getBillKind();
         if (BillKind != null) {
-            stmt.bindLong(3, BillKind);
+            stmt.bindLong(4, BillKind);
         }
 
         Integer BillState = entity.getBillState();
         if (BillState != null) {
-            stmt.bindLong(4, BillState);
+            stmt.bindLong(5, BillState);
         }
 
         Integer IsCashTrader = entity.getIsCashTrader();
         if (IsCashTrader != null) {
-            stmt.bindLong(5, IsCashTrader);
+            stmt.bindLong(6, IsCashTrader);
         }
 
         String BillCode = entity.getBillCode();
         if (BillCode != null) {
-            stmt.bindString(6, BillCode);
+            stmt.bindString(7, BillCode);
         }
 
         String Checkor = entity.getCheckor();
         if (Checkor != null) {
-            stmt.bindString(7, Checkor);
+            stmt.bindString(8, Checkor);
         }
 
         String TraderCode = entity.getTraderCode();
         if (TraderCode != null) {
-            stmt.bindString(8, TraderCode);
+            stmt.bindString(9, TraderCode);
         }
 
         String TraderName = entity.getTraderName();
         if (TraderName != null) {
-            stmt.bindString(9, TraderName);
+            stmt.bindString(10, TraderName);
         }
 
         String DepartmentCode = entity.getDepartmentCode();
         if (DepartmentCode != null) {
-            stmt.bindString(10, DepartmentCode);
+            stmt.bindString(11, DepartmentCode);
         }
 
         String PaymethodCode = entity.getPaymethodCode();
         if (PaymethodCode != null) {
-            stmt.bindString(11, PaymethodCode);
+            stmt.bindString(12, PaymethodCode);
         }
 
         String PaymethodName = entity.getPaymethodName();
         if (PaymethodName != null) {
-            stmt.bindString(12, PaymethodName);
+            stmt.bindString(13, PaymethodName);
         }
 
         String ShipTypeName = entity.getShipTypeName();
         if (ShipTypeName != null) {
-            stmt.bindString(13, ShipTypeName);
+            stmt.bindString(14, ShipTypeName);
         }
 
         String NoteTypeName = entity.getNoteTypeName();
         if (NoteTypeName != null) {
-            stmt.bindString(14, NoteTypeName);
+            stmt.bindString(15, NoteTypeName);
         }
 
         String EmpName = entity.getEmpName();
         if (EmpName != null) {
-            stmt.bindString(15, EmpName);
+            stmt.bindString(16, EmpName);
         }
 
         String EmpCode = entity.getEmpCode();
         if (EmpCode != null) {
-            stmt.bindString(16, EmpCode);
+            stmt.bindString(17, EmpCode);
         }
 
         String DepartmentName = entity.getDepartmentName();
         if (DepartmentName != null) {
-            stmt.bindString(17, DepartmentName);
+            stmt.bindString(18, DepartmentName);
         }
 
         String BillDate = entity.getBillDate();
         if (BillDate != null) {
-            stmt.bindString(18, BillDate);
+            stmt.bindString(19, BillDate);
         }
 
         String BillKindName = entity.getBillKindName();
         if (BillKindName != null) {
-            stmt.bindString(19, BillKindName);
+            stmt.bindString(20, BillKindName);
         }
 
         String OpName = entity.getOpName();
         if (OpName != null) {
-            stmt.bindString(20, OpName);
+            stmt.bindString(21, OpName);
         }
 
         String BillStateName = entity.getBillStateName();
         if (BillStateName != null) {
-            stmt.bindString(21, BillStateName);
+            stmt.bindString(22, BillStateName);
         }
 
         String BillTo = entity.getBillTo();
         if (BillTo != null) {
-            stmt.bindString(22, BillTo);
+            stmt.bindString(23, BillTo);
         }
 
         Long AccountID = entity.getAccountID();
         if (AccountID != null) {
-            stmt.bindLong(23, AccountID);
+            stmt.bindLong(24, AccountID);
         }
 
         Double Amount = entity.getAmount();
         if (Amount != null) {
-            stmt.bindDouble(24, Amount);
+            stmt.bindDouble(25, Amount);
         }
 
         String Remark = entity.getRemark();
         if (Remark != null) {
-            stmt.bindString(25, Remark);
+            stmt.bindString(26, Remark);
         }
 
         Double ReferAmt = entity.getReferAmt();
         if (ReferAmt != null) {
-            stmt.bindDouble(26, ReferAmt);
+            stmt.bindDouble(27, ReferAmt);
         }
 
         Double InvoiceAmt = entity.getInvoiceAmt();
         if (InvoiceAmt != null) {
-            stmt.bindDouble(27, InvoiceAmt);
+            stmt.bindDouble(28, InvoiceAmt);
         }
 
         String CheckNo = entity.getCheckNo();
         if (CheckNo != null) {
-            stmt.bindString(28, CheckNo);
+            stmt.bindString(29, CheckNo);
         }
 
         String AccountName = entity.getAccountName();
         if (AccountName != null) {
-            stmt.bindString(29, AccountName);
+            stmt.bindString(30, AccountName);
         }
 
         String ContactFax = entity.getContactFax();
         if (ContactFax != null) {
-            stmt.bindString(30, ContactFax);
+            stmt.bindString(31, ContactFax);
         }
 
         String ContactPhone = entity.getContactPhone();
         if (ContactPhone != null) {
-            stmt.bindString(31, ContactPhone);
+            stmt.bindString(32, ContactPhone);
         }
 
         Long DepartmentID = entity.getDepartmentID();
         if (DepartmentID != null) {
-            stmt.bindLong(32, DepartmentID);
+            stmt.bindLong(33, DepartmentID);
         }
 
         Double Disc = entity.getDisc();
         if (Disc != null) {
-            stmt.bindDouble(33, Disc);
+            stmt.bindDouble(34, Disc);
         }
 
         Long EmpID = entity.getEmpID();
         if (EmpID != null) {
-            stmt.bindLong(34, EmpID);
+            stmt.bindLong(35, EmpID);
         }
 
         Long LinkManID = entity.getLinkManID();
         if (LinkManID != null) {
-            stmt.bindLong(35, LinkManID);
+            stmt.bindLong(36, LinkManID);
         }
 
         String Linkman = entity.getLinkman();
         if (Linkman != null) {
-            stmt.bindString(36, Linkman);
+            stmt.bindString(37, Linkman);
         }
 
         String NoteNo = entity.getNoteNo();
         if (NoteNo != null) {
-            stmt.bindString(37, NoteNo);
+            stmt.bindString(38, NoteNo);
         }
 
         Long NoteTypeID = entity.getNoteTypeID();
         if (NoteTypeID != null) {
-            stmt.bindLong(38, NoteTypeID);
+            stmt.bindLong(39, NoteTypeID);
         }
 
         Long OpID = entity.getOpID();
         if (OpID != null) {
-            stmt.bindLong(39, OpID);
+            stmt.bindLong(40, OpID);
         }
 
         Double PayAmt = entity.getPayAmt();
         if (PayAmt != null) {
-            stmt.bindDouble(40, PayAmt);
+            stmt.bindDouble(41, PayAmt);
         }
 
         String PayDate = entity.getPayDate();
         if (PayDate != null) {
-            stmt.bindString(41, PayDate);
+            stmt.bindString(42, PayDate);
         }
 
         Long PayMethodID = entity.getPayMethodID();
         if (PayMethodID != null) {
-            stmt.bindLong(42, PayMethodID);
+            stmt.bindLong(43, PayMethodID);
         }
 
         Integer Printed = entity.getPrinted();
         if (Printed != null) {
-            stmt.bindLong(43, Printed);
+            stmt.bindLong(44, Printed);
         }
 
         Integer SFlag = entity.getSFlag();
         if (SFlag != null) {
-            stmt.bindLong(44, SFlag);
+            stmt.bindLong(45, SFlag);
         }
 
         Long ShipType = entity.getShipType();
         if (ShipType != null) {
-            stmt.bindLong(45, ShipType);
+            stmt.bindLong(46, ShipType);
         }
 
         Long ShopID = entity.getShopID();
         if (ShopID != null) {
-            stmt.bindLong(46, ShopID);
+            stmt.bindLong(47, ShopID);
         }
 
         Integer TermDays = entity.getTermDays();
         if (TermDays != null) {
-            stmt.bindLong(47, TermDays);
+            stmt.bindLong(48, TermDays);
         }
 
         Long TraderID = entity.getTraderID();
         if (TraderID != null) {
-            stmt.bindLong(48, TraderID);
+            stmt.bindLong(49, TraderID);
         }
 
         String UpdateTime = entity.getUpdateTime();
         if (UpdateTime != null) {
-            stmt.bindString(49, UpdateTime);
+            stmt.bindString(50, UpdateTime);
         }
 
         String UserDef1 = entity.getUserDef1();
         if (UserDef1 != null) {
-            stmt.bindString(50, UserDef1);
+            stmt.bindString(51, UserDef1);
         }
 
         String UserDef2 = entity.getUserDef2();
         if (UserDef2 != null) {
-            stmt.bindString(51, UserDef2);
+            stmt.bindString(52, UserDef2);
         }
 
         String UserDef3 = entity.getUserDef3();
         if (UserDef3 != null) {
-            stmt.bindString(52, UserDef3);
+            stmt.bindString(53, UserDef3);
         }
 
         String UserDef4 = entity.getUserDef4();
         if (UserDef4 != null) {
-            stmt.bindString(53, UserDef4);
+            stmt.bindString(54, UserDef4);
         }
 
         String UserDef5 = entity.getUserDef5();
         if (UserDef5 != null) {
-            stmt.bindString(54, UserDef5);
+            stmt.bindString(55, UserDef5);
         }
+    }
+
+    @Override
+    protected void attachEntity(SalesBillMasterData entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     /**
      * @inheritdoc
      */
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }
 
     /**
@@ -395,60 +410,61 @@ public class SalesBillMasterDataDao extends AbstractDao<SalesBillMasterData, Voi
     @Override
     public SalesBillMasterData readEntity(Cursor cursor, int offset) {
         SalesBillMasterData entity = new SalesBillMasterData( //
-                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // BillID
-                cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // CheckorID
-                cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // BillKind
-                cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // BillState
-                cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // IsCashTrader
-                cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // BillCode
-                cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // Checkor
-                cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // TraderCode
-                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // TraderName
-                cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // DepartmentCode
-                cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // PaymethodCode
-                cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // PaymethodName
-                cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // ShipTypeName
-                cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // NoteTypeName
-                cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // EmpName
-                cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // EmpCode
-                cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // DepartmentName
-                cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // BillDate
-                cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // BillKindName
-                cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // OpName
-                cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // BillStateName
-                cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // BillTo
-                cursor.isNull(offset + 22) ? null : cursor.getLong(offset + 22), // AccountID
-                cursor.isNull(offset + 23) ? null : cursor.getDouble(offset + 23), // Amount
-                cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // Remark
-                cursor.isNull(offset + 25) ? null : cursor.getDouble(offset + 25), // ReferAmt
-                cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26), // InvoiceAmt
-                cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // CheckNo
-                cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // AccountName
-                cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29), // ContactFax
-                cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30), // ContactPhone
-                cursor.isNull(offset + 31) ? null : cursor.getLong(offset + 31), // DepartmentID
-                cursor.isNull(offset + 32) ? null : cursor.getDouble(offset + 32), // Disc
-                cursor.isNull(offset + 33) ? null : cursor.getLong(offset + 33), // EmpID
-                cursor.isNull(offset + 34) ? null : cursor.getLong(offset + 34), // LinkManID
-                cursor.isNull(offset + 35) ? null : cursor.getString(offset + 35), // Linkman
-                cursor.isNull(offset + 36) ? null : cursor.getString(offset + 36), // NoteNo
-                cursor.isNull(offset + 37) ? null : cursor.getLong(offset + 37), // NoteTypeID
-                cursor.isNull(offset + 38) ? null : cursor.getLong(offset + 38), // OpID
-                cursor.isNull(offset + 39) ? null : cursor.getDouble(offset + 39), // PayAmt
-                cursor.isNull(offset + 40) ? null : cursor.getString(offset + 40), // PayDate
-                cursor.isNull(offset + 41) ? null : cursor.getLong(offset + 41), // PayMethodID
-                cursor.isNull(offset + 42) ? null : cursor.getInt(offset + 42), // Printed
-                cursor.isNull(offset + 43) ? null : cursor.getInt(offset + 43), // SFlag
-                cursor.isNull(offset + 44) ? null : cursor.getLong(offset + 44), // ShipType
-                cursor.isNull(offset + 45) ? null : cursor.getLong(offset + 45), // ShopID
-                cursor.isNull(offset + 46) ? null : cursor.getInt(offset + 46), // TermDays
-                cursor.isNull(offset + 47) ? null : cursor.getLong(offset + 47), // TraderID
-                cursor.isNull(offset + 48) ? null : cursor.getString(offset + 48), // UpdateTime
-                cursor.isNull(offset + 49) ? null : cursor.getString(offset + 49), // UserDef1
-                cursor.isNull(offset + 50) ? null : cursor.getString(offset + 50), // UserDef2
-                cursor.isNull(offset + 51) ? null : cursor.getString(offset + 51), // UserDef3
-                cursor.isNull(offset + 52) ? null : cursor.getString(offset + 52), // UserDef4
-                cursor.isNull(offset + 53) ? null : cursor.getString(offset + 53) // UserDef5
+                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+                cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // BillID
+                cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // CheckorID
+                cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // BillKind
+                cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // BillState
+                cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // IsCashTrader
+                cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // BillCode
+                cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // Checkor
+                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // TraderCode
+                cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // TraderName
+                cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // DepartmentCode
+                cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // PaymethodCode
+                cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // PaymethodName
+                cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // ShipTypeName
+                cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // NoteTypeName
+                cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // EmpName
+                cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // EmpCode
+                cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // DepartmentName
+                cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // BillDate
+                cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // BillKindName
+                cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // OpName
+                cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // BillStateName
+                cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // BillTo
+                cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23), // AccountID
+                cursor.isNull(offset + 24) ? null : cursor.getDouble(offset + 24), // Amount
+                cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // Remark
+                cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26), // ReferAmt
+                cursor.isNull(offset + 27) ? null : cursor.getDouble(offset + 27), // InvoiceAmt
+                cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // CheckNo
+                cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29), // AccountName
+                cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30), // ContactFax
+                cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31), // ContactPhone
+                cursor.isNull(offset + 32) ? null : cursor.getLong(offset + 32), // DepartmentID
+                cursor.isNull(offset + 33) ? null : cursor.getDouble(offset + 33), // Disc
+                cursor.isNull(offset + 34) ? null : cursor.getLong(offset + 34), // EmpID
+                cursor.isNull(offset + 35) ? null : cursor.getLong(offset + 35), // LinkManID
+                cursor.isNull(offset + 36) ? null : cursor.getString(offset + 36), // Linkman
+                cursor.isNull(offset + 37) ? null : cursor.getString(offset + 37), // NoteNo
+                cursor.isNull(offset + 38) ? null : cursor.getLong(offset + 38), // NoteTypeID
+                cursor.isNull(offset + 39) ? null : cursor.getLong(offset + 39), // OpID
+                cursor.isNull(offset + 40) ? null : cursor.getDouble(offset + 40), // PayAmt
+                cursor.isNull(offset + 41) ? null : cursor.getString(offset + 41), // PayDate
+                cursor.isNull(offset + 42) ? null : cursor.getLong(offset + 42), // PayMethodID
+                cursor.isNull(offset + 43) ? null : cursor.getInt(offset + 43), // Printed
+                cursor.isNull(offset + 44) ? null : cursor.getInt(offset + 44), // SFlag
+                cursor.isNull(offset + 45) ? null : cursor.getLong(offset + 45), // ShipType
+                cursor.isNull(offset + 46) ? null : cursor.getLong(offset + 46), // ShopID
+                cursor.isNull(offset + 47) ? null : cursor.getInt(offset + 47), // TermDays
+                cursor.isNull(offset + 48) ? null : cursor.getLong(offset + 48), // TraderID
+                cursor.isNull(offset + 49) ? null : cursor.getString(offset + 49), // UpdateTime
+                cursor.isNull(offset + 50) ? null : cursor.getString(offset + 50), // UserDef1
+                cursor.isNull(offset + 51) ? null : cursor.getString(offset + 51), // UserDef2
+                cursor.isNull(offset + 52) ? null : cursor.getString(offset + 52), // UserDef3
+                cursor.isNull(offset + 53) ? null : cursor.getString(offset + 53), // UserDef4
+                cursor.isNull(offset + 54) ? null : cursor.getString(offset + 54) // UserDef5
         );
         return entity;
     }
@@ -458,77 +474,82 @@ public class SalesBillMasterDataDao extends AbstractDao<SalesBillMasterData, Voi
      */
     @Override
     public void readEntity(Cursor cursor, SalesBillMasterData entity, int offset) {
-        entity.setBillID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCheckorID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setBillKind(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
-        entity.setBillState(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
-        entity.setIsCashTrader(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
-        entity.setBillCode(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setCheckor(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setTraderCode(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setTraderName(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setDepartmentCode(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setPaymethodCode(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setPaymethodName(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setShipTypeName(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setNoteTypeName(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setEmpName(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setEmpCode(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setDepartmentName(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setBillDate(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setBillKindName(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setOpName(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setBillStateName(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setBillTo(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
-        entity.setAccountID(cursor.isNull(offset + 22) ? null : cursor.getLong(offset + 22));
-        entity.setAmount(cursor.isNull(offset + 23) ? null : cursor.getDouble(offset + 23));
-        entity.setRemark(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
-        entity.setReferAmt(cursor.isNull(offset + 25) ? null : cursor.getDouble(offset + 25));
-        entity.setInvoiceAmt(cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26));
-        entity.setCheckNo(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
-        entity.setAccountName(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
-        entity.setContactFax(cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29));
-        entity.setContactPhone(cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30));
-        entity.setDepartmentID(cursor.isNull(offset + 31) ? null : cursor.getLong(offset + 31));
-        entity.setDisc(cursor.isNull(offset + 32) ? null : cursor.getDouble(offset + 32));
-        entity.setEmpID(cursor.isNull(offset + 33) ? null : cursor.getLong(offset + 33));
-        entity.setLinkManID(cursor.isNull(offset + 34) ? null : cursor.getLong(offset + 34));
-        entity.setLinkman(cursor.isNull(offset + 35) ? null : cursor.getString(offset + 35));
-        entity.setNoteNo(cursor.isNull(offset + 36) ? null : cursor.getString(offset + 36));
-        entity.setNoteTypeID(cursor.isNull(offset + 37) ? null : cursor.getLong(offset + 37));
-        entity.setOpID(cursor.isNull(offset + 38) ? null : cursor.getLong(offset + 38));
-        entity.setPayAmt(cursor.isNull(offset + 39) ? null : cursor.getDouble(offset + 39));
-        entity.setPayDate(cursor.isNull(offset + 40) ? null : cursor.getString(offset + 40));
-        entity.setPayMethodID(cursor.isNull(offset + 41) ? null : cursor.getLong(offset + 41));
-        entity.setPrinted(cursor.isNull(offset + 42) ? null : cursor.getInt(offset + 42));
-        entity.setSFlag(cursor.isNull(offset + 43) ? null : cursor.getInt(offset + 43));
-        entity.setShipType(cursor.isNull(offset + 44) ? null : cursor.getLong(offset + 44));
-        entity.setShopID(cursor.isNull(offset + 45) ? null : cursor.getLong(offset + 45));
-        entity.setTermDays(cursor.isNull(offset + 46) ? null : cursor.getInt(offset + 46));
-        entity.setTraderID(cursor.isNull(offset + 47) ? null : cursor.getLong(offset + 47));
-        entity.setUpdateTime(cursor.isNull(offset + 48) ? null : cursor.getString(offset + 48));
-        entity.setUserDef1(cursor.isNull(offset + 49) ? null : cursor.getString(offset + 49));
-        entity.setUserDef2(cursor.isNull(offset + 50) ? null : cursor.getString(offset + 50));
-        entity.setUserDef3(cursor.isNull(offset + 51) ? null : cursor.getString(offset + 51));
-        entity.setUserDef4(cursor.isNull(offset + 52) ? null : cursor.getString(offset + 52));
-        entity.setUserDef5(cursor.isNull(offset + 53) ? null : cursor.getString(offset + 53));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setBillID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setCheckorID(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setBillKind(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
+        entity.setBillState(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setIsCashTrader(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setBillCode(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setCheckor(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setTraderCode(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setTraderName(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setDepartmentCode(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setPaymethodCode(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setPaymethodName(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setShipTypeName(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setNoteTypeName(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setEmpName(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setEmpCode(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setDepartmentName(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setBillDate(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setBillKindName(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setOpName(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setBillStateName(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setBillTo(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setAccountID(cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23));
+        entity.setAmount(cursor.isNull(offset + 24) ? null : cursor.getDouble(offset + 24));
+        entity.setRemark(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setReferAmt(cursor.isNull(offset + 26) ? null : cursor.getDouble(offset + 26));
+        entity.setInvoiceAmt(cursor.isNull(offset + 27) ? null : cursor.getDouble(offset + 27));
+        entity.setCheckNo(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
+        entity.setAccountName(cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29));
+        entity.setContactFax(cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30));
+        entity.setContactPhone(cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31));
+        entity.setDepartmentID(cursor.isNull(offset + 32) ? null : cursor.getLong(offset + 32));
+        entity.setDisc(cursor.isNull(offset + 33) ? null : cursor.getDouble(offset + 33));
+        entity.setEmpID(cursor.isNull(offset + 34) ? null : cursor.getLong(offset + 34));
+        entity.setLinkManID(cursor.isNull(offset + 35) ? null : cursor.getLong(offset + 35));
+        entity.setLinkman(cursor.isNull(offset + 36) ? null : cursor.getString(offset + 36));
+        entity.setNoteNo(cursor.isNull(offset + 37) ? null : cursor.getString(offset + 37));
+        entity.setNoteTypeID(cursor.isNull(offset + 38) ? null : cursor.getLong(offset + 38));
+        entity.setOpID(cursor.isNull(offset + 39) ? null : cursor.getLong(offset + 39));
+        entity.setPayAmt(cursor.isNull(offset + 40) ? null : cursor.getDouble(offset + 40));
+        entity.setPayDate(cursor.isNull(offset + 41) ? null : cursor.getString(offset + 41));
+        entity.setPayMethodID(cursor.isNull(offset + 42) ? null : cursor.getLong(offset + 42));
+        entity.setPrinted(cursor.isNull(offset + 43) ? null : cursor.getInt(offset + 43));
+        entity.setSFlag(cursor.isNull(offset + 44) ? null : cursor.getInt(offset + 44));
+        entity.setShipType(cursor.isNull(offset + 45) ? null : cursor.getLong(offset + 45));
+        entity.setShopID(cursor.isNull(offset + 46) ? null : cursor.getLong(offset + 46));
+        entity.setTermDays(cursor.isNull(offset + 47) ? null : cursor.getInt(offset + 47));
+        entity.setTraderID(cursor.isNull(offset + 48) ? null : cursor.getLong(offset + 48));
+        entity.setUpdateTime(cursor.isNull(offset + 49) ? null : cursor.getString(offset + 49));
+        entity.setUserDef1(cursor.isNull(offset + 50) ? null : cursor.getString(offset + 50));
+        entity.setUserDef2(cursor.isNull(offset + 51) ? null : cursor.getString(offset + 51));
+        entity.setUserDef3(cursor.isNull(offset + 52) ? null : cursor.getString(offset + 52));
+        entity.setUserDef4(cursor.isNull(offset + 53) ? null : cursor.getString(offset + 53));
+        entity.setUserDef5(cursor.isNull(offset + 54) ? null : cursor.getString(offset + 54));
     }
 
     /**
      * @inheritdoc
      */
     @Override
-    protected Void updateKeyAfterInsert(SalesBillMasterData entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected Long updateKeyAfterInsert(SalesBillMasterData entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
 
     /**
      * @inheritdoc
      */
     @Override
-    public Void getKey(SalesBillMasterData entity) {
-        return null;
+    public Long getKey(SalesBillMasterData entity) {
+        if (entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -544,60 +565,61 @@ public class SalesBillMasterDataDao extends AbstractDao<SalesBillMasterData, Voi
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property BillID = new Property(0, Long.class, "BillID", false, "BILL_ID");
-        public final static Property CheckorID = new Property(1, Long.class, "CheckorID", false, "CHECKOR_ID");
-        public final static Property BillKind = new Property(2, Integer.class, "BillKind", false, "BILL_KIND");
-        public final static Property BillState = new Property(3, Integer.class, "BillState", false, "BILL_STATE");
-        public final static Property IsCashTrader = new Property(4, Integer.class, "IsCashTrader", false, "IS_CASH_TRADER");
-        public final static Property BillCode = new Property(5, String.class, "BillCode", false, "BILL_CODE");
-        public final static Property Checkor = new Property(6, String.class, "Checkor", false, "CHECKOR");
-        public final static Property TraderCode = new Property(7, String.class, "TraderCode", false, "TRADER_CODE");
-        public final static Property TraderName = new Property(8, String.class, "TraderName", false, "TRADER_NAME");
-        public final static Property DepartmentCode = new Property(9, String.class, "DepartmentCode", false, "DEPARTMENT_CODE");
-        public final static Property PaymethodCode = new Property(10, String.class, "PaymethodCode", false, "PAYMETHOD_CODE");
-        public final static Property PaymethodName = new Property(11, String.class, "PaymethodName", false, "PAYMETHOD_NAME");
-        public final static Property ShipTypeName = new Property(12, String.class, "ShipTypeName", false, "SHIP_TYPE_NAME");
-        public final static Property NoteTypeName = new Property(13, String.class, "NoteTypeName", false, "NOTE_TYPE_NAME");
-        public final static Property EmpName = new Property(14, String.class, "EmpName", false, "EMP_NAME");
-        public final static Property EmpCode = new Property(15, String.class, "EmpCode", false, "EMP_CODE");
-        public final static Property DepartmentName = new Property(16, String.class, "DepartmentName", false, "DEPARTMENT_NAME");
-        public final static Property BillDate = new Property(17, String.class, "BillDate", false, "BILL_DATE");
-        public final static Property BillKindName = new Property(18, String.class, "BillKindName", false, "BILL_KIND_NAME");
-        public final static Property OpName = new Property(19, String.class, "OpName", false, "OP_NAME");
-        public final static Property BillStateName = new Property(20, String.class, "BillStateName", false, "BILL_STATE_NAME");
-        public final static Property BillTo = new Property(21, String.class, "BillTo", false, "BILL_TO");
-        public final static Property AccountID = new Property(22, Long.class, "AccountID", false, "ACCOUNT_ID");
-        public final static Property Amount = new Property(23, Double.class, "Amount", false, "AMOUNT");
-        public final static Property Remark = new Property(24, String.class, "Remark", false, "REMARK");
-        public final static Property ReferAmt = new Property(25, Double.class, "ReferAmt", false, "REFER_AMT");
-        public final static Property InvoiceAmt = new Property(26, Double.class, "InvoiceAmt", false, "INVOICE_AMT");
-        public final static Property CheckNo = new Property(27, String.class, "CheckNo", false, "CHECK_NO");
-        public final static Property AccountName = new Property(28, String.class, "AccountName", false, "ACCOUNT_NAME");
-        public final static Property ContactFax = new Property(29, String.class, "ContactFax", false, "CONTACT_FAX");
-        public final static Property ContactPhone = new Property(30, String.class, "ContactPhone", false, "CONTACT_PHONE");
-        public final static Property DepartmentID = new Property(31, Long.class, "DepartmentID", false, "DEPARTMENT_ID");
-        public final static Property Disc = new Property(32, Double.class, "Disc", false, "DISC");
-        public final static Property EmpID = new Property(33, Long.class, "EmpID", false, "EMP_ID");
-        public final static Property LinkManID = new Property(34, Long.class, "LinkManID", false, "LINK_MAN_ID");
-        public final static Property Linkman = new Property(35, String.class, "Linkman", false, "LINKMAN");
-        public final static Property NoteNo = new Property(36, String.class, "NoteNo", false, "NOTE_NO");
-        public final static Property NoteTypeID = new Property(37, Long.class, "NoteTypeID", false, "NOTE_TYPE_ID");
-        public final static Property OpID = new Property(38, Long.class, "OpID", false, "OP_ID");
-        public final static Property PayAmt = new Property(39, Double.class, "PayAmt", false, "PAY_AMT");
-        public final static Property PayDate = new Property(40, String.class, "PayDate", false, "PAY_DATE");
-        public final static Property PayMethodID = new Property(41, Long.class, "PayMethodID", false, "PAY_METHOD_ID");
-        public final static Property Printed = new Property(42, Integer.class, "Printed", false, "PRINTED");
-        public final static Property SFlag = new Property(43, Integer.class, "SFlag", false, "SFLAG");
-        public final static Property ShipType = new Property(44, Long.class, "ShipType", false, "SHIP_TYPE");
-        public final static Property ShopID = new Property(45, Long.class, "ShopID", false, "SHOP_ID");
-        public final static Property TermDays = new Property(46, Integer.class, "TermDays", false, "TERM_DAYS");
-        public final static Property TraderID = new Property(47, Long.class, "TraderID", false, "TRADER_ID");
-        public final static Property UpdateTime = new Property(48, String.class, "UpdateTime", false, "UPDATE_TIME");
-        public final static Property UserDef1 = new Property(49, String.class, "UserDef1", false, "USER_DEF1");
-        public final static Property UserDef2 = new Property(50, String.class, "UserDef2", false, "USER_DEF2");
-        public final static Property UserDef3 = new Property(51, String.class, "UserDef3", false, "USER_DEF3");
-        public final static Property UserDef4 = new Property(52, String.class, "UserDef4", false, "USER_DEF4");
-        public final static Property UserDef5 = new Property(53, String.class, "UserDef5", false, "USER_DEF5");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property BillID = new Property(1, Long.class, "BillID", false, "BILL_ID");
+        public final static Property CheckorID = new Property(2, Long.class, "CheckorID", false, "CHECKOR_ID");
+        public final static Property BillKind = new Property(3, Integer.class, "BillKind", false, "BILL_KIND");
+        public final static Property BillState = new Property(4, Integer.class, "BillState", false, "BILL_STATE");
+        public final static Property IsCashTrader = new Property(5, Integer.class, "IsCashTrader", false, "IS_CASH_TRADER");
+        public final static Property BillCode = new Property(6, String.class, "BillCode", false, "BILL_CODE");
+        public final static Property Checkor = new Property(7, String.class, "Checkor", false, "CHECKOR");
+        public final static Property TraderCode = new Property(8, String.class, "TraderCode", false, "TRADER_CODE");
+        public final static Property TraderName = new Property(9, String.class, "TraderName", false, "TRADER_NAME");
+        public final static Property DepartmentCode = new Property(10, String.class, "DepartmentCode", false, "DEPARTMENT_CODE");
+        public final static Property PaymethodCode = new Property(11, String.class, "PaymethodCode", false, "PAYMETHOD_CODE");
+        public final static Property PaymethodName = new Property(12, String.class, "PaymethodName", false, "PAYMETHOD_NAME");
+        public final static Property ShipTypeName = new Property(13, String.class, "ShipTypeName", false, "SHIP_TYPE_NAME");
+        public final static Property NoteTypeName = new Property(14, String.class, "NoteTypeName", false, "NOTE_TYPE_NAME");
+        public final static Property EmpName = new Property(15, String.class, "EmpName", false, "EMP_NAME");
+        public final static Property EmpCode = new Property(16, String.class, "EmpCode", false, "EMP_CODE");
+        public final static Property DepartmentName = new Property(17, String.class, "DepartmentName", false, "DEPARTMENT_NAME");
+        public final static Property BillDate = new Property(18, String.class, "BillDate", false, "BILL_DATE");
+        public final static Property BillKindName = new Property(19, String.class, "BillKindName", false, "BILL_KIND_NAME");
+        public final static Property OpName = new Property(20, String.class, "OpName", false, "OP_NAME");
+        public final static Property BillStateName = new Property(21, String.class, "BillStateName", false, "BILL_STATE_NAME");
+        public final static Property BillTo = new Property(22, String.class, "BillTo", false, "BILL_TO");
+        public final static Property AccountID = new Property(23, Long.class, "AccountID", false, "ACCOUNT_ID");
+        public final static Property Amount = new Property(24, Double.class, "Amount", false, "AMOUNT");
+        public final static Property Remark = new Property(25, String.class, "Remark", false, "REMARK");
+        public final static Property ReferAmt = new Property(26, Double.class, "ReferAmt", false, "REFER_AMT");
+        public final static Property InvoiceAmt = new Property(27, Double.class, "InvoiceAmt", false, "INVOICE_AMT");
+        public final static Property CheckNo = new Property(28, String.class, "CheckNo", false, "CHECK_NO");
+        public final static Property AccountName = new Property(29, String.class, "AccountName", false, "ACCOUNT_NAME");
+        public final static Property ContactFax = new Property(30, String.class, "ContactFax", false, "CONTACT_FAX");
+        public final static Property ContactPhone = new Property(31, String.class, "ContactPhone", false, "CONTACT_PHONE");
+        public final static Property DepartmentID = new Property(32, Long.class, "DepartmentID", false, "DEPARTMENT_ID");
+        public final static Property Disc = new Property(33, Double.class, "Disc", false, "DISC");
+        public final static Property EmpID = new Property(34, Long.class, "EmpID", false, "EMP_ID");
+        public final static Property LinkManID = new Property(35, Long.class, "LinkManID", false, "LINK_MAN_ID");
+        public final static Property Linkman = new Property(36, String.class, "Linkman", false, "LINKMAN");
+        public final static Property NoteNo = new Property(37, String.class, "NoteNo", false, "NOTE_NO");
+        public final static Property NoteTypeID = new Property(38, Long.class, "NoteTypeID", false, "NOTE_TYPE_ID");
+        public final static Property OpID = new Property(39, Long.class, "OpID", false, "OP_ID");
+        public final static Property PayAmt = new Property(40, Double.class, "PayAmt", false, "PAY_AMT");
+        public final static Property PayDate = new Property(41, String.class, "PayDate", false, "PAY_DATE");
+        public final static Property PayMethodID = new Property(42, Long.class, "PayMethodID", false, "PAY_METHOD_ID");
+        public final static Property Printed = new Property(43, Integer.class, "Printed", false, "PRINTED");
+        public final static Property SFlag = new Property(44, Integer.class, "SFlag", false, "SFLAG");
+        public final static Property ShipType = new Property(45, Long.class, "ShipType", false, "SHIP_TYPE");
+        public final static Property ShopID = new Property(46, Long.class, "ShopID", false, "SHOP_ID");
+        public final static Property TermDays = new Property(47, Integer.class, "TermDays", false, "TERM_DAYS");
+        public final static Property TraderID = new Property(48, Long.class, "TraderID", false, "TRADER_ID");
+        public final static Property UpdateTime = new Property(49, String.class, "UpdateTime", false, "UPDATE_TIME");
+        public final static Property UserDef1 = new Property(50, String.class, "UserDef1", false, "USER_DEF1");
+        public final static Property UserDef2 = new Property(51, String.class, "UserDef2", false, "USER_DEF2");
+        public final static Property UserDef3 = new Property(52, String.class, "UserDef3", false, "USER_DEF3");
+        public final static Property UserDef4 = new Property(53, String.class, "UserDef4", false, "USER_DEF4");
+        public final static Property UserDef5 = new Property(54, String.class, "UserDef5", false, "USER_DEF5");
     }
 
 }

@@ -6,6 +6,11 @@ package com.twisty.superclient.global;
 public interface GlobalConstant {
     public static final String DB_NAME = "SuperClientDB";
 
+    public static final int FROM_NEW = 1;
+    public static final int FROM_DB = 2;
+    public static final int FROM_LIST = 3;
+
+
     public static final int BILL_TYPE_SALES_BILL = 1;
     public static final int BILL_TYPE_SALES_ORDER = 2;
     public static final int BILL_TYPE_TRANSFER = 3;

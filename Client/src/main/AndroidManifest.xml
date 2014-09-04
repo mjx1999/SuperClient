@@ -133,10 +133,25 @@
             android:label="@string/title_activity_transfer_add_goods" />
         <activity
             android:name=".view.transfer.TransferFilterActivity"
-            android:label="@string/title_activity_transfer_filter"></activity>
+            android:label="@string/title_activity_transfer_filter" />
         <activity
             android:name=".view.transfer.TransferListActivity"
-            android:label="@string/title_activity_transfer_list"></activity>
+            android:label="@string/title_activity_transfer_list" />
+        <activity
+            android:name=".view.NotUploadOrderActivity"
+            android:label="未提交的单据" />
+        <activity
+            android:name=".view.salesBill.NotUploadSB"
+            android:label="@string/title_activity_not_upload_sb"></activity>
+        <activity
+            android:name=".view.salesOrder.NotUploadSO"
+            android:label="@string/title_activity_not_upload_so"></activity>
+        <activity
+            android:name=".view.transfer.NotUploadTS"
+            android:label="@string/title_activity_not_upload_ts"></activity>
+        <activity
+            android:name=".view.stockCheck.NotUploadSC"
+            android:label="@string/title_activity_not_upload_sc"></activity>
     </application>
 
 </manifest>

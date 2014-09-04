@@ -20,7 +20,9 @@ import com.twisty.superclient.bean.ParamsSalesBill;
 import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.bean.Response;
 import com.twisty.superclient.bean.SalesBillDetail1Data;
+import com.twisty.superclient.bean.SalesBillDetail1DataDao;
 import com.twisty.superclient.bean.SalesBillMasterData;
+import com.twisty.superclient.bean.SalesBillMasterDataDao;
 import com.twisty.superclient.bean.SalesBillResp;
 import com.twisty.superclient.global.GlobalConstant;
 import com.twisty.superclient.global.SuperClient;
@@ -80,10 +82,12 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
     private FragmentSalesBillDetail fragmentSalesBillDetail;
     private FragmentSalesBIllHeader fragmentSalesBIllHeader;
     private Gson gson;
+    private int from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        from = getIntent().getIntExtra("From", -1);
         setContentView(R.layout.activity_sales_bill);
         gson = CommonUtil.getGson();
         searchBTN = (Button) findViewById(R.id.search);
@@ -115,8 +119,29 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (from != -1) {
+            if (from == GlobalConstant.FROM_DB) {
+                SalesBillMasterData masterData = (SalesBillMasterData) getIntent().getSerializableExtra("MasterData");
+                ArrayList<SalesBillDetail1Data> detail1Datas = (ArrayList<SalesBillDetail1Data>) getIntent().getSerializableExtra("DetailData");
+                fragmentSalesBIllHeader.setSalesBillMasterData(masterData);
+                fragmentSalesBillDetail.setSalesBillDetail1Datas(detail1Datas);
+            } else if (from == GlobalConstant.FROM_LIST) {
+                //TODO 从列表进来
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.bill_actionbar, menu);
+        if (from == GlobalConstant.FROM_DB) {
+
+        } else if (from == GlobalConstant.FROM_LIST) {
+
+        } else if (from == GlobalConstant.FROM_NEW) {
+            getMenuInflater().inflate(R.menu.bill_actionbar, menu);
+        }
         return true;
     }
 
@@ -139,139 +164,152 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
 
                 return true;
             case R.id.delete:
-                pd = ProgressDialog.show(this, null, "正在删除...");
+                if (SuperClient.getIsOnline()) {
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ReqClient client = ReqClient.newInstance();
-                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                        Params paramsDel = new Params();
-                        paramsDel.setOperate("Delete");
-                        paramsDel.setBillName("s_sale");
-                        paramsDel.setBillID(fragmentSalesBIllHeader.getSalesBillMasterData().getBillID());
-                        request.setParams(paramsDel);
-                        Message message = handler.obtainMessage();
-                        try {
-                            if (client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest())) {
-                                String delJson = client.requestData(request);
-                                log.i(delJson);
-                                Response response = gson.fromJson(delJson, Response.class);
-                                if (response.isCorrect()) {
-                                    message.obj = "删除成功!";
-                                    message.what = DELETE_RESULT;
+                    pd = ProgressDialog.show(this, null, "正在删除...");
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ReqClient client = ReqClient.newInstance();
+                            Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                            Params paramsDel = new Params();
+                            paramsDel.setOperate("Delete");
+                            paramsDel.setBillName("s_sale");
+                            paramsDel.setBillID(fragmentSalesBIllHeader.getSalesBillMasterData().getBillID());
+                            request.setParams(paramsDel);
+                            Message message = handler.obtainMessage();
+                            try {
+                                if (client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest())) {
+                                    String delJson = client.requestData(request);
+                                    log.i(delJson);
+                                    Response response = gson.fromJson(delJson, Response.class);
+                                    if (response.isCorrect()) {
+                                        message.obj = "删除成功!";
+                                        message.what = DELETE_RESULT;
+                                    } else {
+                                        message.what = RESULT_CANCELED;
+                                        message.obj = response.getErrMessage();
+                                    }
                                 } else {
-                                    message.what = DELETE_RESULT;
-                                    message.obj = response.getErrMessage();
+                                    message.what = RESULT_CANCELED;
+                                    message.obj = "连接服务器超时!";
                                 }
-                            } else {
+                            } catch (Exception e) {
                                 message.what = RESULT_CANCELED;
                                 message.obj = "连接服务器超时!";
+                                e.printStackTrace();
+                            } finally {
+                                handler.sendMessage(message);
+                                client.close();
                             }
-                        } catch (Exception e) {
-                            message.what = RESULT_CANCELED;
-                            message.obj = "连接服务器超时!";
-                            e.printStackTrace();
-                        } finally {
-                            handler.sendMessage(message);
-                            client.close();
                         }
-                    }
-                }).start();
+                    }).start();
+                } else {
+                    CommonUtil.showToastError(SalesBillActivity.this, "当前离线模式不能删除单据!", null);
+                }
 
                 return true;
             case R.id.preOrder:
-                isAddNew = false;
-                pd = ProgressDialog.show(this, null, "正在加载数据...");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ReqClient client = ReqClient.newInstance();
-                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                        Params paramsPRE = new Params();
-                        paramsPRE.setOperate("GetPriorBill");
-                        paramsPRE.setBillName("s_sale");
-                        paramsPRE.setBillCode(fragmentSalesBIllHeader.getSalesBillMasterData().getBillCode());
-                        request.setParams(paramsPRE);
-                        try {
-                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
-                            String preBillJson = client.requestData(request);
-                            log.i(preBillJson);
-                            SalesBillResp salesBillResp = gson.fromJson(preBillJson, SalesBillResp.class);
-                            Message message = handler.obtainMessage();
-                            if (salesBillResp != null) {
-                                if (salesBillResp.isCorrect()) {
-                                    if (salesBillResp.getMasterData() != null) {
-                                        salesBillMasterData = salesBillResp.getMasterData();
-                                    }
-                                    if (salesBillResp.getDetail1Data() != null) {
-                                        salesBillDetail1Datas = salesBillResp.getDetail1Data();
+
+                if (SuperClient.getIsOnline()) {
+
+                    isAddNew = false;
+                    pd = ProgressDialog.show(this, null, "正在加载数据...");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ReqClient client = ReqClient.newInstance();
+                            Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                            Params paramsPRE = new Params();
+                            paramsPRE.setOperate("GetPriorBill");
+                            paramsPRE.setBillName("s_sale");
+                            paramsPRE.setBillCode(fragmentSalesBIllHeader.getSalesBillMasterData().getBillCode());
+                            request.setParams(paramsPRE);
+                            try {
+                                client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                                String preBillJson = client.requestData(request);
+                                log.i(preBillJson);
+                                SalesBillResp salesBillResp = gson.fromJson(preBillJson, SalesBillResp.class);
+                                Message message = handler.obtainMessage();
+                                if (salesBillResp != null) {
+                                    if (salesBillResp.isCorrect()) {
+                                        if (salesBillResp.getMasterData() != null) {
+                                            salesBillMasterData = salesBillResp.getMasterData();
+                                        }
+                                        if (salesBillResp.getDetail1Data() != null) {
+                                            salesBillDetail1Datas = salesBillResp.getDetail1Data();
+                                        }
+                                    } else {
+                                        message.obj = salesBillResp.getErrMessage();
                                     }
                                 } else {
-                                    message.obj = salesBillResp.getErrMessage();
+                                    message.obj = "服务器错误";
                                 }
-                            } else {
-                                message.obj = "服务器错误";
+                                message.what = PRE_RESULT;
+                                handler.sendMessage(message);
+                            } catch (Exception e) {
+                                Message message = handler.obtainMessage();
+                                message.what = RESULT_CANCELED;
+                                message.obj = "加载数据失败,请重试...";
+                                handler.sendMessage(message);
+                                e.printStackTrace();
                             }
-                            message.what = PRE_RESULT;
-                            handler.sendMessage(message);
-                        } catch (Exception e) {
-                            Message message = handler.obtainMessage();
-                            message.what = RESULT_CANCELED;
-                            message.obj = "加载数据失败,请重试...";
-                            handler.sendMessage(message);
-                            e.printStackTrace();
                         }
-                    }
-                }).start();
-
+                    }).start();
+                } else {
+                    CommonUtil.showToastError(SalesBillActivity.this, "当前离线模式不能翻单!", null);
+                }
                 return true;
             case R.id.nextOrder:
-                isAddNew = false;
-                pd = ProgressDialog.show(this, null, "正在加载数据...");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ReqClient client = ReqClient.newInstance();
-                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                        Params paramsPRE = new Params();
-                        paramsPRE.setOperate("GetNextBill");
-                        paramsPRE.setBillName("s_sale");
-                        paramsPRE.setBillCode(fragmentSalesBIllHeader.getSalesBillMasterData().getBillCode());
-                        request.setParams(paramsPRE);
-                        try {
-                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
-                            String nextBillJson = client.requestData(request);
-                            log.i(nextBillJson);
-                            SalesBillResp salesBillResp = gson.fromJson(nextBillJson, SalesBillResp.class);
-                            Message message = handler.obtainMessage();
-                            if (salesBillResp != null) {
-                                if (salesBillResp.isCorrect()) {
-                                    if (salesBillResp.getMasterData() != null) {
-                                        salesBillMasterData = salesBillResp.getMasterData();
-                                    }
-                                    if (salesBillResp.getDetail1Data() != null) {
-                                        salesBillDetail1Datas = salesBillResp.getDetail1Data();
+                if (SuperClient.getIsOnline()) {
+                    isAddNew = false;
+                    pd = ProgressDialog.show(this, null, "正在加载数据...");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ReqClient client = ReqClient.newInstance();
+                            Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                            Params paramsPRE = new Params();
+                            paramsPRE.setOperate("GetNextBill");
+                            paramsPRE.setBillName("s_sale");
+                            paramsPRE.setBillCode(fragmentSalesBIllHeader.getSalesBillMasterData().getBillCode());
+                            request.setParams(paramsPRE);
+                            try {
+                                client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                                String nextBillJson = client.requestData(request);
+                                log.i(nextBillJson);
+                                SalesBillResp salesBillResp = gson.fromJson(nextBillJson, SalesBillResp.class);
+                                Message message = handler.obtainMessage();
+                                if (salesBillResp != null) {
+                                    if (salesBillResp.isCorrect()) {
+                                        if (salesBillResp.getMasterData() != null) {
+                                            salesBillMasterData = salesBillResp.getMasterData();
+                                        }
+                                        if (salesBillResp.getDetail1Data() != null) {
+                                            salesBillDetail1Datas = salesBillResp.getDetail1Data();
+                                        }
+                                    } else {
+                                        log.i(salesBillResp.getErrMessage());
+                                        message.obj = salesBillResp.getErrMessage();
                                     }
                                 } else {
-                                    log.i(salesBillResp.getErrMessage());
-                                    message.obj = salesBillResp.getErrMessage();
+                                    message.obj = "服务器错误";
                                 }
-                            } else {
-                                message.obj = "服务器错误";
+                                message.what = NEXT_RESULT;
+                                handler.sendMessage(message);
+                            } catch (Exception e) {
+                                Message message = handler.obtainMessage();
+                                message.what = RESULT_CANCELED;
+                                message.obj = "加载数据失败,请重试...";
+                                handler.sendMessage(message);
+                                e.printStackTrace();
                             }
-                            message.what = NEXT_RESULT;
-                            handler.sendMessage(message);
-                        } catch (Exception e) {
-                            Message message = handler.obtainMessage();
-                            message.what = RESULT_CANCELED;
-                            message.obj = "加载数据失败,请重试...";
-                            handler.sendMessage(message);
-                            e.printStackTrace();
                         }
-                    }
-                }).start();
-
+                    }).start();
+                } else {
+                    CommonUtil.showToastError(SalesBillActivity.this, "当前离线模式不能翻单!", null);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -323,6 +361,11 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                     CommonUtil.showToastError(this, "客户不能为空!", null);
                     return;
                 }
+
+                if (salesBillMasterData.getNoteTypeID() == null) {
+                    CommonUtil.showToastError(this, "发票类型不能为空!", null);
+                    return;
+                }
                 FragmentSalesBillDetail fragmentSalesBillDetail = (FragmentSalesBillDetail) getFragmentManager().findFragmentByTag("detail");
                 if (fragmentSalesBillDetail != null) {
                     if (fragmentSalesBillDetail.getSalesBillDetail1Datas() != null) {
@@ -332,48 +375,71 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                         log.i(salesBillDetail1Datas.size());
                     }
                 }
+
                 pd = ProgressDialog.show(this, null, "正在保存销售单.");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                        ParamsSalesBill params = new ParamsSalesBill();
-                        params.setBillName("s_sale");
-                        params.setOperate("Save");
-                        params.setAddnew(isAddNew);
-                        params.setMasterData(salesBillMasterData);
-                        params.setDetail1Data(salesBillDetail1Datas);
-                        request.setParams(params);
-                        ReqClient client = ReqClient.newInstance();
-                        Message message = handler.obtainMessage();
-                        try {
-                            boolean isSuccess = client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
-                            if (isSuccess) {
-                                String saveJson = client.requestData(request);
-                                log.i(saveJson);
-                                BillSaveResp billSaveResp = gson.fromJson(saveJson, BillSaveResp.class);
-                                if (billSaveResp != null) {
-                                    if (billSaveResp.isCorrect()) {
-                                        message.what = RESULT_OK;
+                final Message message = handler.obtainMessage();
+
+                if (SuperClient.getIsOnline()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                            ParamsSalesBill params = new ParamsSalesBill();
+                            params.setBillName("s_sale");
+                            params.setOperate("Save");
+                            params.setAddnew(isAddNew);
+                            params.setMasterData(salesBillMasterData);
+                            params.setDetail1Data(salesBillDetail1Datas);
+                            request.setParams(params);
+                            ReqClient client = ReqClient.newInstance();
+                            try {
+                                boolean isSuccess = client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                                if (isSuccess) {
+                                    String saveJson = client.requestData(request);
+                                    log.i(saveJson);
+                                    BillSaveResp billSaveResp = gson.fromJson(saveJson, BillSaveResp.class);
+                                    if (billSaveResp != null) {
+                                        if (billSaveResp.isCorrect()) {
+                                            message.what = RESULT_OK;
+                                        } else {
+                                            message.what = RESULT_CANCELED;
+                                            message.obj = billSaveResp.getErrMessage();
+                                        }
                                     } else {
                                         message.what = RESULT_CANCELED;
-                                        message.obj = billSaveResp.getErrMessage();
+                                        message.obj = "保存失败.";
                                     }
-                                } else {
-                                    message.what = RESULT_CANCELED;
-                                    message.obj = "保存失败.";
                                 }
+                            } catch (Exception e) {
+                                message.what = RESULT_CANCELED;
+                                message.obj = "保存失败.";
+                                e.printStackTrace();
+                            } finally {
+                                client.close();
+                                handler.sendMessage(message);
                             }
-                        } catch (Exception e) {
-                            message.what = RESULT_CANCELED;
-                            message.obj = "保存失败.";
-                            e.printStackTrace();
-                        } finally {
-                            client.close();
-                            handler.sendMessage(message);
+                        }
+                    }).start();
+                } else {
+                    SalesBillMasterDataDao salesBillMasterDataDao = SuperClient.getDaoSession(this).getSalesBillMasterDataDao();
+                    SalesBillDetail1DataDao salesBillDetail1DataDao = SuperClient.getDaoSession(this).getSalesBillDetail1DataDao();
+                    if (from == GlobalConstant.FROM_DB) {
+                        salesBillMasterDataDao.update(salesBillMasterData);
+                        salesBillDetail1DataDao.updateInTx(salesBillDetail1Datas);
+                    } else {
+
+                        long masterID = salesBillMasterDataDao.insert(salesBillMasterData);
+                        for (SalesBillDetail1Data detail1Data : salesBillDetail1Datas) {
+                            detail1Data.setMasterID(masterID);
+                            salesBillDetail1DataDao.insert(detail1Data);
                         }
                     }
-                }).start();
+
+                    message.what = RESULT_OK;
+                    handler.sendMessage(message);
+                }
+
+
                 break;
         }
 

@@ -1,13 +1,187 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.twisty.superclient.view.salesOrder.FragmentSalesOrderDetail">
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/topBar"
+                android:layout_width="fill_parent"
+                android:layout_height="25dp"
+                android:background="@android:color/darker_gray"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+
+                <TextView
+                    android:id="@+id/GoodsCode"
+                    style="@style/billItemStyle"
+                    android:layout_width="60dp"
+                    android:text="货品编码" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/GoodsName"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:text="货品名" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/Spec"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:text="规格" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/Unit"
+                    style="@style/billItemStyle"
+                    android:layout_width="30dp"
+                    android:text="单位" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/Quantity"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="数量" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/OrigTaxPrice"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="原始单价(含税)" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/Disc"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="折扣" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/TaxPrice"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="含税单价" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/UnitPrice"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="业务单价" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/TaxRate"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="税率" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/TaxAmt"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="税额" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/Amount"
+                    style="@style/billItemStyle"
+                    android:layout_width="100dp"
+                    android:gravity="center_vertical|right"
+                    android:text="价税合计" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="fill_parent"
+                    android:background="?android:attr/listDivider" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/bottomBar"
+                android:layout_below="@id/topBar" />
+
+            <LinearLayout
+                android:id="@id/bottomBar"
+                android:layout_width="fill_parent"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </RelativeLayout>
+    </HorizontalScrollView>
+</RelativeLayout>

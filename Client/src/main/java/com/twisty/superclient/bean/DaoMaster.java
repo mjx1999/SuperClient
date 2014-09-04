@@ -37,14 +37,14 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(AccountDao.class);
         registerDaoClass(PayMethodDao.class);
         registerDaoClass(AMKindDao.class);
-        registerDaoClass(SalesBillMasterDataDao.class);
         registerDaoClass(SalesBillDetail1DataDao.class);
-        registerDaoClass(SalesOrderMasterDataDao.class);
+        registerDaoClass(SalesBillMasterDataDao.class);
         registerDaoClass(SalesOrderDetail1DataDao.class);
-        registerDaoClass(TransferMasterDataDao.class);
+        registerDaoClass(SalesOrderMasterDataDao.class);
         registerDaoClass(TransferDetail1DataDao.class);
-        registerDaoClass(StockCheckMasterDataDao.class);
+        registerDaoClass(TransferMasterDataDao.class);
         registerDaoClass(StockCheckDetail1DataDao.class);
+        registerDaoClass(StockCheckMasterDataDao.class);
         registerDaoClass(SysParamDao.class);
     }
 
@@ -70,14 +70,14 @@ public class DaoMaster extends AbstractDaoMaster {
         AccountDao.createTable(db, ifNotExists);
         PayMethodDao.createTable(db, ifNotExists);
         AMKindDao.createTable(db, ifNotExists);
-        SalesBillMasterDataDao.createTable(db, ifNotExists);
         SalesBillDetail1DataDao.createTable(db, ifNotExists);
-        SalesOrderMasterDataDao.createTable(db, ifNotExists);
+        SalesBillMasterDataDao.createTable(db, ifNotExists);
         SalesOrderDetail1DataDao.createTable(db, ifNotExists);
-        TransferMasterDataDao.createTable(db, ifNotExists);
+        SalesOrderMasterDataDao.createTable(db, ifNotExists);
         TransferDetail1DataDao.createTable(db, ifNotExists);
-        StockCheckMasterDataDao.createTable(db, ifNotExists);
+        TransferMasterDataDao.createTable(db, ifNotExists);
         StockCheckDetail1DataDao.createTable(db, ifNotExists);
+        StockCheckMasterDataDao.createTable(db, ifNotExists);
         SysParamDao.createTable(db, ifNotExists);
     }
 
@@ -103,14 +103,14 @@ public class DaoMaster extends AbstractDaoMaster {
         AccountDao.dropTable(db, ifExists);
         PayMethodDao.dropTable(db, ifExists);
         AMKindDao.dropTable(db, ifExists);
-        SalesBillMasterDataDao.dropTable(db, ifExists);
         SalesBillDetail1DataDao.dropTable(db, ifExists);
-        SalesOrderMasterDataDao.dropTable(db, ifExists);
+        SalesBillMasterDataDao.dropTable(db, ifExists);
         SalesOrderDetail1DataDao.dropTable(db, ifExists);
-        TransferMasterDataDao.dropTable(db, ifExists);
+        SalesOrderMasterDataDao.dropTable(db, ifExists);
         TransferDetail1DataDao.dropTable(db, ifExists);
-        StockCheckMasterDataDao.dropTable(db, ifExists);
+        TransferMasterDataDao.dropTable(db, ifExists);
         StockCheckDetail1DataDao.dropTable(db, ifExists);
+        StockCheckMasterDataDao.dropTable(db, ifExists);
         SysParamDao.dropTable(db, ifExists);
     }
 

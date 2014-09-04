@@ -36,14 +36,14 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig accountDaoConfig;
     private final DaoConfig payMethodDaoConfig;
     private final DaoConfig aMKindDaoConfig;
-    private final DaoConfig salesBillMasterDataDaoConfig;
     private final DaoConfig salesBillDetail1DataDaoConfig;
-    private final DaoConfig salesOrderMasterDataDaoConfig;
+    private final DaoConfig salesBillMasterDataDaoConfig;
     private final DaoConfig salesOrderDetail1DataDaoConfig;
-    private final DaoConfig transferMasterDataDaoConfig;
+    private final DaoConfig salesOrderMasterDataDaoConfig;
     private final DaoConfig transferDetail1DataDaoConfig;
-    private final DaoConfig stockCheckMasterDataDaoConfig;
+    private final DaoConfig transferMasterDataDaoConfig;
     private final DaoConfig stockCheckDetail1DataDaoConfig;
+    private final DaoConfig stockCheckMasterDataDaoConfig;
     private final DaoConfig sysParamDaoConfig;
 
     private final AccsetDao accsetDao;
@@ -64,14 +64,14 @@ public class DaoSession extends AbstractDaoSession {
     private final AccountDao accountDao;
     private final PayMethodDao payMethodDao;
     private final AMKindDao aMKindDao;
-    private final SalesBillMasterDataDao salesBillMasterDataDao;
     private final SalesBillDetail1DataDao salesBillDetail1DataDao;
-    private final SalesOrderMasterDataDao salesOrderMasterDataDao;
+    private final SalesBillMasterDataDao salesBillMasterDataDao;
     private final SalesOrderDetail1DataDao salesOrderDetail1DataDao;
-    private final TransferMasterDataDao transferMasterDataDao;
+    private final SalesOrderMasterDataDao salesOrderMasterDataDao;
     private final TransferDetail1DataDao transferDetail1DataDao;
-    private final StockCheckMasterDataDao stockCheckMasterDataDao;
+    private final TransferMasterDataDao transferMasterDataDao;
     private final StockCheckDetail1DataDao stockCheckDetail1DataDao;
+    private final StockCheckMasterDataDao stockCheckMasterDataDao;
     private final SysParamDao sysParamDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
@@ -132,29 +132,29 @@ public class DaoSession extends AbstractDaoSession {
         aMKindDaoConfig = daoConfigMap.get(AMKindDao.class).clone();
         aMKindDaoConfig.initIdentityScope(type);
 
-        salesBillMasterDataDaoConfig = daoConfigMap.get(SalesBillMasterDataDao.class).clone();
-        salesBillMasterDataDaoConfig.initIdentityScope(type);
-
         salesBillDetail1DataDaoConfig = daoConfigMap.get(SalesBillDetail1DataDao.class).clone();
         salesBillDetail1DataDaoConfig.initIdentityScope(type);
 
-        salesOrderMasterDataDaoConfig = daoConfigMap.get(SalesOrderMasterDataDao.class).clone();
-        salesOrderMasterDataDaoConfig.initIdentityScope(type);
+        salesBillMasterDataDaoConfig = daoConfigMap.get(SalesBillMasterDataDao.class).clone();
+        salesBillMasterDataDaoConfig.initIdentityScope(type);
 
         salesOrderDetail1DataDaoConfig = daoConfigMap.get(SalesOrderDetail1DataDao.class).clone();
         salesOrderDetail1DataDaoConfig.initIdentityScope(type);
 
-        transferMasterDataDaoConfig = daoConfigMap.get(TransferMasterDataDao.class).clone();
-        transferMasterDataDaoConfig.initIdentityScope(type);
+        salesOrderMasterDataDaoConfig = daoConfigMap.get(SalesOrderMasterDataDao.class).clone();
+        salesOrderMasterDataDaoConfig.initIdentityScope(type);
 
         transferDetail1DataDaoConfig = daoConfigMap.get(TransferDetail1DataDao.class).clone();
         transferDetail1DataDaoConfig.initIdentityScope(type);
 
-        stockCheckMasterDataDaoConfig = daoConfigMap.get(StockCheckMasterDataDao.class).clone();
-        stockCheckMasterDataDaoConfig.initIdentityScope(type);
+        transferMasterDataDaoConfig = daoConfigMap.get(TransferMasterDataDao.class).clone();
+        transferMasterDataDaoConfig.initIdentityScope(type);
 
         stockCheckDetail1DataDaoConfig = daoConfigMap.get(StockCheckDetail1DataDao.class).clone();
         stockCheckDetail1DataDaoConfig.initIdentityScope(type);
+
+        stockCheckMasterDataDaoConfig = daoConfigMap.get(StockCheckMasterDataDao.class).clone();
+        stockCheckMasterDataDaoConfig.initIdentityScope(type);
 
         sysParamDaoConfig = daoConfigMap.get(SysParamDao.class).clone();
         sysParamDaoConfig.initIdentityScope(type);
@@ -177,14 +177,14 @@ public class DaoSession extends AbstractDaoSession {
         accountDao = new AccountDao(accountDaoConfig, this);
         payMethodDao = new PayMethodDao(payMethodDaoConfig, this);
         aMKindDao = new AMKindDao(aMKindDaoConfig, this);
-        salesBillMasterDataDao = new SalesBillMasterDataDao(salesBillMasterDataDaoConfig, this);
         salesBillDetail1DataDao = new SalesBillDetail1DataDao(salesBillDetail1DataDaoConfig, this);
-        salesOrderMasterDataDao = new SalesOrderMasterDataDao(salesOrderMasterDataDaoConfig, this);
+        salesBillMasterDataDao = new SalesBillMasterDataDao(salesBillMasterDataDaoConfig, this);
         salesOrderDetail1DataDao = new SalesOrderDetail1DataDao(salesOrderDetail1DataDaoConfig, this);
-        transferMasterDataDao = new TransferMasterDataDao(transferMasterDataDaoConfig, this);
+        salesOrderMasterDataDao = new SalesOrderMasterDataDao(salesOrderMasterDataDaoConfig, this);
         transferDetail1DataDao = new TransferDetail1DataDao(transferDetail1DataDaoConfig, this);
-        stockCheckMasterDataDao = new StockCheckMasterDataDao(stockCheckMasterDataDaoConfig, this);
+        transferMasterDataDao = new TransferMasterDataDao(transferMasterDataDaoConfig, this);
         stockCheckDetail1DataDao = new StockCheckDetail1DataDao(stockCheckDetail1DataDaoConfig, this);
+        stockCheckMasterDataDao = new StockCheckMasterDataDao(stockCheckMasterDataDaoConfig, this);
         sysParamDao = new SysParamDao(sysParamDaoConfig, this);
 
         registerDao(Accset.class, accsetDao);
@@ -205,14 +205,14 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Account.class, accountDao);
         registerDao(PayMethod.class, payMethodDao);
         registerDao(AMKind.class, aMKindDao);
-        registerDao(SalesBillMasterData.class, salesBillMasterDataDao);
         registerDao(SalesBillDetail1Data.class, salesBillDetail1DataDao);
-        registerDao(SalesOrderMasterData.class, salesOrderMasterDataDao);
+        registerDao(SalesBillMasterData.class, salesBillMasterDataDao);
         registerDao(SalesOrderDetail1Data.class, salesOrderDetail1DataDao);
-        registerDao(TransferMasterData.class, transferMasterDataDao);
+        registerDao(SalesOrderMasterData.class, salesOrderMasterDataDao);
         registerDao(TransferDetail1Data.class, transferDetail1DataDao);
-        registerDao(StockCheckMasterData.class, stockCheckMasterDataDao);
+        registerDao(TransferMasterData.class, transferMasterDataDao);
         registerDao(StockCheckDetail1Data.class, stockCheckDetail1DataDao);
+        registerDao(StockCheckMasterData.class, stockCheckMasterDataDao);
         registerDao(SysParam.class, sysParamDao);
     }
 
@@ -235,14 +235,14 @@ public class DaoSession extends AbstractDaoSession {
         accountDaoConfig.getIdentityScope().clear();
         payMethodDaoConfig.getIdentityScope().clear();
         aMKindDaoConfig.getIdentityScope().clear();
-        salesBillMasterDataDaoConfig.getIdentityScope().clear();
         salesBillDetail1DataDaoConfig.getIdentityScope().clear();
-        salesOrderMasterDataDaoConfig.getIdentityScope().clear();
+        salesBillMasterDataDaoConfig.getIdentityScope().clear();
         salesOrderDetail1DataDaoConfig.getIdentityScope().clear();
-        transferMasterDataDaoConfig.getIdentityScope().clear();
+        salesOrderMasterDataDaoConfig.getIdentityScope().clear();
         transferDetail1DataDaoConfig.getIdentityScope().clear();
-        stockCheckMasterDataDaoConfig.getIdentityScope().clear();
+        transferMasterDataDaoConfig.getIdentityScope().clear();
         stockCheckDetail1DataDaoConfig.getIdentityScope().clear();
+        stockCheckMasterDataDaoConfig.getIdentityScope().clear();
         sysParamDaoConfig.getIdentityScope().clear();
     }
 
@@ -318,36 +318,36 @@ public class DaoSession extends AbstractDaoSession {
         return aMKindDao;
     }
 
-    public SalesBillMasterDataDao getSalesBillMasterDataDao() {
-        return salesBillMasterDataDao;
-    }
-
     public SalesBillDetail1DataDao getSalesBillDetail1DataDao() {
         return salesBillDetail1DataDao;
     }
 
-    public SalesOrderMasterDataDao getSalesOrderMasterDataDao() {
-        return salesOrderMasterDataDao;
+    public SalesBillMasterDataDao getSalesBillMasterDataDao() {
+        return salesBillMasterDataDao;
     }
 
     public SalesOrderDetail1DataDao getSalesOrderDetail1DataDao() {
         return salesOrderDetail1DataDao;
     }
 
-    public TransferMasterDataDao getTransferMasterDataDao() {
-        return transferMasterDataDao;
+    public SalesOrderMasterDataDao getSalesOrderMasterDataDao() {
+        return salesOrderMasterDataDao;
     }
 
     public TransferDetail1DataDao getTransferDetail1DataDao() {
         return transferDetail1DataDao;
     }
 
-    public StockCheckMasterDataDao getStockCheckMasterDataDao() {
-        return stockCheckMasterDataDao;
+    public TransferMasterDataDao getTransferMasterDataDao() {
+        return transferMasterDataDao;
     }
 
     public StockCheckDetail1DataDao getStockCheckDetail1DataDao() {
         return stockCheckDetail1DataDao;
+    }
+
+    public StockCheckMasterDataDao getStockCheckMasterDataDao() {
+        return stockCheckMasterDataDao;
     }
 
     public SysParamDao getSysParamDao() {

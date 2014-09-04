@@ -105,8 +105,8 @@ public class MainActivity extends BaseActivity {
 
         Module module3 = new Module();
         module3.setModuleID(3);
-        module3.setModuleIcon(android.R.drawable.ic_input_get);
-        module3.setModuleName("打印测试");
+        module3.setModuleIcon(android.R.drawable.ic_menu_upload);
+        module3.setModuleName("未提交单据");
 
         modules.add(module1);
         modules.add(module2);
@@ -514,7 +514,8 @@ public class MainActivity extends BaseActivity {
                         }
                         break;
                     case 3:
-
+                        Intent nuIntent = new Intent(MainActivity.this, NotUploadOrderActivity.class);
+                        startActivity(nuIntent);
                         break;
                 }
             }

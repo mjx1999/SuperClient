@@ -25,12 +25,16 @@
     <string name="title_activity_sales_order_list">客户订单列表</string>
     <string name="title_activity_transfer">调拨单</string>
     <string name="title_activity_stock_check">盘点单</string>
-    <string name="title_activity_sales_order_filter">SalesOrderFilterActivity</string>
-    <string name="title_activity_stock_check_add_goods">StockCheckAddGoodsActivity</string>
-    <string name="title_activity_stock_check_filter">StockCheckFilterActivity</string>
+    <string name="title_activity_sales_order_filter">过滤客户订单</string>
+    <string name="title_activity_stock_check_add_goods">添加盘点单明细</string>
+    <string name="title_activity_stock_check_filter">过滤盘点单</string>
     <string name="title_activity_stock_check_list">盘点单列表</string>
     <string name="title_activity_transfer_add_goods">添加调拨单明细</string>
     <string name="title_activity_transfer_filter">过滤调拨单</string>
     <string name="title_activity_transfer_list">调拨单列表</string>
+    <string name="title_activity_not_upload_sb">未提交的销售单</string>
+    <string name="title_activity_not_upload_so">未提交的销售订单</string>
+    <string name="title_activity_not_upload_ts">未提交的调拨单</string>
+    <string name="title_activity_not_upload_sc">未提交的盘点单</string>
 
 </resources>
