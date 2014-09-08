@@ -120,6 +120,8 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
                     @Override
                     public void onItemClick(Store store) {
                         masterData.setStoreID(store.getStoreID());
+                        masterData.setStoreCode(store.getStoreCode());
+                        masterData.setStoreName(store.getStoreName());
                         InStore.setText(store.getStoreCode() + "  " + store.getStoreName());
                     }
                 });
@@ -130,6 +132,8 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
                     @Override
                     public void onItemClick(Store store) {
                         masterData.setInStoreID(store.getStoreID());
+                        masterData.setInStoreCode(store.getStoreCode());
+                        masterData.setInStoreName(store.getStoreName());
                         OutStore.setText(store.getStoreCode() + "  " + store.getStoreName());
                     }
                 });
@@ -143,6 +147,7 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
                     @Override
                     public void onItemClick(AMKind amKind) {
                         masterData.setShipType(amKind.getID());
+                        masterData.setShipTypeName(amKind.getName());
                         ShipTypeName.setText(amKind.getName());
                     }
                 });
@@ -162,6 +167,7 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
                     public void onItemClick(AMKind amKind) {
                         BillKind.setText(amKind.getName());
                         masterData.setBillKind(amKind.getID().intValue());
+                        masterData.setBillKindName(amKind.getName());
                     }
                 });
                 billKindPop.showPopupWindow(v);
@@ -178,6 +184,8 @@ public class FragmentTransferHeader extends BaseFragment implements View.OnClick
                     Employee employee = (Employee) data.getSerializableExtra("Data");
                     EmpName.setText(employee.getEmpName());
                     masterData.setEmpID(employee.getEmpID());
+                    masterData.setEmpCode(employee.getEmpCode());
+                    masterData.setEmpName(employee.getEmpName());
                     break;
             }
         }

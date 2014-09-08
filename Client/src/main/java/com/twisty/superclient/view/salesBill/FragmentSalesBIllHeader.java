@@ -171,7 +171,7 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
                     public void onItemClick(AMKind amKind) {
                         BillKind.setText(amKind.getName());
                         salesBillMasterData.setBillKind(amKind.getID().intValue());
-                        salesBillMasterData.setBillKindName(amKind.getKindName());
+                        salesBillMasterData.setBillKindName(amKind.getName());
                     }
                 });
                 billKindPop.showPopupWindow(view);

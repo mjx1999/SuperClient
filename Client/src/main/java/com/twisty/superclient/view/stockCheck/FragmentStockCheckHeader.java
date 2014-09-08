@@ -1,7 +1,6 @@
 package com.twisty.superclient.view.stockCheck;
 
 
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -30,17 +29,21 @@ import com.twisty.superclient.view.filter.StorePop;
 
 import org.joda.time.DateTime;
 
-public class FragmentStockCheckHeader extends BaseFragment implements View.OnClickListener{
+public class FragmentStockCheckHeader extends BaseFragment implements View.OnClickListener {
     private StockCheckMasterData masterData = new StockCheckMasterData();
-    private EditText BillCode,Remark;
-    private TextView BillDate,StoreName,IOType,DepartmentName,Employee;
+    private EditText BillCode, Remark;
+    private TextView BillDate, StoreName, IOType, DepartmentName, Employee;
     private DateTime dateTime;
     private StoreDao storeDao;
     private DepartmentDao departmentDao;
     private IoTypeDao ioTypeDao;
+
+    public FragmentStockCheckHeader() {
+    }
+
     public StockCheckMasterData getMasterData() {
-        if(masterData !=null&& masterData.getBillID()==null) masterData.setBillID(-1L);
-        if(masterData !=null&& masterData.getBillState()==null) masterData.setBillState(1);
+        if (masterData != null && masterData.getBillID() == null) masterData.setBillID(-1L);
+        if (masterData != null && masterData.getBillState() == null) masterData.setBillState(1);
         masterData.setOpID(SuperClient.getCurrentOperator().getOpID());
         masterData.setBillCode(BillCode.getText().toString());
         masterData.setBillDate(BillDate.getText().toString());
@@ -49,7 +52,7 @@ public class FragmentStockCheckHeader extends BaseFragment implements View.OnCli
     }
 
     public void setMasterData(StockCheckMasterData masterData) {
-        if(masterData!=null){
+        if (masterData != null) {
             this.masterData = masterData;
             BillCode.setText(this.masterData.getBillCode());
             Remark.setText(this.masterData.getRemark());
@@ -59,9 +62,6 @@ public class FragmentStockCheckHeader extends BaseFragment implements View.OnCli
             DepartmentName.setText(this.masterData.getDepartmentName());
             Employee.setText(this.masterData.getEmpName());
         }
-    }
-
-    public FragmentStockCheckHeader() {
     }
 
     @Override
@@ -76,7 +76,7 @@ public class FragmentStockCheckHeader extends BaseFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_stock_check_header, container, false);
+        View view = inflater.inflate(R.layout.fragment_stock_check_header, container, false);
         BillCode = (EditText) view.findViewById(R.id.BillCode);
         Remark = (EditText) view.findViewById(R.id.Remark);
         BillDate = (TextView) view.findViewById(R.id.BillDate);
@@ -99,30 +99,32 @@ public class FragmentStockCheckHeader extends BaseFragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.BillDate:
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d", (i2 + 1)) + "-" + i3;
                         BillDate.setText(billDate);
                         masterData.setBillDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth());
                 dpd.show();
                 break;
             case R.id.StoreName:
-                StorePop storePop = new StorePop(getActivity(),storeDao.loadAll(),new StorePop.onItemClickListener() {
+                StorePop storePop = new StorePop(getActivity(), storeDao.loadAll(), new StorePop.onItemClickListener() {
                     @Override
                     public void onItemClick(Store store) {
                         masterData.setStoreID(store.getStoreID());
-                        StoreName.setText(store.getStoreCode()+"  "+store.getStoreName());
+                        masterData.setStoreCode(store.getStoreCode());
+                        masterData.setStoreName(store.getStoreName());
+                        StoreName.setText(store.getStoreCode() + "  " + store.getStoreName());
                     }
                 });
                 storePop.showPopupWindow(v);
                 break;
             case R.id.IOType:
-                IOTypePop ioTypePop = new IOTypePop(getActivity(),ioTypeDao.loadAll(),new IOTypePop.onItemClickListener() {
+                IOTypePop ioTypePop = new IOTypePop(getActivity(), ioTypeDao.loadAll(), new IOTypePop.onItemClickListener() {
                     @Override
                     public void onItemClick(IoType ioType) {
                         masterData.setIOTypeID(ioType.getIoTypeID());
@@ -133,7 +135,7 @@ public class FragmentStockCheckHeader extends BaseFragment implements View.OnCli
                 ioTypePop.showPopupWindow(v);
                 break;
             case R.id.DepartmentName:
-                DepartmentPop departmentPop = new DepartmentPop(getActivity(),departmentDao.loadAll(),new DepartmentPop.onItemClickListener() {
+                DepartmentPop departmentPop = new DepartmentPop(getActivity(), departmentDao.loadAll(), new DepartmentPop.onItemClickListener() {
                     @Override
                     public void onItemClick(Department department) {
                         masterData.setDepartmentID(department.getDepartmentID());
@@ -154,12 +156,14 @@ public class FragmentStockCheckHeader extends BaseFragment implements View.OnCli
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK){
-            switch (requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case 2:
                     com.twisty.superclient.bean.Employee employee = (com.twisty.superclient.bean.Employee) data.getSerializableExtra("Data");
                     Employee.setText(employee.getEmpName());
                     masterData.setEmpID(employee.getEmpID());
+                    masterData.setEmpCode(employee.getEmpCode());
+                    masterData.setEmpName(employee.getEmpName());
                     break;
             }
         }

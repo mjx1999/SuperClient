@@ -192,6 +192,32 @@ public class FragmentSalesBillDetail extends BaseFragment {
             adapter.notifyDataSetChanged();
         } else {
             Intent intent = new Intent(getActivity(), SalesBillAddGoodsActivity.class);
+
+            FragmentSalesBIllHeader fragmentSalesBIllHeader = (FragmentSalesBIllHeader) getFragmentManager().findFragmentByTag("header");
+            Long traderid = fragmentSalesBIllHeader.getSalesBillMasterData().getTraderID();
+            if (traderid == null) {
+                CommonUtil.showToastError(getActivity(), "请选择客户!", null);
+                return true;
+            }
+
+            Long noteTypeID = fragmentSalesBIllHeader.getSalesBillMasterData().getNoteTypeID();
+            if (noteTypeID == null) {
+                CommonUtil.showToastError(getActivity(), "请选择发票类型!", null);
+                return true;
+            }
+            AMKindDao amKindDao = SuperClient.getDaoSession(getActivity()).getAMKindDao();
+            QueryBuilder<AMKind> amKindQueryBuilder = amKindDao.queryBuilder();
+            amKindQueryBuilder.where(AMKindDao.Properties.Kind.eq(14), AMKindDao.Properties.ID.eq(noteTypeID));
+            AMKind noteType = amKindQueryBuilder.unique();
+
+
+            intent.putExtra("NoteType", noteType);
+            TraderDao traderDao = SuperClient.getDaoSession(getActivity()).getTraderDao();
+            QueryBuilder<Trader> traderQueryBuilder = traderDao.queryBuilder();
+            traderQueryBuilder.where(TraderDao.Properties.TraderID.eq(traderid));
+            Trader trader = traderQueryBuilder.unique();
+            intent.putExtra("Trader", trader);
+
             intent.putExtra("CurrentData", currentDetail);
             intent.putExtra("Type", UPDATAGOODS);
             startActivityForResult(intent, UPDATAGOODS);

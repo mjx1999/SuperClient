@@ -30,6 +30,7 @@ import com.twisty.superclient.view.filter.StorePop;
 import com.twisty.superclient.view.filter.UnitPop;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +49,13 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
     private PriceUtil priceUtil;
     private BigDecimal price;
     private int type;
+    private DecimalFormat decimalFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_bill_add_goods);
+        decimalFormat = new DecimalFormat("#.########");
         type = getIntent().getIntExtra("Type", FragmentSalesBillDetail.ADDGOODS);
         SalesBillDetail1Data currentData = (SalesBillDetail1Data) getIntent().getSerializableExtra("CurrentData");
         priceUtil = new PriceUtil(this);
@@ -89,23 +92,23 @@ public class SalesBillAddGoodsActivity extends BaseActivity implements View.OnCl
         salesBillDetail1Data.setStoreCode(store.getStoreCode());
         if (type == FragmentSalesBillDetail.UPDATAGOODS && currentData != null) {
             salesBillDetail1Data = currentData;
-            price = new BigDecimal(currentData.getOrigPrice() + "");
+            price = new BigDecimal(decimalFormat.format(currentData.getOrigPrice()));
 
             BarCode.setText(salesBillDetail1Data.getBarCode());
             StoreCode.setText(salesBillDetail1Data.getStoreCode() + " " + salesBillDetail1Data.getStoreName());
             GoodsName.setText(salesBillDetail1Data.getGoodsName());
             Spec.setText(salesBillDetail1Data.getSpecs());
             Unit.setText(salesBillDetail1Data.getUnitName());
-
+            OrigPrice.setText(decimalFormat.format(salesBillDetail1Data.getOrigPrice()));
             GoodsCode.setText(salesBillDetail1Data.getGoodsCode());
-            UnitQuanty.setText(salesBillDetail1Data.getUnitQuantity() + "");
-            OrigTaxPrice.setText(salesBillDetail1Data.getOrigTaxPrice() + "");
-            Disc.setText(salesBillDetail1Data.getDisc() + "");
-            TaxPrice.setText(salesBillDetail1Data.getTaxPrice() + "");
-            UnitPrice.setText(salesBillDetail1Data.getUnitPrice() + "");
-            TaxRate.setText(salesBillDetail1Data.getTaxRate() + "");
-            TaxAmt.setText(salesBillDetail1Data.getTaxAmt() + "");
-            Amount.setText(salesBillDetail1Data.getAmount() + "");
+            UnitQuanty.setText(decimalFormat.format(salesBillDetail1Data.getUnitQuantity()));
+            OrigTaxPrice.setText(decimalFormat.format(salesBillDetail1Data.getOrigTaxPrice()));
+            Disc.setText(decimalFormat.format(salesBillDetail1Data.getDisc()));
+            TaxPrice.setText(decimalFormat.format(salesBillDetail1Data.getTaxPrice()));
+            UnitPrice.setText(decimalFormat.format(salesBillDetail1Data.getUnitPrice()));
+            TaxRate.setText(decimalFormat.format(salesBillDetail1Data.getTaxRate()));
+            TaxAmt.setText(decimalFormat.format(salesBillDetail1Data.getTaxAmt()));
+            Amount.setText(decimalFormat.format(salesBillDetail1Data.getAmount()));
         }
 
 

@@ -32,12 +32,11 @@ public class NotUploadSB extends BaseActivity {
         setContentView(R.layout.activity_not_upload_sb);
         listView = (ListView) findViewById(R.id.listView);
         masterDataDao = SuperClient.getDaoSession(this).getSalesBillMasterDataDao();
-        adapterData = masterDataDao.loadAll();
-        listView.setAdapter(new NotUploadSBAdapter(this, adapterData));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SalesBillMasterData masterData = adapterData.get(position);
+                masterData.resetSalesBillDetail1DataList();
                 ArrayList<SalesBillDetail1Data> detail1Datas = new ArrayList<SalesBillDetail1Data>(masterData.getSalesBillDetail1DataList());
                 Intent intent = new Intent(NotUploadSB.this, SalesBillActivity.class);
                 intent.putExtra("From", GlobalConstant.FROM_DB);
@@ -45,11 +44,24 @@ public class NotUploadSB extends BaseActivity {
                 intent.putExtra("DetailData", detail1Datas);
                 log.i(adapterData.get(position).getSalesBillDetail1DataList());
                 startActivity(intent);
-
             }
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if(adapter==null){
+        adapterData = masterDataDao.loadAll();
+        adapter = new NotUploadSBAdapter(this, adapterData);
+        listView.setAdapter(adapter);
+//        }else{
+//            adapter.setData(adapterData);
+//            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetInvalidated();
+//        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

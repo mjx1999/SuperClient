@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.twisty.superclient.R;
 import com.twisty.superclient.bean.SalesOrderDetail1Data;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,10 @@ import java.util.List;
  * Created by twisty on 14-8-16.
  */
 public class SalesOrderDetailAdapter extends BaseAdapter {
+    DecimalFormat decimalFormat;
     private List<SalesOrderDetail1Data> data;
     private LayoutInflater inflater;
+
 //    private StoreDao storeDao;
 //    private GoodsDao goodsDao;
 //    private UnitDao unitDao;
@@ -30,6 +33,8 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
 //        goodsDao = session.getGoodsDao();
 //        unitDao = session.getUnitDao();
         inflater = LayoutInflater.from(context);
+        decimalFormat = new DecimalFormat("#.00");//格式化设置
+
     }
 
     public List<SalesOrderDetail1Data> getData() {
@@ -66,18 +71,20 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.sales_order_detail_item, null);
 //            viewHolder.StoreCode = (TextView) convertView.findViewById(R.id.StoreCode);
 //            viewHolder.StoreName = (TextView) convertView.findViewById(R.id.StoreName);
-            viewHolder.GoodsCode = (TextView) convertView.findViewById(R.id.GoodsCode);
+//            viewHolder.GoodsCode = (TextView) convertView.findViewById(R.id.GoodsCode);
+            viewHolder.ItemNo = (TextView) convertView.findViewById(R.id.ItemNo);
             viewHolder.GoodsName = (TextView) convertView.findViewById(R.id.GoodsName);
-            viewHolder.Spec = (TextView) convertView.findViewById(R.id.Spec);
+//            viewHolder.Spec = (TextView) convertView.findViewById(R.id.Spec);
             viewHolder.Unit = (TextView) convertView.findViewById(R.id.Unit);
             viewHolder.Quantity = (TextView) convertView.findViewById(R.id.Quantity);
-            viewHolder.OrigTaxPrice = (TextView) convertView.findViewById(R.id.OrigTaxPrice);
-            viewHolder.Disc = (TextView) convertView.findViewById(R.id.Disc);
-            viewHolder.TaxPrice = (TextView) convertView.findViewById(R.id.TaxPrice);
+//            viewHolder.OrigTaxPrice = (TextView) convertView.findViewById(R.id.OrigTaxPrice);
+//            viewHolder.Disc = (TextView) convertView.findViewById(R.id.Disc);
+//            viewHolder.TaxPrice = (TextView) convertView.findViewById(R.id.TaxPrice);
             viewHolder.UnitPrice = (TextView) convertView.findViewById(R.id.UnitPrice);
             viewHolder.TaxRate = (TextView) convertView.findViewById(R.id.TaxRate);
-            viewHolder.TaxAmt = (TextView) convertView.findViewById(R.id.TaxAmt);
+//            viewHolder.TaxAmt = (TextView) convertView.findViewById(R.id.TaxAmt);
             viewHolder.Amount = (TextView) convertView.findViewById(R.id.Amount);
+            viewHolder.ChargeDate = (TextView) convertView.findViewById(R.id.ChargeDate);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -101,9 +108,10 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
 //                viewHolder.Spec.setText(goods.getSpecs());
 //            }
 //        }
-        viewHolder.GoodsCode.setText(salesOrderDetail1Data.getGoodsCode());
-        viewHolder.GoodsName.setText(salesOrderDetail1Data.getGoodsName());
-        viewHolder.Spec.setText(salesOrderDetail1Data.getSpecs());
+//        viewHolder.GoodsCode.setText(salesOrderDetail1Data.getGoodsCode());
+        viewHolder.ItemNo.setText(position + 1 + "");
+        viewHolder.GoodsName.setText(salesOrderDetail1Data.getGoodsName() + salesOrderDetail1Data.getSpecs());
+//        viewHolder.Spec.setText(salesOrderDetail1Data.getSpecs());
 //        if(salesOrderDetail1Data.getUnitID()!=null){
 //            QueryBuilder<Unit> unitQueryBuilder = unitDao.queryBuilder();
 //            unitQueryBuilder.where(UnitDao.Properties.UnitID.eq(salesOrderDetail1Data.getUnitID()));
@@ -113,27 +121,28 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
 //        }
         viewHolder.Unit.setText(salesOrderDetail1Data.getUnitName());
 
-        viewHolder.Quantity.setText(salesOrderDetail1Data.getQuantity() + "");
-        viewHolder.OrigTaxPrice.setText(salesOrderDetail1Data.getOrigTaxPrice() + "");
-        viewHolder.TaxPrice.setText(salesOrderDetail1Data.getTaxPrice() + "");
-        viewHolder.Disc.setText(salesOrderDetail1Data.getDisc() + "");
-        viewHolder.TaxRate.setText(salesOrderDetail1Data.getTaxRate() + "");
-        viewHolder.UnitPrice.setText(salesOrderDetail1Data.getUnitPrice() + "");
-        viewHolder.TaxRate.setText(salesOrderDetail1Data.getTaxRate() + "");
-        viewHolder.TaxAmt.setText(salesOrderDetail1Data.getTaxAmt() + "");
-        viewHolder.Amount.setText(salesOrderDetail1Data.getAmount() + "");
-
+        viewHolder.Quantity.setText(decimalFormat.format(salesOrderDetail1Data.getQuantity()));
+//        viewHolder.OrigTaxPrice.setText(salesOrderDetail1Data.getOrigTaxPrice() + "");
+//        viewHolder.TaxPrice.setText(salesOrderDetail1Data.getTaxPrice() + "");
+//        viewHolder.Disc.setText(salesOrderDetail1Data.getDisc() + "");
+        viewHolder.TaxRate.setText(decimalFormat.format(salesOrderDetail1Data.getTaxRate()));
+        viewHolder.UnitPrice.setText(decimalFormat.format(salesOrderDetail1Data.getUnitPrice()));
+//        viewHolder.TaxAmt.setText(salesOrderDetail1Data.getTaxAmt() + "");
+        viewHolder.Amount.setText(decimalFormat.format(salesOrderDetail1Data.getAmount()));
+        viewHolder.ChargeDate.setText(salesOrderDetail1Data.getChargeDate());
         return convertView;
     }
 
     class ViewHolder {
         TextView /*StoreCode, StoreName,*/
-                GoodsCode, GoodsName,
-                Spec, Unit,
+//                GoodsCode
+                ItemNo,
+                GoodsName,
+        /*Spec, */Unit,
 
-        Quantity,
-                OrigTaxPrice, Disc,
-                TaxPrice, UnitPrice,
-                TaxRate, TaxAmt, Amount;
+        Quantity, ChargeDate,
+        /* OrigTaxPrice, Disc,
+         TaxPrice,*/ UnitPrice,
+                TaxRate/*, TaxAmt*/, Amount;
     }
 }

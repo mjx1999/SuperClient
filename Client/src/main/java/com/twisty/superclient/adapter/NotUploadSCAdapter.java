@@ -8,27 +8,27 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.SalesBillMasterData;
+import com.twisty.superclient.bean.StockCheckMasterData;
 
 import java.util.List;
 
 /**
  * Created by twisty on 14-9-4.
  */
-public class NotUploadSBAdapter extends BaseAdapter {
-    private List<SalesBillMasterData> data;
+public class NotUploadSCAdapter extends BaseAdapter {
+    private List<StockCheckMasterData> data;
     private LayoutInflater inflater;
 
-    public NotUploadSBAdapter(Context context, List<SalesBillMasterData> data) {
+    public NotUploadSCAdapter(Context context, List<StockCheckMasterData> data) {
         this.data = data;
         inflater = LayoutInflater.from(context);
     }
 
-    public List<SalesBillMasterData> getData() {
+    public List<StockCheckMasterData> getData() {
         return data;
     }
 
-    public void setData(List<SalesBillMasterData> data) {
+    public void setData(List<StockCheckMasterData> data) {
         this.data = data;
     }
 
@@ -52,7 +52,7 @@ public class NotUploadSBAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SalesBillMasterData masterData = data.get(position);
+        StockCheckMasterData masterData = data.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -64,7 +64,7 @@ public class NotUploadSBAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.BillCode.setText(masterData.getBillCode());
-        viewHolder.TraderName.setText(masterData.getTraderName());
+        viewHolder.TraderName.setText(masterData.getStoreName());
         return convertView;
     }
 

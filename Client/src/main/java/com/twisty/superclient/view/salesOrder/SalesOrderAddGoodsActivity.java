@@ -1,5 +1,6 @@
 package com.twisty.superclient.view.salesOrder;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,6 +29,8 @@ import com.twisty.superclient.view.filter.GoodsFilterActivity;
 import com.twisty.superclient.view.filter.UnitPop;
 import com.twisty.superclient.view.salesBill.FragmentSalesBillDetail;
 
+import org.joda.time.DateTime;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +47,14 @@ public class SalesOrderAddGoodsActivity extends BaseActivity implements View.OnC
     private PriceUtil priceUtil;
     private BigDecimal price;
     private int type;
-
+    private DateTime dateTime;
     private GoodsDao goodsDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_order_add_goods);
+        dateTime = new DateTime();
         trader = (Trader) getIntent().getSerializableExtra("Trader");
         type = getIntent().getIntExtra("Type", FragmentSalesBillDetail.ADDGOODS);
         SalesOrderDetail1Data currentData = (SalesOrderDetail1Data) getIntent().getSerializableExtra("CurrentData");
@@ -73,6 +78,8 @@ public class SalesOrderAddGoodsActivity extends BaseActivity implements View.OnC
         Amount = (EditText) findViewById(R.id.Amount);
         GoodsName.setOnClickListener(this);
         ChargeDate.setOnClickListener(this);
+        ChargeDate.setText(dateTime.toString("YYYY-MM-dd"));
+
         if (type == FragmentSalesBillDetail.UPDATAGOODS && currentData != null) {
             salesOrderDetail1Data = currentData;
             price = new BigDecimal(currentData.getOrigPrice() + "");
@@ -206,6 +213,8 @@ public class SalesOrderAddGoodsActivity extends BaseActivity implements View.OnC
 
             try {
                 salesOrderDetail1Data.setOrigTaxPrice(Double.valueOf(OrigTaxPrice.getText().toString()));
+                salesOrderDetail1Data.setOrigPrice(price.doubleValue());
+                salesOrderDetail1Data.setChargeDate(ChargeDate.getText().toString());
                 salesOrderDetail1Data.setDisc(Double.valueOf(Disc.getText().toString()));
                 salesOrderDetail1Data.setTaxPrice(Double.valueOf(TaxPrice.getText().toString()));
                 salesOrderDetail1Data.setTaxRate(Double.valueOf(TaxRate.getText().toString()));
@@ -255,7 +264,15 @@ public class SalesOrderAddGoodsActivity extends BaseActivity implements View.OnC
                 startActivityForResult(intent, 1);
                 break;
             case R.id.ChargeDate:
-
+                DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
+                        String billDate = i + "-" + String.format("%02d", (i2 + 1)) + "-" + i3;
+                        ChargeDate.setText(billDate);
+                        salesOrderDetail1Data.setChargeDate(billDate);
+                    }
+                }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth());
+                dpd.show();
                 break;
         }
     }

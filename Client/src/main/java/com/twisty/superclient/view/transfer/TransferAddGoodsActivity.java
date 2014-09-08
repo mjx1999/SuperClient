@@ -22,6 +22,7 @@ import com.twisty.superclient.view.BaseActivity;
 import com.twisty.superclient.view.filter.GoodsFilterActivity;
 import com.twisty.superclient.view.filter.UnitPop;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +36,14 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
     private EditText Barcode, GoodsCode, Quantity, UnitPrice, Amount;
     private TextView GoodsName, Spec, Unit;
 
+    //    private PriceUtil priceUtil;
+    private BigDecimal price;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer_add_goods);
+//        priceUtil = new PriceUtil(this);
         goodsDao = SuperClient.getDaoSession(this).getGoodsDao();
         unitDao = SuperClient.getDaoSession(this).getUnitDao();
         Barcode = (EditText) findViewById(R.id.BarCode);
@@ -91,6 +96,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                                 GoodsName.setText(goods.getGoodsName());
                                 Spec.setText(goods.getSpecs());
                                 Unit.setText(unit.getUnitName());
+                                UnitPrice.setText(unit.getSPrice().toString());
                                 transferDetail1Data.setGoodsCode(goods.getGoodsCode());
                                 transferDetail1Data.setGoodsName(goods.getGoodsName());
                                 transferDetail1Data.setSpecs(goods.getSpecs());
@@ -110,6 +116,16 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                 }
             }
         });
+        Quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    BigDecimal amount = new BigDecimal(UnitPrice.getText().toString()).multiply(new BigDecimal(Quantity.getText().toString()));
+                    transferDetail1Data.setAmount(amount.doubleValue());
+                    Amount.setText(amount.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                }
+            }
+        });
     }
 
 
@@ -125,7 +141,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
         if (id == R.id.commit) {
             Intent intent = new Intent();
             try {
-                transferDetail1Data.setUnitQuantity(Double.valueOf(Quantity.getText().toString()));
+                transferDetail1Data.setQuantity(Double.valueOf(Quantity.getText().toString()));
             } catch (NumberFormatException e) {
                 CommonUtil.showToastError(this, "调入数量不能为空或者非数字!", null);
                 return true;
@@ -192,6 +208,12 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                                     public void onItemClick(Unit unit) {
                                         Barcode.setText(unit.getBarCode());
                                         Unit.setText(unit.getUnitName());
+                                        UnitPrice.setText(unit.getSPrice().toString());
+
+
+                                        Quantity.setText("1");
+                                        Quantity.setSelection(1);
+                                        Quantity.requestFocus();
                                         transferDetail1Data.setUnitID(unit.getUnitID());
                                         transferDetail1Data.setUnitName(unit.getUnitName());
                                         transferDetail1Data.setBarCode(unit.getBarCode());

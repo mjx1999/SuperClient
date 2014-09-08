@@ -1,8 +1,10 @@
 package com.twisty.superclient.view.salesBill;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +36,9 @@ import com.twisty.superclient.view.BluetoothListActivity;
 import java.util.ArrayList;
 
 public class SalesBillActivity extends BaseActivity implements View.OnClickListener, ActionBar.TabListener {
-    private static final int PRE_RESULT = 3, NEXT_RESULT = 4, DELETE_RESULT = 5;
+    private static final int PRE_RESULT = 3, NEXT_RESULT = 4, DELETE_RESULT = 5, DB_UPDATE = 6;
+    SalesBillMasterDataDao salesBillMasterDataDao;
+    SalesBillDetail1DataDao salesBillDetail1DataDao;
     private ActionBar actionBar;
     private Button searchBTN, saveBTN;
     private boolean isAddNew = true;
@@ -42,6 +46,10 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
     private SalesBillMasterData salesBillMasterData = new SalesBillMasterData();
     private ProgressDialog pd;
     private ArrayList<SalesBillDetail1Data> salesBillDetail1Datas = new ArrayList<SalesBillDetail1Data>();
+    private FragmentSalesBillDetail fragmentSalesBillDetail;
+    private FragmentSalesBIllHeader fragmentSalesBIllHeader;
+    private Gson gson;
+    private int from;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -70,7 +78,15 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                     }
                     break;
                 case RESULT_OK:
+                    if (from == GlobalConstant.FROM_DB) {
+                        salesBillMasterDataDao.delete(salesBillMasterData);
+                        salesBillDetail1DataDao.deleteInTx(salesBillDetail1Datas);
+                    }
                     CommonUtil.showToastInfo(SalesBillActivity.this, "保存成功!", null);
+                    isCommit = true;
+                    break;
+                case DB_UPDATE:
+                    CommonUtil.showToastInfo(SalesBillActivity.this, "当前离线模式,数据保存在本地,为了数据安全,请及时联网上传到服务器!", null);
                     isCommit = true;
                     break;
                 case RESULT_CANCELED:
@@ -79,14 +95,12 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
             }
         }
     };
-    private FragmentSalesBillDetail fragmentSalesBillDetail;
-    private FragmentSalesBIllHeader fragmentSalesBIllHeader;
-    private Gson gson;
-    private int from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        salesBillMasterDataDao = SuperClient.getDaoSession(this).getSalesBillMasterDataDao();
+        salesBillDetail1DataDao = SuperClient.getDaoSession(this).getSalesBillDetail1DataDao();
         from = getIntent().getIntExtra("From", -1);
         setContentView(R.layout.activity_sales_bill);
         gson = CommonUtil.getGson();
@@ -123,10 +137,10 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
         super.onPostCreate(savedInstanceState);
         if (from != -1) {
             if (from == GlobalConstant.FROM_DB) {
-                SalesBillMasterData masterData = (SalesBillMasterData) getIntent().getSerializableExtra("MasterData");
-                ArrayList<SalesBillDetail1Data> detail1Datas = (ArrayList<SalesBillDetail1Data>) getIntent().getSerializableExtra("DetailData");
-                fragmentSalesBIllHeader.setSalesBillMasterData(masterData);
-                fragmentSalesBillDetail.setSalesBillDetail1Datas(detail1Datas);
+                salesBillMasterData = (SalesBillMasterData) getIntent().getSerializableExtra("MasterData");
+                salesBillDetail1Datas = (ArrayList<SalesBillDetail1Data>) getIntent().getSerializableExtra("DetailData");
+                fragmentSalesBIllHeader.setSalesBillMasterData(salesBillMasterData);
+                fragmentSalesBillDetail.setSalesBillDetail1Datas(salesBillDetail1Datas);
             } else if (from == GlobalConstant.FROM_LIST) {
                 //TODO 从列表进来
             }
@@ -165,48 +179,63 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                 return true;
             case R.id.delete:
                 if (SuperClient.getIsOnline()) {
-
-                    pd = ProgressDialog.show(this, null, "正在删除...");
-
-                    new Thread(new Runnable() {
+                    new AlertDialog.Builder(this).setMessage("确定要删除吗?").setPositiveButton("确定删除", new DialogInterface.OnClickListener() {
                         @Override
-                        public void run() {
-                            ReqClient client = ReqClient.newInstance();
-                            Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                            Params paramsDel = new Params();
-                            paramsDel.setOperate("Delete");
-                            paramsDel.setBillName("s_sale");
-                            paramsDel.setBillID(fragmentSalesBIllHeader.getSalesBillMasterData().getBillID());
-                            request.setParams(paramsDel);
-                            Message message = handler.obtainMessage();
-                            try {
-                                if (client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest())) {
-                                    String delJson = client.requestData(request);
-                                    log.i(delJson);
-                                    Response response = gson.fromJson(delJson, Response.class);
-                                    if (response.isCorrect()) {
-                                        message.obj = "删除成功!";
-                                        message.what = DELETE_RESULT;
-                                    } else {
+                        public void onClick(DialogInterface dialog, int which) {
+                            pd = ProgressDialog.show(SalesBillActivity.this, null, "正在删除...");
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ReqClient client = ReqClient.newInstance();
+                                    Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                                    Params paramsDel = new Params();
+                                    paramsDel.setOperate("Delete");
+                                    paramsDel.setBillName("s_sale");
+                                    paramsDel.setBillID(fragmentSalesBIllHeader.getSalesBillMasterData().getBillID());
+                                    request.setParams(paramsDel);
+                                    Message message = handler.obtainMessage();
+                                    try {
+                                        if (client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest())) {
+                                            String delJson = client.requestData(request);
+                                            log.i(delJson);
+                                            Response response = gson.fromJson(delJson, Response.class);
+                                            if (response.isCorrect()) {
+                                                message.obj = "删除成功!";
+                                                message.what = DELETE_RESULT;
+                                            } else {
+                                                message.what = RESULT_CANCELED;
+                                                message.obj = response.getErrMessage();
+                                            }
+                                        } else {
+                                            message.what = RESULT_CANCELED;
+                                            message.obj = "连接服务器超时!";
+                                        }
+                                    } catch (Exception e) {
                                         message.what = RESULT_CANCELED;
-                                        message.obj = response.getErrMessage();
+                                        message.obj = "连接服务器超时!";
+                                        e.printStackTrace();
+                                    } finally {
+                                        handler.sendMessage(message);
+                                        client.close();
                                     }
-                                } else {
-                                    message.what = RESULT_CANCELED;
-                                    message.obj = "连接服务器超时!";
                                 }
-                            } catch (Exception e) {
-                                message.what = RESULT_CANCELED;
-                                message.obj = "连接服务器超时!";
-                                e.printStackTrace();
-                            } finally {
-                                handler.sendMessage(message);
-                                client.close();
-                            }
+                            }).start();
                         }
-                    }).start();
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+
                 } else {
-                    CommonUtil.showToastError(SalesBillActivity.this, "当前离线模式不能删除单据!", null);
+                    if (from == GlobalConstant.FROM_DB) {
+                        salesBillMasterDataDao.delete(salesBillMasterData);
+                        salesBillDetail1DataDao.deleteInTx(salesBillDetail1Datas);
+                    } else {
+                        CommonUtil.showToastError(SalesBillActivity.this, "当前离线模式不能删除单据!", null);
+                    }
                 }
 
                 return true;
@@ -308,6 +337,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                         }
                     }).start();
                 } else {
+
                     CommonUtil.showToastError(SalesBillActivity.this, "当前离线模式不能翻单!", null);
                 }
                 return true;
@@ -317,7 +347,6 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        log.i(tab.getText());
         ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
         if (tab.getText().equals("明细")) {
             ft.hide(fragmentSalesBIllHeader);
@@ -421,11 +450,14 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                         }
                     }).start();
                 } else {
-                    SalesBillMasterDataDao salesBillMasterDataDao = SuperClient.getDaoSession(this).getSalesBillMasterDataDao();
-                    SalesBillDetail1DataDao salesBillDetail1DataDao = SuperClient.getDaoSession(this).getSalesBillDetail1DataDao();
+
                     if (from == GlobalConstant.FROM_DB) {
                         salesBillMasterDataDao.update(salesBillMasterData);
-                        salesBillDetail1DataDao.updateInTx(salesBillDetail1Datas);
+                        for (SalesBillDetail1Data detail1Data : salesBillDetail1Datas) {
+                            log.i(salesBillMasterData.getId());
+                            detail1Data.setMasterID(salesBillMasterData.getId());
+                            salesBillDetail1DataDao.insertOrReplace(detail1Data);
+                        }
                     } else {
 
                         long masterID = salesBillMasterDataDao.insert(salesBillMasterData);
@@ -435,7 +467,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                         }
                     }
 
-                    message.what = RESULT_OK;
+                    message.what = DB_UPDATE;
                     handler.sendMessage(message);
                 }
 

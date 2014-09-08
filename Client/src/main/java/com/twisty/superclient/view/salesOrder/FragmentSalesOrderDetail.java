@@ -150,6 +150,17 @@ public class FragmentSalesOrderDetail extends BaseFragment {
             adapter.notifyDataSetChanged();
         } else {
             Intent intent = new Intent(getActivity(), SalesOrderAddGoodsActivity.class);
+            FragmentSalesOrderHeader fragmentSalesBIllHeader = (FragmentSalesOrderHeader) getFragmentManager().findFragmentByTag("header");
+            Long traderid = fragmentSalesBIllHeader.getMasterData().getTraderId();
+            if (traderid == null) {
+                CommonUtil.showToastError(getActivity(), "请选择客户!", null);
+                return true;
+            }
+            TraderDao traderDao = SuperClient.getDaoSession(getActivity()).getTraderDao();
+            QueryBuilder<Trader> traderQueryBuilder = traderDao.queryBuilder();
+            traderQueryBuilder.where(TraderDao.Properties.TraderID.eq(traderid));
+            Trader trader = traderQueryBuilder.unique();
+            intent.putExtra("Trader", trader);
             intent.putExtra("CurrentData", currentDetail);
             intent.putExtra("Type", UPDATAGOODS);
             startActivityForResult(intent, UPDATAGOODS);

@@ -8,27 +8,27 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
-import com.twisty.superclient.bean.SalesBillMasterData;
+import com.twisty.superclient.bean.SalesOrderMasterData;
 
 import java.util.List;
 
 /**
  * Created by twisty on 14-9-4.
  */
-public class NotUploadSBAdapter extends BaseAdapter {
-    private List<SalesBillMasterData> data;
+public class NotUploadSOAdapter extends BaseAdapter {
+    private List<SalesOrderMasterData> data;
     private LayoutInflater inflater;
 
-    public NotUploadSBAdapter(Context context, List<SalesBillMasterData> data) {
+    public NotUploadSOAdapter(Context context, List<SalesOrderMasterData> data) {
         this.data = data;
         inflater = LayoutInflater.from(context);
     }
 
-    public List<SalesBillMasterData> getData() {
+    public List<SalesOrderMasterData> getData() {
         return data;
     }
 
-    public void setData(List<SalesBillMasterData> data) {
+    public void setData(List<SalesOrderMasterData> data) {
         this.data = data;
     }
 
@@ -52,7 +52,7 @@ public class NotUploadSBAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SalesBillMasterData masterData = data.get(position);
+        SalesOrderMasterData masterData = data.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();

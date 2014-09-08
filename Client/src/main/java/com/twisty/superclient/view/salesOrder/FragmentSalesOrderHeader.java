@@ -39,7 +39,11 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
     private EditText BillCode,BillTo,LinkMan,ContactPhone,Contactor;
     private DateTime dateTime = new DateTime();
     private PayMethodDao payMethodDao;
-//    private AccountDao accountDao;
+
+    public FragmentSalesOrderHeader() {
+    }
+
+    //    private AccountDao accountDao;
 //    private AMKindDao amKindDao;
 //    private TraderDao traderDao;
 //    private EmployeeDao employeeDao;
@@ -61,7 +65,7 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
     }
 
     public void setMasterData(SalesOrderMasterData masterData) {
-        if(masterData!=null){
+        if (masterData != null) {
             this.masterData = masterData;
             BillCode.setText(masterData.getBillCode());
             BillDate.setText(masterData.getBillDate());
@@ -75,9 +79,6 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
             PayMethod.setText(masterData.getPaymethodName());
             Employee.setText(masterData.getEmpName());
         }
-    }
-
-    public FragmentSalesOrderHeader() {
     }
 
     @Override
@@ -185,8 +186,14 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
             switch (requestCode){
                 case 1:
                     Trader trader = (Trader) data.getSerializableExtra("Data");
-                    TraderName.setText(trader.getTraderName());
                     masterData.setTraderId(trader.getTraderID());
+                    masterData.setTraderCode(trader.getTraderCode());
+                    masterData.setTraderName(trader.getTraderName());
+                    masterData.setContactPhone(trader.getTel1());
+                    masterData.setLinkMan(trader.getContactor());
+                    masterData.setBillto(trader.getShipTo());
+
+                    TraderName.setText(trader.getTraderName());
                     ContactPhone.setText(trader.getTel1());
                     BillTo.setText(trader.getShipTo());
                     LinkMan.setText(trader.getContactor());
@@ -195,6 +202,8 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
                     com.twisty.superclient.bean.Employee employee = (Employee) data.getSerializableExtra("Data");
                     Employee.setText(employee.getEmpName());
                     masterData.setEmpID(employee.getEmpID());
+                    masterData.setEmpCode(employee.getEmpCode());
+                    masterData.setEmpName(employee.getEmpName());
                     break;
             }
         }
