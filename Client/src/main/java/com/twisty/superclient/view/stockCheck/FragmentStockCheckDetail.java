@@ -18,12 +18,14 @@ import android.widget.ListView;
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.StockCheckDetailAdapter;
 import com.twisty.superclient.bean.StockCheckDetail1Data;
+import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseFragment;
 
 import java.util.ArrayList;
 
 public class FragmentStockCheckDetail extends BaseFragment {
     public static final int ADDGOODS = 1, UPDATAGOODS = 2;
+    private FragmentStockCheckHeader fragmentStockCheckHeader;
 
     private ListView listView;
     private ArrayList<StockCheckDetail1Data> Detail1Data = new ArrayList<StockCheckDetail1Data>();
@@ -54,6 +56,7 @@ public class FragmentStockCheckDetail extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        fragmentStockCheckHeader = (FragmentStockCheckHeader) getFragmentManager().findFragmentByTag("header");
     }
 
     @Override
@@ -67,7 +70,13 @@ public class FragmentStockCheckDetail extends BaseFragment {
         int itemID = item.getItemId();
         switch (itemID) {
             case R.id.add:
+                Long storeID = fragmentStockCheckHeader.getMasterData().getStoreID();
+                if (storeID == null || storeID == 0) {
+                    CommonUtil.showToastError(getActivity(), "请选择仓库!", null);
+                    return true;
+                }
                 Intent intent = new Intent(getActivity(), StockCheckAddGoodsActivity.class);
+                intent.putExtra("StoreID", storeID);
                 startActivityForResult(intent, ADDGOODS);
                 return true;
         }
@@ -110,7 +119,14 @@ public class FragmentStockCheckDetail extends BaseFragment {
             adapter.setData(Detail1Data);
             adapter.notifyDataSetChanged();
         } else {
+
+            Long storeID = fragmentStockCheckHeader.getMasterData().getStoreID();
+            if (storeID == null || storeID == 0) {
+                CommonUtil.showToastError(getActivity(), "请选择仓库!", null);
+                return true;
+            }
             Intent intent = new Intent(getActivity(), StockCheckAddGoodsActivity.class);
+            intent.putExtra("StoreID", storeID);
             intent.putExtra("CurrentData", currentDetail);
             intent.putExtra("Type", UPDATAGOODS);
             startActivityForResult(intent, UPDATAGOODS);

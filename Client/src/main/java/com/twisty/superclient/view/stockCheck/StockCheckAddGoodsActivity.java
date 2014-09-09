@@ -14,15 +14,21 @@ import com.twisty.superclient.R;
 import com.twisty.superclient.bean.DaoSession;
 import com.twisty.superclient.bean.Goods;
 import com.twisty.superclient.bean.GoodsDao;
+import com.twisty.superclient.bean.ParamsAccOnHand;
+import com.twisty.superclient.bean.Request;
 import com.twisty.superclient.bean.StockCheckDetail1Data;
 import com.twisty.superclient.bean.Unit;
 import com.twisty.superclient.bean.UnitDao;
+import com.twisty.superclient.global.GlobalConstant;
 import com.twisty.superclient.global.SuperClient;
+import com.twisty.superclient.net.ReqClient;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseActivity;
 import com.twisty.superclient.view.filter.GoodsFilterActivity;
 import com.twisty.superclient.view.filter.UnitPop;
 import com.twisty.superclient.view.salesBill.FragmentSalesBillDetail;
+
+import org.joda.time.DateTime;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,14 +45,16 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
     private GoodsDao goodsDao;
     private int type;
     private DecimalFormat decimalFormat;
-
+    private Long storeID;
+    private DateTime dateTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_check_add_goods);
         type = getIntent().getIntExtra("Type", FragmentStockCheckDetail.ADDGOODS);
         StockCheckDetail1Data currentData = (StockCheckDetail1Data) getIntent().getSerializableExtra("CurrentData");
-
+        dateTime = new DateTime();
+        storeID = getIntent().getLongExtra("StoreID", -1);
         decimalFormat = new DecimalFormat("#.########");
         GoodsName = (TextView) findViewById(R.id.GoodsName);
         Spec = (TextView) findViewById(R.id.Spec);
@@ -111,7 +119,7 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                         if (unit != null) {
                             QueryBuilder<Goods> goodsQueryBuilder = goodsDao.queryBuilder();
                             goodsQueryBuilder.where(GoodsDao.Properties.GoodsID.eq(unit.getGoodsID()));
-                            Goods goods = goodsQueryBuilder.unique();
+                            final Goods goods = goodsQueryBuilder.unique();
                             if (goods != null) {
                                 stockCheckDetail1Data.setGoodsID(goods.getGoodsID());
                                 stockCheckDetail1Data.setUnitID(unit.getUnitID());
@@ -125,6 +133,28 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                                 GoodsName.setText(goods.getGoodsName());
                                 Spec.setText(goods.getSpecs());
                                 Unit.setText(unit.getUnitName());
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Request request = new Request(GlobalConstant.METHOD_GET_ACC_ONHAND);
+                                        ParamsAccOnHand paramsAccOnHand = new ParamsAccOnHand();
+                                        paramsAccOnHand.setGoodsID(goods.getGoodsID());
+                                        paramsAccOnHand.setStoreID(storeID);
+                                        paramsAccOnHand.setDate(dateTime.toString("YYYY-MM-dd"));
+                                        request.setParams(paramsAccOnHand);
+                                        ReqClient client = ReqClient.newInstance();
+                                        try {
+                                            client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                                            String accOnHandJson = client.requestData(request);
+                                            log.i(accOnHandJson);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        } finally {
+                                            client.close();
+                                        }
+
+                                    }
+                                }).start();
                             } else {
                                 CommonUtil.showToastError(StockCheckAddGoodsActivity.this, "没有找到当前条码的货品!", null);
                             }
@@ -200,12 +230,12 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 1:
-                    Goods goods = (Goods) data.getSerializableExtra("Data");
+                    final Goods goods = (Goods) data.getSerializableExtra("Data");
                     if (goods != null) {
                         stockCheckDetail1Data.setGoodsID(goods.getGoodsID());
                         stockCheckDetail1Data.setGoodsName(goods.getGoodsName());
@@ -230,6 +260,30 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                                         stockCheckDetail1Data.setUnitID(unit.getUnitID());
                                         stockCheckDetail1Data.setUnitName(unit.getUnitName());
                                         stockCheckDetail1Data.setUnitRate(unit.getRate());
+
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Request request = new Request(GlobalConstant.METHOD_GET_ACC_ONHAND);
+                                                ParamsAccOnHand paramsAccOnHand = new ParamsAccOnHand();
+                                                paramsAccOnHand.setGoodsID(goods.getGoodsID());
+                                                paramsAccOnHand.setStoreID(storeID);
+                                                paramsAccOnHand.setDate(dateTime.toString("YYYY-MM-dd"));
+                                                request.setParams(paramsAccOnHand);
+                                                ReqClient client = ReqClient.newInstance();
+                                                try {
+                                                    client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
+                                                    String accOnHandJson = client.requestData(request);
+                                                    log.i(accOnHandJson);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                } finally {
+                                                    client.close();
+                                                }
+
+                                            }
+                                        }).start();
+
                                     }
                                 });
                                 unitPop.showPopupWindow(Unit);
