@@ -19,22 +19,23 @@
                 android:id="@+id/topBar"
                 android:layout_width="fill_parent"
                 android:layout_height="25dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
             </LinearLayout>
 
             <ListView
-                android:layout_below="@id/topBar"
-                android:layout_above="@+id/bottomBar"
                 android:id="@+id/listView"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/bottomBar"
+                android:layout_below="@id/topBar" />
 
             <LinearLayout
-                android:layout_alignParentBottom="true"
                 android:id="@id/bottomBar"
                 android:layout_width="fill_parent"
                 android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
             </LinearLayout>

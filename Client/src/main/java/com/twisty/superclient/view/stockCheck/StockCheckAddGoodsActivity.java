@@ -22,7 +22,9 @@ import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseActivity;
 import com.twisty.superclient.view.filter.GoodsFilterActivity;
 import com.twisty.superclient.view.filter.UnitPop;
+import com.twisty.superclient.view.salesBill.FragmentSalesBillDetail;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +37,17 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
     private EditText GoodsCode, BarCode, AccQty, UnitRealQty, UnitPrice, Amount;
     private UnitDao unitDao;
     private GoodsDao goodsDao;
+    private int type;
+    private DecimalFormat decimalFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_check_add_goods);
+        type = getIntent().getIntExtra("Type", FragmentStockCheckDetail.ADDGOODS);
+        StockCheckDetail1Data currentData = (StockCheckDetail1Data) getIntent().getSerializableExtra("CurrentData");
+
+        decimalFormat = new DecimalFormat("#.########");
         GoodsName = (TextView) findViewById(R.id.GoodsName);
         Spec = (TextView) findViewById(R.id.Spec);
         Unit = (TextView) findViewById(R.id.Unit);
@@ -54,6 +62,22 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
         unitDao = session.getUnitDao();
         goodsDao = session.getGoodsDao();
         GoodsName.setOnClickListener(this);
+
+
+        if (type == FragmentStockCheckDetail.UPDATAGOODS && currentData != null) {
+            stockCheckDetail1Data = currentData;
+
+            BarCode.setText(stockCheckDetail1Data.getBarCode());
+            GoodsCode.setText(stockCheckDetail1Data.getGoodsCode());
+            GoodsName.setText(stockCheckDetail1Data.getGoodsName());
+            Spec.setText(stockCheckDetail1Data.getSpecs());
+            Unit.setText(stockCheckDetail1Data.getUnitName());
+            AccQty.setText(decimalFormat.format(stockCheckDetail1Data.getAccQty()));
+            UnitRealQty.setText(decimalFormat.format(stockCheckDetail1Data.getUnitRealQty()));
+            UnitPrice.setText(decimalFormat.format(stockCheckDetail1Data.getUnitPrice()));
+            Amount.setText(decimalFormat.format(stockCheckDetail1Data.getAmount()));
+        }
+
         BarCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,6 +115,12 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                             if (goods != null) {
                                 stockCheckDetail1Data.setGoodsID(goods.getGoodsID());
                                 stockCheckDetail1Data.setUnitID(unit.getUnitID());
+                                stockCheckDetail1Data.setSpecs(goods.getSpecs());
+                                stockCheckDetail1Data.setGoodsName(goods.getGoodsName());
+                                stockCheckDetail1Data.setGoodsCode(goods.getGoodsCode());
+                                stockCheckDetail1Data.setUnitName(unit.getUnitName());
+                                stockCheckDetail1Data.setUnitRate(unit.getRate());
+                                stockCheckDetail1Data.setBarCode(unit.getBarCode());
                                 GoodsCode.setText(goods.getGoodsCode());
                                 GoodsName.setText(goods.getGoodsName());
                                 Spec.setText(goods.getSpecs());
@@ -123,32 +153,37 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.commit) {
-//            if(UnitPrice.getText().toString().length()<=0){
-//                CommonUtil.showToastError(this,"业务单价不能为空!",null);
-//                return true;
-//            }
+            try {
 
-            stockCheckDetail1Data.setQuantity(23.2);
-            stockCheckDetail1Data.setBillID(-1L);
-            stockCheckDetail1Data.setUnitPrice(222.22222);
-            stockCheckDetail1Data.setUnitQuantity(333333.333);
-            stockCheckDetail1Data.setUnitRate(13.2);
-            stockCheckDetail1Data.setAPrice(123.123);
-            stockCheckDetail1Data.setAccQty(333.2);
-            stockCheckDetail1Data.setUnitRealQty(333.2);
-            stockCheckDetail1Data.setUnitPrice(333.2);
-            stockCheckDetail1Data.setAmount(333.2);
-//            stockCheckDetail1Data.setAccQty(Double.valueOf(AccQty.getText().toString()));
-//            stockCheckDetail1Data.setUnitRealQty(Double.valueOf(UnitRealQty.getText().toString()));
-//            stockCheckDetail1Data.setUnitPrice(Double.valueOf(UnitPrice.getText().toString()));
-//            stockCheckDetail1Data.setAmount(Double.valueOf(Amount.getText().toString()));
+                stockCheckDetail1Data.setUnitPrice(Double.valueOf(UnitPrice.getText().toString()));
+                Double accQty = Double.valueOf(AccQty.getText().toString());
+                stockCheckDetail1Data.setAccQty(accQty);
+                Double realQty = Double.valueOf(UnitRealQty.getText().toString());
+                stockCheckDetail1Data.setUnitRealQty(realQty);
+                stockCheckDetail1Data.setQuantity(accQty - realQty);
+                stockCheckDetail1Data.setAmount(Double.valueOf(Amount.getText().toString()));
+            } catch (NumberFormatException nfe) {
+                CommonUtil.showToastError(this, "数据格式错误!", null);
+                return true;
+            }
 
 
-            stockCheckDetail1Datas.add(stockCheckDetail1Data);
-            Intent intent = new Intent();
-            intent.putExtra("com.twisty.superclient.Data", stockCheckDetail1Datas);
-            setResult(RESULT_OK, intent);
-            finish();
+            if (type == FragmentSalesBillDetail.UPDATAGOODS) {
+
+
+                Intent intent = new Intent();
+                intent.putExtra("Data", stockCheckDetail1Data);
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+                stockCheckDetail1Data.setBillID(-1L);
+                stockCheckDetail1Data.setItemNo(-1);
+                stockCheckDetail1Datas.add(stockCheckDetail1Data);
+                Intent intent = new Intent();
+                intent.putExtra("com.twisty.superclient.Data", stockCheckDetail1Datas);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -173,6 +208,8 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                     Goods goods = (Goods) data.getSerializableExtra("Data");
                     if (goods != null) {
                         stockCheckDetail1Data.setGoodsID(goods.getGoodsID());
+                        stockCheckDetail1Data.setGoodsName(goods.getGoodsName());
+                        stockCheckDetail1Data.setGoodsCode(goods.getGoodsCode());
                         BarCode.setText("");
                         GoodsName.setText(goods.getGoodsName());
                         GoodsCode.setText(goods.getGoodsCode());
@@ -189,7 +226,10 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                                     public void onItemClick(Unit unit) {
                                         BarCode.setText(unit.getBarCode());
                                         Unit.setText(unit.getUnitName());
+                                        stockCheckDetail1Data.setBarCode(unit.getBarCode());
                                         stockCheckDetail1Data.setUnitID(unit.getUnitID());
+                                        stockCheckDetail1Data.setUnitName(unit.getUnitName());
+                                        stockCheckDetail1Data.setUnitRate(unit.getRate());
                                     }
                                 });
                                 unitPop.showPopupWindow(Unit);

@@ -2,69 +2,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.twisty.superclient.view.LoginActivity">
+
     <TableLayout
         android:id="@+id/info"
-        android:stretchColumns="1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
 
-        <TableRow
-            android:gravity="center_vertical"
-            >
+        <TableRow android:gravity="center_vertical">
+
             <TextView
                 android:gravity="center_vertical"
-                android:text="用户名"
-                />
+                android:text="用户名" />
+
             <TextView
-                android:background="@drawable/spinner_back"
                 android:id="@+id/opName"
-                style="@style/headerItemStyle"/>
+                style="@style/headerItemStyle"
+                android:background="@drawable/spinner_back" />
         </TableRow>
 
         <TableRow android:gravity="center_vertical">
-            <TextView
-                android:text="密码"
-                />
+
+            <TextView android:text="密码" />
+
             <EditText
-                style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" android:singleLine="true"
                 android:id="@+id/opPass"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
                 android:hint="输入操作员密码"
-                />
+                android:singleLine="true" />
         </TableRow>
 
 
         <TableRow android:gravity="center_vertical">
-            <TextView
-                android:text="仓库编号"
-                />
+
+            <TextView android:text="仓库编号" />
+
             <EditText
-                style="@style/headerItemStyle"
-                android:background="@android:drawable/editbox_background" android:singleLine="true"
                 android:id="@+id/defaultStoreCode"
+                style="@style/headerItemStyle"
+                android:background="@android:drawable/editbox_background"
                 android:hint="输入默认仓库编号"
-                />
+                android:singleLine="true" />
         </TableRow>
 
-        </TableLayout>
+    </TableLayout>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/info"
         android:layout_width="fill_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:layout_below="@id/info"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
         <Button
             android:id="@+id/login"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:text="登录"
-            />
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:background="@drawable/btn_back"
+            android:text="登录" />
     </LinearLayout>
 
 </RelativeLayout>

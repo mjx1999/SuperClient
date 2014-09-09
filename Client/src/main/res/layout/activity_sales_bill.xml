@@ -3,32 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:paddingTop="2dp"
     android:paddingBottom="2dp"
+    android:paddingTop="2dp"
     tools:context="com.twisty.superclient.view.salesBill.SalesBillActivity">
+
     <LinearLayout
 
-        android:orientation="horizontal"
         android:id="@+id/fragment_content"
-        android:layout_above="@+id/buttonBar"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/buttonBar"
+        android:orientation="horizontal" />
+
     <LinearLayout
         android:id="@id/buttonBar"
-        android:layout_alignParentBottom="true"
         android:layout_width="fill_parent"
-        android:layout_height="40dp">
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
         <Button
             android:id="@+id/search"
-            android:text="查单"
-            android:layout_weight="1"
+
             android:layout_width="0dp"
-            android:layout_height="fill_parent" />
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:background="@drawable/btn_back"
+            android:text="查单" />
+
         <Button
             android:id="@+id/save"
-            android:text="保存"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="fill_parent" />
-        </LinearLayout>
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_back"
+            android:text="保存" />
+    </LinearLayout>
 </RelativeLayout>

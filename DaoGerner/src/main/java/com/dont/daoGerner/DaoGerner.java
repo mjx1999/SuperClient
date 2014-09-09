@@ -603,6 +603,7 @@ public class DaoGerner {
         stockCheckDetail1Data.addDoubleProperty("IOQty");
         stockCheckDetail1Data.addDoubleProperty("Price");
         stockCheckDetail1Data.addDoubleProperty("Quantity");
+        stockCheckDetail1Data.addStringProperty("BarCode");
         stockCheckDetail1Data.addStringProperty("GoodsCode");
         stockCheckDetail1Data.addStringProperty("GoodsName");
         stockCheckDetail1Data.addStringProperty("Remark");

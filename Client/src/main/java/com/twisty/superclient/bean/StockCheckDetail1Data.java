@@ -24,6 +24,7 @@ public class StockCheckDetail1Data implements java.io.Serializable {
     private Double IOQty;
     private Double Price;
     private Double Quantity;
+    private String BarCode;
     private String GoodsCode;
     private String GoodsName;
     private String Remark;
@@ -42,7 +43,7 @@ public class StockCheckDetail1Data implements java.io.Serializable {
         this.id = id;
     }
 
-    public StockCheckDetail1Data(Long id, Long MasterID, Long BillID, Long GoodsID, Long UnitID, Integer ItemNo, Integer ReferCount, Double APrice, Double UnitPrice, Double UnitRate, Double UnitQuantity, Double UnitRealQty, Double AccQty, Double Amount, Double IOQty, Double Price, Double Quantity, String GoodsCode, String GoodsName, String Remark, String Specs, String UnitName, String UserDef1, String UserDef2, String UserDef3, String UserDef4, String UserDef5) {
+    public StockCheckDetail1Data(Long id, Long MasterID, Long BillID, Long GoodsID, Long UnitID, Integer ItemNo, Integer ReferCount, Double APrice, Double UnitPrice, Double UnitRate, Double UnitQuantity, Double UnitRealQty, Double AccQty, Double Amount, Double IOQty, Double Price, Double Quantity, String BarCode, String GoodsCode, String GoodsName, String Remark, String Specs, String UnitName, String UserDef1, String UserDef2, String UserDef3, String UserDef4, String UserDef5) {
         this.id = id;
         this.MasterID = MasterID;
         this.BillID = BillID;
@@ -60,6 +61,7 @@ public class StockCheckDetail1Data implements java.io.Serializable {
         this.IOQty = IOQty;
         this.Price = Price;
         this.Quantity = Quantity;
+        this.BarCode = BarCode;
         this.GoodsCode = GoodsCode;
         this.GoodsName = GoodsName;
         this.Remark = Remark;
@@ -206,6 +208,14 @@ public class StockCheckDetail1Data implements java.io.Serializable {
 
     public void setQuantity(Double Quantity) {
         this.Quantity = Quantity;
+    }
+
+    public String getBarCode() {
+        return BarCode;
+    }
+
+    public void setBarCode(String BarCode) {
+        this.BarCode = BarCode;
     }
 
     public String getGoodsCode() {

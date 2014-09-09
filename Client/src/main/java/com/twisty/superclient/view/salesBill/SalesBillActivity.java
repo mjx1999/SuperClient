@@ -150,6 +150,7 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (from == GlobalConstant.FROM_DB) {
+            getMenuInflater().inflate(R.menu.order_from_db, menu);
 
         } else if (from == GlobalConstant.FROM_LIST) {
 
@@ -179,50 +180,59 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                 return true;
             case R.id.delete:
                 if (SuperClient.getIsOnline()) {
-                    new AlertDialog.Builder(this).setMessage("确定要删除吗?").setPositiveButton("确定删除", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            pd = ProgressDialog.show(SalesBillActivity.this, null, "正在删除...");
-
-                            new Thread(new Runnable() {
+                    new AlertDialog.Builder(this).setMessage("确定要删除吗?")
+                            .setPositiveButton("确定删除", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void run() {
-                                    ReqClient client = ReqClient.newInstance();
-                                    Request request = new Request(GlobalConstant.METHOD_DO_BILL);
-                                    Params paramsDel = new Params();
-                                    paramsDel.setOperate("Delete");
-                                    paramsDel.setBillName("s_sale");
-                                    paramsDel.setBillID(fragmentSalesBIllHeader.getSalesBillMasterData().getBillID());
-                                    request.setParams(paramsDel);
-                                    Message message = handler.obtainMessage();
-                                    try {
-                                        if (client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest())) {
-                                            String delJson = client.requestData(request);
-                                            log.i(delJson);
-                                            Response response = gson.fromJson(delJson, Response.class);
-                                            if (response.isCorrect()) {
-                                                message.obj = "删除成功!";
-                                                message.what = DELETE_RESULT;
-                                            } else {
-                                                message.what = RESULT_CANCELED;
-                                                message.obj = response.getErrMessage();
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (from == GlobalConstant.FROM_DB) {
+                                        salesBillMasterDataDao.delete(salesBillMasterData);
+                                        salesBillDetail1DataDao.deleteInTx(salesBillDetail1Datas);
+                                        finish();
+
+                                    } else {
+
+                                        pd = ProgressDialog.show(SalesBillActivity.this, null, "正在删除...");
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ReqClient client = ReqClient.newInstance();
+                                                Request request = new Request(GlobalConstant.METHOD_DO_BILL);
+                                                Params paramsDel = new Params();
+                                                paramsDel.setOperate("Delete");
+                                                paramsDel.setBillName("s_sale");
+                                                paramsDel.setBillID(fragmentSalesBIllHeader.getSalesBillMasterData().getBillID());
+                                                request.setParams(paramsDel);
+                                                Message message = handler.obtainMessage();
+                                                try {
+                                                    if (client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest())) {
+                                                        String delJson = client.requestData(request);
+                                                        log.i(delJson);
+                                                        Response response = gson.fromJson(delJson, Response.class);
+                                                        if (response.isCorrect()) {
+                                                            message.obj = "删除成功!";
+                                                            message.what = DELETE_RESULT;
+                                                        } else {
+                                                            message.what = RESULT_CANCELED;
+                                                            message.obj = response.getErrMessage();
+                                                        }
+                                                    } else {
+                                                        message.what = RESULT_CANCELED;
+                                                        message.obj = "连接服务器超时!";
+                                                    }
+                                                } catch (Exception e) {
+                                                    message.what = RESULT_CANCELED;
+                                                    message.obj = "连接服务器超时!";
+                                                    e.printStackTrace();
+                                                } finally {
+                                                    handler.sendMessage(message);
+                                                    client.close();
+                                                }
                                             }
-                                        } else {
-                                            message.what = RESULT_CANCELED;
-                                            message.obj = "连接服务器超时!";
-                                        }
-                                    } catch (Exception e) {
-                                        message.what = RESULT_CANCELED;
-                                        message.obj = "连接服务器超时!";
-                                        e.printStackTrace();
-                                    } finally {
-                                        handler.sendMessage(message);
-                                        client.close();
+                                        }).start();
                                     }
+
                                 }
-                            }).start();
-                        }
-                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -233,6 +243,8 @@ public class SalesBillActivity extends BaseActivity implements View.OnClickListe
                     if (from == GlobalConstant.FROM_DB) {
                         salesBillMasterDataDao.delete(salesBillMasterData);
                         salesBillDetail1DataDao.deleteInTx(salesBillDetail1Datas);
+                        finish();
+
                     } else {
                         CommonUtil.showToastError(SalesBillActivity.this, "当前离线模式不能删除单据!", null);
                     }

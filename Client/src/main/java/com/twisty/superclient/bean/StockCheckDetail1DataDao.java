@@ -54,16 +54,17 @@ public class StockCheckDetail1DataDao extends AbstractDao<StockCheckDetail1Data,
                 "'IOQTY' REAL," + // 14: IOQty
                 "'PRICE' REAL," + // 15: Price
                 "'QUANTITY' REAL," + // 16: Quantity
-                "'GOODS_CODE' TEXT," + // 17: GoodsCode
-                "'GOODS_NAME' TEXT," + // 18: GoodsName
-                "'REMARK' TEXT," + // 19: Remark
-                "'SPECS' TEXT," + // 20: Specs
-                "'UNIT_NAME' TEXT," + // 21: UnitName
-                "'USER_DEF1' TEXT," + // 22: UserDef1
-                "'USER_DEF2' TEXT," + // 23: UserDef2
-                "'USER_DEF3' TEXT," + // 24: UserDef3
-                "'USER_DEF4' TEXT," + // 25: UserDef4
-                "'USER_DEF5' TEXT);"); // 26: UserDef5
+                "'BAR_CODE' TEXT," + // 17: BarCode
+                "'GOODS_CODE' TEXT," + // 18: GoodsCode
+                "'GOODS_NAME' TEXT," + // 19: GoodsName
+                "'REMARK' TEXT," + // 20: Remark
+                "'SPECS' TEXT," + // 21: Specs
+                "'UNIT_NAME' TEXT," + // 22: UnitName
+                "'USER_DEF1' TEXT," + // 23: UserDef1
+                "'USER_DEF2' TEXT," + // 24: UserDef2
+                "'USER_DEF3' TEXT," + // 25: UserDef3
+                "'USER_DEF4' TEXT," + // 26: UserDef4
+                "'USER_DEF5' TEXT);"); // 27: UserDef5
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_STOCK_CHECK_DETAIL1_DATA__id ON STOCK_CHECK_DETAIL1_DATA" +
                 " (_id);");
@@ -171,54 +172,59 @@ public class StockCheckDetail1DataDao extends AbstractDao<StockCheckDetail1Data,
             stmt.bindDouble(17, Quantity);
         }
 
+        String BarCode = entity.getBarCode();
+        if (BarCode != null) {
+            stmt.bindString(18, BarCode);
+        }
+
         String GoodsCode = entity.getGoodsCode();
         if (GoodsCode != null) {
-            stmt.bindString(18, GoodsCode);
+            stmt.bindString(19, GoodsCode);
         }
 
         String GoodsName = entity.getGoodsName();
         if (GoodsName != null) {
-            stmt.bindString(19, GoodsName);
+            stmt.bindString(20, GoodsName);
         }
 
         String Remark = entity.getRemark();
         if (Remark != null) {
-            stmt.bindString(20, Remark);
+            stmt.bindString(21, Remark);
         }
 
         String Specs = entity.getSpecs();
         if (Specs != null) {
-            stmt.bindString(21, Specs);
+            stmt.bindString(22, Specs);
         }
 
         String UnitName = entity.getUnitName();
         if (UnitName != null) {
-            stmt.bindString(22, UnitName);
+            stmt.bindString(23, UnitName);
         }
 
         String UserDef1 = entity.getUserDef1();
         if (UserDef1 != null) {
-            stmt.bindString(23, UserDef1);
+            stmt.bindString(24, UserDef1);
         }
 
         String UserDef2 = entity.getUserDef2();
         if (UserDef2 != null) {
-            stmt.bindString(24, UserDef2);
+            stmt.bindString(25, UserDef2);
         }
 
         String UserDef3 = entity.getUserDef3();
         if (UserDef3 != null) {
-            stmt.bindString(25, UserDef3);
+            stmt.bindString(26, UserDef3);
         }
 
         String UserDef4 = entity.getUserDef4();
         if (UserDef4 != null) {
-            stmt.bindString(26, UserDef4);
+            stmt.bindString(27, UserDef4);
         }
 
         String UserDef5 = entity.getUserDef5();
         if (UserDef5 != null) {
-            stmt.bindString(27, UserDef5);
+            stmt.bindString(28, UserDef5);
         }
     }
 
@@ -253,16 +259,17 @@ public class StockCheckDetail1DataDao extends AbstractDao<StockCheckDetail1Data,
                 cursor.isNull(offset + 14) ? null : cursor.getDouble(offset + 14), // IOQty
                 cursor.isNull(offset + 15) ? null : cursor.getDouble(offset + 15), // Price
                 cursor.isNull(offset + 16) ? null : cursor.getDouble(offset + 16), // Quantity
-                cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // GoodsCode
-                cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // GoodsName
-                cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // Remark
-                cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // Specs
-                cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // UnitName
-                cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // UserDef1
-                cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // UserDef2
-                cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // UserDef3
-                cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // UserDef4
-                cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26) // UserDef5
+                cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // BarCode
+                cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // GoodsCode
+                cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // GoodsName
+                cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // Remark
+                cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // Specs
+                cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // UnitName
+                cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // UserDef1
+                cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // UserDef2
+                cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // UserDef3
+                cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // UserDef4
+                cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27) // UserDef5
         );
         return entity;
     }
@@ -289,16 +296,17 @@ public class StockCheckDetail1DataDao extends AbstractDao<StockCheckDetail1Data,
         entity.setIOQty(cursor.isNull(offset + 14) ? null : cursor.getDouble(offset + 14));
         entity.setPrice(cursor.isNull(offset + 15) ? null : cursor.getDouble(offset + 15));
         entity.setQuantity(cursor.isNull(offset + 16) ? null : cursor.getDouble(offset + 16));
-        entity.setGoodsCode(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setGoodsName(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setRemark(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setSpecs(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setUnitName(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
-        entity.setUserDef1(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
-        entity.setUserDef2(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
-        entity.setUserDef3(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
-        entity.setUserDef4(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
-        entity.setUserDef5(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setBarCode(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setGoodsCode(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setGoodsName(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setRemark(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setSpecs(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setUnitName(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setUserDef1(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
+        entity.setUserDef2(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setUserDef3(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setUserDef4(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setUserDef5(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
     }
 
     /**
@@ -368,16 +376,17 @@ public class StockCheckDetail1DataDao extends AbstractDao<StockCheckDetail1Data,
         public final static Property IOQty = new Property(14, Double.class, "IOQty", false, "IOQTY");
         public final static Property Price = new Property(15, Double.class, "Price", false, "PRICE");
         public final static Property Quantity = new Property(16, Double.class, "Quantity", false, "QUANTITY");
-        public final static Property GoodsCode = new Property(17, String.class, "GoodsCode", false, "GOODS_CODE");
-        public final static Property GoodsName = new Property(18, String.class, "GoodsName", false, "GOODS_NAME");
-        public final static Property Remark = new Property(19, String.class, "Remark", false, "REMARK");
-        public final static Property Specs = new Property(20, String.class, "Specs", false, "SPECS");
-        public final static Property UnitName = new Property(21, String.class, "UnitName", false, "UNIT_NAME");
-        public final static Property UserDef1 = new Property(22, String.class, "UserDef1", false, "USER_DEF1");
-        public final static Property UserDef2 = new Property(23, String.class, "UserDef2", false, "USER_DEF2");
-        public final static Property UserDef3 = new Property(24, String.class, "UserDef3", false, "USER_DEF3");
-        public final static Property UserDef4 = new Property(25, String.class, "UserDef4", false, "USER_DEF4");
-        public final static Property UserDef5 = new Property(26, String.class, "UserDef5", false, "USER_DEF5");
+        public final static Property BarCode = new Property(17, String.class, "BarCode", false, "BAR_CODE");
+        public final static Property GoodsCode = new Property(18, String.class, "GoodsCode", false, "GOODS_CODE");
+        public final static Property GoodsName = new Property(19, String.class, "GoodsName", false, "GOODS_NAME");
+        public final static Property Remark = new Property(20, String.class, "Remark", false, "REMARK");
+        public final static Property Specs = new Property(21, String.class, "Specs", false, "SPECS");
+        public final static Property UnitName = new Property(22, String.class, "UnitName", false, "UNIT_NAME");
+        public final static Property UserDef1 = new Property(23, String.class, "UserDef1", false, "USER_DEF1");
+        public final static Property UserDef2 = new Property(24, String.class, "UserDef2", false, "USER_DEF2");
+        public final static Property UserDef3 = new Property(25, String.class, "UserDef3", false, "USER_DEF3");
+        public final static Property UserDef4 = new Property(26, String.class, "UserDef4", false, "USER_DEF4");
+        public final static Property UserDef5 = new Property(27, String.class, "UserDef5", false, "USER_DEF5");
     }
 
 }

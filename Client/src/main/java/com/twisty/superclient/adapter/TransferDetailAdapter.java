@@ -84,7 +84,7 @@ public class TransferDetailAdapter extends BaseAdapter {
         viewHolder.GoodsName.setText(transferDetail1Data.getGoodsName() + transferDetail1Data.getSpecs());
 //        viewHolder.Spec.setText(transferDetail1Data.getSpecs());
         viewHolder.UnitName.setText(transferDetail1Data.getUnitName());
-        viewHolder.Quantity.setText(decimalFormat.format(transferDetail1Data.getQuantity()));
+        viewHolder.Quantity.setText(decimalFormat.format(transferDetail1Data.getUnitQuantity()));
         viewHolder.UnitPrice.setText(decimalFormat.format(transferDetail1Data.getUnitPrice()));
         viewHolder.Amount.setText(decimalFormat.format(transferDetail1Data.getAmount()));
         return convertView;

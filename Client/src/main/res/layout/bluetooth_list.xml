@@ -3,27 +3,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp">
+
     <ListView
         android:id="@+id/btlistview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bttonBar" />
+
+
     <LinearLayout
+        android:id="@id/bttonBar"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        >
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
         <Button
-            android:text="打印"
             android:id="@+id/commit"
-            android:layout_weight="1"
+
             android:layout_width="0dp"
-            android:layout_height="fill_parent" />
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:background="@drawable/btn_back"
+            android:text="打印" />
+
         <Button
-            android:text="取消"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
             android:id="@+id/cancel"
-            />
-        </LinearLayout>
+
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_back"
+            android:text="取消" />
+    </LinearLayout>
 </RelativeLayout>
