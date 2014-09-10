@@ -33,6 +33,7 @@ public class FragmentStockCheckDetail extends BaseFragment {
     private Double amount;
     private StockCheckDetail1Data currentDetail;
     private int currentItemNo;
+
     public FragmentStockCheckDetail() {
         // Required empty public constructor
     }
@@ -112,6 +113,7 @@ public class FragmentStockCheckDetail extends BaseFragment {
         });
         return view;
     }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getTitle().equals("删除")) {
@@ -160,12 +162,6 @@ public class FragmentStockCheckDetail extends BaseFragment {
                 Detail1Data.add(currentItemNo, returnData);
                 adapter.setData(Detail1Data);
                 adapter.notifyDataSetChanged();
-            }
-            if (Detail1Data != null) {
-                double amount = 0;
-                for (StockCheckDetail1Data stockCheckDetail1Data : Detail1Data) {
-                    amount += stockCheckDetail1Data.getAmount();
-                }
             }
 
         }

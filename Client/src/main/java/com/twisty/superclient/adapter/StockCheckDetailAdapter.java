@@ -87,11 +87,16 @@ public class StockCheckDetailAdapter extends BaseAdapter {
         viewHolder.GoodsName.setText(stockCheckDetail1Data.getGoodsName() + stockCheckDetail1Data.getSpecs());
         viewHolder.Unit.setText(stockCheckDetail1Data.getUnitName());
 
-        viewHolder.UnitPrice.setText(decimalFormat.format(stockCheckDetail1Data.getUnitPrice()));
-        viewHolder.Amount.setText(decimalFormat.format(stockCheckDetail1Data.getAmount()));
-        viewHolder.AccQty.setText(decimalFormat.format(stockCheckDetail1Data.getAccQty()));
-        viewHolder.UnitRealQty.setText(decimalFormat.format(stockCheckDetail1Data.getUnitRealQty()));
-        viewHolder.Quantity.setText(decimalFormat.format(stockCheckDetail1Data.getUnitRealQty() - stockCheckDetail1Data.getAccQty()));
+        if (stockCheckDetail1Data.getUnitPrice() != null)
+            viewHolder.UnitPrice.setText(decimalFormat.format(stockCheckDetail1Data.getUnitPrice()));
+        if (stockCheckDetail1Data.getAmount() != null)
+            viewHolder.Amount.setText(decimalFormat.format(stockCheckDetail1Data.getAmount()));
+        if (stockCheckDetail1Data.getAccQty() != null)
+            viewHolder.AccQty.setText(decimalFormat.format(stockCheckDetail1Data.getAccQty()));
+        if (stockCheckDetail1Data.getUnitRealQty() != null)
+            viewHolder.UnitRealQty.setText(decimalFormat.format(stockCheckDetail1Data.getUnitRealQty()));
+        if (stockCheckDetail1Data.getUnitRealQty() != null && stockCheckDetail1Data.getAccQty() != null)
+            viewHolder.Quantity.setText(decimalFormat.format(stockCheckDetail1Data.getUnitRealQty() - stockCheckDetail1Data.getAccQty()));
         return convertView;
     }
 

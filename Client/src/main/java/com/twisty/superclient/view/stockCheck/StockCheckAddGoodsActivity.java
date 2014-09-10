@@ -1,7 +1,10 @@
 package com.twisty.superclient.view.stockCheck;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.twisty.superclient.R;
+import com.twisty.superclient.bean.AccOnHandResp;
 import com.twisty.superclient.bean.DaoSession;
 import com.twisty.superclient.bean.Goods;
 import com.twisty.superclient.bean.GoodsDao;
@@ -30,6 +34,7 @@ import com.twisty.superclient.view.salesBill.FragmentSalesBillDetail;
 
 import org.joda.time.DateTime;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +52,21 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
     private DecimalFormat decimalFormat;
     private Long storeID;
     private DateTime dateTime;
+    private ProgressDialog pd;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (pd != null) pd.dismiss();
+            if (msg.what == RESULT_CANCELED) {
+                CommonUtil.showToastError(StockCheckAddGoodsActivity.this, "获取库存失败", null);
+            } else if (msg.what == RESULT_OK) {
+                AccOnHandResp accOnHandResp = (AccOnHandResp) msg.obj;
+                AccQty.setText(decimalFormat.format(accOnHandResp.getEndQty()));
+                UnitPrice.setText(decimalFormat.format(accOnHandResp.getEndPrice()));
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +91,12 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
         goodsDao = session.getGoodsDao();
         GoodsName.setOnClickListener(this);
 
+        if (!SuperClient.getIsOnline()) {
+            AccQty.setText("当前离线模式,无法查询");
+            UnitPrice.setText("当前离线模式,无法查询");
+            AccQty.setEnabled(false);
+            UnitPrice.setEnabled(false);
+        }
 
         if (type == FragmentStockCheckDetail.UPDATAGOODS && currentData != null) {
             stockCheckDetail1Data = currentData;
@@ -133,6 +159,12 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                                 GoodsName.setText(goods.getGoodsName());
                                 Spec.setText(goods.getSpecs());
                                 Unit.setText(unit.getUnitName());
+
+                                if (SuperClient.getIsOnline()) {
+
+                                    pd = ProgressDialog.show(StockCheckAddGoodsActivity.this, null, "正在获取库存和单价", true, true);
+                                    final Message msg = handler.obtainMessage();
+                                    msg.what = RESULT_CANCELED;
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -147,14 +179,25 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                                             client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
                                             String accOnHandJson = client.requestData(request);
                                             log.i(accOnHandJson);
+                                            AccOnHandResp accOnHandResp = CommonUtil.getGson().fromJson(accOnHandJson, AccOnHandResp.class);
+                                            if (accOnHandResp != null) {
+                                                if (accOnHandResp.isCorrect()) {
+                                                    msg.obj = accOnHandResp;
+                                                    msg.what = RESULT_OK;
+                                                }
+                                            }
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         } finally {
+                                            handler.sendMessage(msg);
                                             client.close();
                                         }
 
                                     }
                                 }).start();
+                                }
+
+
                             } else {
                                 CommonUtil.showToastError(StockCheckAddGoodsActivity.this, "没有找到当前条码的货品!", null);
                             }
@@ -166,6 +209,21 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                             CommonUtil.showToastError(StockCheckAddGoodsActivity.this, "没有找到当前条码的货品!", null);
                         }
 
+                    }
+                }
+            }
+        });
+        UnitRealQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    try {
+                        BigDecimal realQty = new BigDecimal(UnitRealQty.getText().toString());
+                        BigDecimal accQty = new BigDecimal(AccQty.getText().toString());
+                        BigDecimal unitPrice = new BigDecimal(UnitPrice.getText().toString());
+                        BigDecimal amount = (realQty.subtract(accQty)).multiply(unitPrice);
+                        Amount.setText(decimalFormat.format(amount));
+                    } catch (Exception e) {
                     }
                 }
             }
@@ -184,14 +242,17 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
         int id = item.getItemId();
         if (id == R.id.commit) {
             try {
-
-                stockCheckDetail1Data.setUnitPrice(Double.valueOf(UnitPrice.getText().toString()));
-                Double accQty = Double.valueOf(AccQty.getText().toString());
-                stockCheckDetail1Data.setAccQty(accQty);
                 Double realQty = Double.valueOf(UnitRealQty.getText().toString());
                 stockCheckDetail1Data.setUnitRealQty(realQty);
-                stockCheckDetail1Data.setQuantity(accQty - realQty);
-                stockCheckDetail1Data.setAmount(Double.valueOf(Amount.getText().toString()));
+
+                if (SuperClient.getIsOnline()) {
+                    stockCheckDetail1Data.setUnitPrice(Double.valueOf(UnitPrice.getText().toString()));
+                    Double accQty = Double.valueOf(AccQty.getText().toString());
+                    stockCheckDetail1Data.setAccQty(accQty);
+                    stockCheckDetail1Data.setQuantity(accQty - realQty);
+                    stockCheckDetail1Data.setAmount(Double.valueOf(Amount.getText().toString()));
+                }
+
             } catch (NumberFormatException nfe) {
                 CommonUtil.showToastError(this, "数据格式错误!", null);
                 return true;
@@ -240,6 +301,7 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                         stockCheckDetail1Data.setGoodsID(goods.getGoodsID());
                         stockCheckDetail1Data.setGoodsName(goods.getGoodsName());
                         stockCheckDetail1Data.setGoodsCode(goods.getGoodsCode());
+                        stockCheckDetail1Data.setSpecs(goods.getSpecs());
                         BarCode.setText("");
                         GoodsName.setText(goods.getGoodsName());
                         GoodsCode.setText(goods.getGoodsCode());
@@ -260,7 +322,12 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                                         stockCheckDetail1Data.setUnitID(unit.getUnitID());
                                         stockCheckDetail1Data.setUnitName(unit.getUnitName());
                                         stockCheckDetail1Data.setUnitRate(unit.getRate());
+                                        UnitRealQty.requestFocus();
+                                        if (SuperClient.getIsOnline()) {
 
+                                            pd = ProgressDialog.show(StockCheckAddGoodsActivity.this, null, "正在获取库存和单价", true, true);
+                                            final Message msg = handler.obtainMessage();
+                                            msg.what = RESULT_CANCELED;
                                         new Thread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -275,14 +342,23 @@ public class StockCheckAddGoodsActivity extends BaseActivity implements View.OnC
                                                     client.connectServer(SuperClient.getCurrentIP(), SuperClient.getCurrentPort(), SuperClient.getCurrentLoginRequest());
                                                     String accOnHandJson = client.requestData(request);
                                                     log.i(accOnHandJson);
+                                                    AccOnHandResp accOnHandResp = CommonUtil.getGson().fromJson(accOnHandJson, AccOnHandResp.class);
+                                                    if (accOnHandResp != null) {
+                                                        if (accOnHandResp.isCorrect()) {
+                                                            msg.obj = accOnHandResp;
+                                                            msg.what = RESULT_OK;
+                                                        }
+                                                    }
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 } finally {
+                                                    handler.sendMessage(msg);
                                                     client.close();
                                                 }
 
                                             }
                                         }).start();
+                                        }
 
                                     }
                                 });
