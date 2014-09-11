@@ -145,6 +145,11 @@ public class BluetoothListActivity extends BaseActivity {
         findViewById(R.id.commit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (listView.getCheckedItemPosition() < 0) {
+
+                    return;
+                }
+
                 //TODO 打印
                 String bdAddress = ((Map<String, String>) m_adapter.getItem(listView.getCheckedItemPosition())).get("BDAddress");
                 BluetoothDevice myDevice = myBluetoothAdapter.getRemoteDevice(bdAddress);
@@ -172,15 +177,26 @@ public class BluetoothListActivity extends BaseActivity {
                                     BtSPP.SPPWrite(("客户:" + salesBillMasterData.getTraderName() + "\n").getBytes("GBK"));
                                     BtSPP.SPPWrite(("开单人:" + salesBillMasterData.getOpName() + "\n").getBytes("GBK"));
                                     BtSPP.SPPWrite(("=======================================\n").getBytes("GBK"));
-                                    BtSPP.SPPWrite(("序号 品名     规格 \n").getBytes("GBK"));
-                                    BtSPP.SPPWrite(("       数量   单位     单价     金额\n").getBytes("GBK"));
+                                    BtSPP.SPPWrite(("序号 品名 规格 \n").getBytes("GBK"));
+                                    BtSPP.SPPWrite(("      数量   单位     单价     金额\n").getBytes("GBK"));
                                     BtSPP.SPPWrite(("=======================================\n").getBytes("GBK"));
                                     for (int i = 0; i < salesBillDetail1Datas.size(); i++) {
                                         SalesBillDetail1Data detail1Data = salesBillDetail1Datas.get(i);
                                         BtSPP.SPPWrite(((i + 1) + "").getBytes("GBK"));
-                                        BtSPP.SPPWrite(("   " + detail1Data.getGoodsName() + "").getBytes("GBK"));
-                                        BtSPP.SPPWrite(("   " + detail1Data.getSpecs() + "\n").getBytes("GBK"));
-                                        BtSPP.SPPWrite(("       " + detail1Data.getQuantity() + "   ").getBytes("GBK"));
+
+                                        String nameSpec = detail1Data.getGoodsName() + " " + detail1Data.getSpecs();
+                                        if (nameSpec.length() > 16) {
+                                            nameSpec = nameSpec.substring(0, 14);
+                                        }
+
+                                        BtSPP.SPPWrite(("   " + nameSpec + "\n").getBytes("GBK"));
+
+
+//                                        BtSPP.SPPWrite(("   " + detail1Data.getGoodsName() + " ").getBytes("GBK"));
+//                                        BtSPP.SPPWrite((detail1Data.getSpecs() + "\n").getBytes("GBK"));
+
+
+                                        BtSPP.SPPWrite(("     " + detail1Data.getQuantity() + "   ").getBytes("GBK"));
                                         BtSPP.SPPWrite((detail1Data.getUnitName() + "  ").getBytes("GBK"));
                                         BtSPP.SPPWrite((detail1Data.getUnitPrice() + "  ").getBytes("GBK"));
                                         BtSPP.SPPWrite((detail1Data.getAmount() + "\n").getBytes("GBK"));
