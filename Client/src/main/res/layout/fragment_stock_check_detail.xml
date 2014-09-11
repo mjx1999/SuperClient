@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <HorizontalScrollView
+        android:id="@+id/bottomBar"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:fillViewport="true">
@@ -28,17 +29,28 @@
                 android:id="@+id/listView"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_above="@+id/bottomBar"
                 android:layout_below="@id/topBar" />
-
-            <LinearLayout
-                android:id="@id/bottomBar"
-                android:layout_width="fill_parent"
-                android:layout_height="25dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
-
-            </LinearLayout>
         </RelativeLayout>
     </HorizontalScrollView>
+
+    <LinearLayout
+        android:id="@id/bottomBar"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="价税合计:" />
+
+        <TextView
+            android:id="@+id/totalAmount"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="right"
+            android:paddingRight="20dp" />
+    </LinearLayout>
 </RelativeLayout>

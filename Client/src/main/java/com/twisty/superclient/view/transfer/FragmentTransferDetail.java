@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.TransferDetailAdapter;
 import com.twisty.superclient.bean.TransferDetail1Data;
 import com.twisty.superclient.view.BaseFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FragmentTransferDetail extends BaseFragment {
@@ -29,6 +31,9 @@ public class FragmentTransferDetail extends BaseFragment {
     private TransferDetailAdapter adapter;
     private TransferDetail1Data currentDetail;
     private int currentItemNo;
+    private TextView totalAmount;
+    private DecimalFormat decimalFormat;
+
     public FragmentTransferDetail() {
     }
 
@@ -52,6 +57,7 @@ public class FragmentTransferDetail extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        decimalFormat = new DecimalFormat("#.########");
         setHasOptionsMenu(true);
     }
 
@@ -59,6 +65,7 @@ public class FragmentTransferDetail extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sales_bill_detail, container, false);
+        totalAmount = (TextView) view.findViewById(R.id.totalAmount);
         listView = (ListView) view.findViewById(R.id.listView);
         return view;
     }
@@ -120,6 +127,7 @@ public class FragmentTransferDetail extends BaseFragment {
             intent.putExtra("Type", UPDATAGOODS);
             startActivityForResult(intent, UPDATAGOODS);
         }
+        calAmount();
         return super.onContextItemSelected(item);
     }
 
@@ -150,6 +158,24 @@ public class FragmentTransferDetail extends BaseFragment {
                 adapter.notifyDataSetChanged();
             }
 
+            calAmount();
+
+        }
+    }
+
+    private void calAmount() {
+        if (detail1Data != null) {
+            double amount = 0;
+            for (TransferDetail1Data transferDetail1Data : detail1Data) {
+                amount += transferDetail1Data.getAmount();
+            }
+            totalAmount.setText(decimalFormat.format(amount));
+            FragmentTransferHeader fragmentTransferHeader = (FragmentTransferHeader) getFragmentManager().findFragmentByTag("header");
+            if (fragmentTransferHeader != null) {
+                if (fragmentTransferHeader.getMasterData() != null) {
+                    fragmentTransferHeader.getMasterData().setAmount(amount);
+                }
+            }
         }
     }
 }

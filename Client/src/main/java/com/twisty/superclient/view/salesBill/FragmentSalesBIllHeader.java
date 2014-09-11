@@ -194,7 +194,6 @@ public class FragmentSalesBIllHeader extends BaseFragment implements View.OnClic
         salesBillMasterData.setShopID(SuperClient.getCurrentOperator().getShopID());
         salesBillMasterData.setBillDate(BillDate.getText().toString());
         salesBillMasterData.setOpID(SuperClient.getCurrentOperator().getOpID());
-        salesBillMasterData.setAmount(123123.123);
         return salesBillMasterData;
     }
 

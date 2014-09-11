@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.StockCheckDetailAdapter;
@@ -21,6 +22,7 @@ import com.twisty.superclient.bean.StockCheckDetail1Data;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FragmentStockCheckDetail extends BaseFragment {
@@ -30,9 +32,10 @@ public class FragmentStockCheckDetail extends BaseFragment {
     private ListView listView;
     private ArrayList<StockCheckDetail1Data> Detail1Data = new ArrayList<StockCheckDetail1Data>();
     private StockCheckDetailAdapter adapter;
-    private Double amount;
     private StockCheckDetail1Data currentDetail;
     private int currentItemNo;
+    private DecimalFormat decimalFormat;
+    private TextView totalAmount;
 
     public FragmentStockCheckDetail() {
         // Required empty public constructor
@@ -88,6 +91,7 @@ public class FragmentStockCheckDetail extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stock_check_detail, container, false);
+        totalAmount = (TextView) view.findViewById(R.id.totalAmount);
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -133,6 +137,7 @@ public class FragmentStockCheckDetail extends BaseFragment {
             intent.putExtra("Type", UPDATAGOODS);
             startActivityForResult(intent, UPDATAGOODS);
         }
+        calAmount();
         return super.onContextItemSelected(item);
     }
 
@@ -164,6 +169,24 @@ public class FragmentStockCheckDetail extends BaseFragment {
                 adapter.notifyDataSetChanged();
             }
 
+            calAmount();
+
+        }
+    }
+
+    private void calAmount() {
+        if (Detail1Data != null) {
+            double amount = 0;
+            for (StockCheckDetail1Data stockCheckDetail1Data : Detail1Data) {
+                amount += stockCheckDetail1Data.getAmount();
+            }
+            totalAmount.setText(decimalFormat.format(amount));
+            FragmentStockCheckHeader fragmentStockCheckHeader1 = (FragmentStockCheckHeader) getFragmentManager().findFragmentByTag("header");
+            if (fragmentStockCheckHeader1 != null) {
+                if (fragmentStockCheckHeader1.getMasterData() != null) {
+                    fragmentStockCheckHeader1.getMasterData().setAmount(amount);
+                }
+            }
         }
     }
 }

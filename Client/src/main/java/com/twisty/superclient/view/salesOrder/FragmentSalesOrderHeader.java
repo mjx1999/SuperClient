@@ -30,13 +30,11 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- *
  */
 public class FragmentSalesOrderHeader extends BaseFragment implements View.OnClickListener {
     private SalesOrderMasterData masterData = new SalesOrderMasterData();
-    private TextView BillDate,RevDate,ValidDate,TraderName
-            ,Employee,PayMethod;
-    private EditText BillCode,BillTo,LinkMan,ContactPhone,Contactor;
+    private TextView BillDate, RevDate, ValidDate, TraderName, Employee, PayMethod;
+    private EditText BillCode, BillTo, LinkMan, ContactPhone, Contactor;
     private DateTime dateTime = new DateTime();
     private PayMethodDao payMethodDao;
 
@@ -58,7 +56,6 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
         masterData.setRevDate(RevDate.getText().toString());
         masterData.setValidDate(ValidDate.getText().toString());
         masterData.setOpID(SuperClient.getCurrentOperator().getOpID());
-        masterData.setAmount(123123.123);
         masterData.setContactor(Contactor.getText().toString());
         masterData.setLinkMan(LinkMan.getText().toString());
         return masterData;
@@ -121,7 +118,7 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.TraderName:
                 Intent intent = new Intent(getActivity(), TraderFilterActivity.class);
                 intent.putExtra("CoV", "C");
@@ -131,33 +128,33 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d", (i2 + 1)) + "-" + i3;
                         BillDate.setText(billDate);
                         masterData.setBillDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth());
                 dpd.show();
                 break;
             case R.id.RevDate:
                 DatePickerDialog dpdRev = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d", (i2 + 1)) + "-" + i3;
                         RevDate.setText(billDate);
                         masterData.setRevDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth());
                 dpdRev.show();
                 break;
             case R.id.ValidDate:
                 DatePickerDialog dpdVali = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        String billDate = i + "-" + String.format("%02d",(i2+1)) + "-" + i3;
+                        String billDate = i + "-" + String.format("%02d", (i2 + 1)) + "-" + i3;
                         ValidDate.setText(billDate);
                         masterData.setValidDate(billDate);
                     }
-                }, dateTime.getYear(), dateTime.getMonthOfYear()-1, dateTime.getDayOfMonth());
+                }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth());
                 dpdVali.show();
                 break;
             case R.id.Employee:
@@ -165,8 +162,8 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
                 startActivityForResult(intent1, 2);
                 break;
             case R.id.PayMethod:
-                List<com.twisty.superclient.bean.PayMethod> payMethods =  payMethodDao.loadAll();
-                PayMethodPop payMethodPop = new PayMethodPop(getActivity(),payMethods,new PayMethodPop.onItemClickListener() {
+                List<com.twisty.superclient.bean.PayMethod> payMethods = payMethodDao.loadAll();
+                PayMethodPop payMethodPop = new PayMethodPop(getActivity(), payMethods, new PayMethodPop.onItemClickListener() {
                     @Override
                     public void onItemClick(com.twisty.superclient.bean.PayMethod payMethod) {
                         PayMethod.setText(payMethod.getPaymethodName());
@@ -182,8 +179,8 @@ public class FragmentSalesOrderHeader extends BaseFragment implements View.OnCli
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK){
-            switch (requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case 1:
                     Trader trader = (Trader) data.getSerializableExtra("Data");
                     masterData.setTraderId(trader.getTraderID());

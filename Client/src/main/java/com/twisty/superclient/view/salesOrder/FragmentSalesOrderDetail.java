@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.twisty.superclient.R;
 import com.twisty.superclient.adapter.SalesOrderDetailAdapter;
@@ -24,6 +25,7 @@ import com.twisty.superclient.global.SuperClient;
 import com.twisty.superclient.util.CommonUtil;
 import com.twisty.superclient.view.BaseFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -37,6 +39,8 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     private Double amount;
     private SalesOrderDetail1Data currentDetail;
     private int currentItemNo;
+    private TextView totalAmount;
+    private DecimalFormat decimalFormat;
 
     public FragmentSalesOrderDetail() {
     }
@@ -69,6 +73,7 @@ public class FragmentSalesOrderDetail extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        decimalFormat = new DecimalFormat("#.########");
         setHasOptionsMenu(true);
     }
 
@@ -112,6 +117,7 @@ public class FragmentSalesOrderDetail extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sales_order_detail, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
+        totalAmount = (TextView) view.findViewById(R.id.totalAmount);
         return view;
     }
 
@@ -165,6 +171,7 @@ public class FragmentSalesOrderDetail extends BaseFragment {
             intent.putExtra("Type", UPDATAGOODS);
             startActivityForResult(intent, UPDATAGOODS);
         }
+        calAmount();
         return super.onContextItemSelected(item);
     }
 
@@ -195,12 +202,25 @@ public class FragmentSalesOrderDetail extends BaseFragment {
                 adapter.setData(Detail1Data);
                 adapter.notifyDataSetChanged();
             }
-            if (Detail1Data != null) {
-                double amount = 0;
-                for (SalesOrderDetail1Data salesOrderDetail1Data : Detail1Data) {
-                    amount += salesOrderDetail1Data.getAmount();
+            calAmount();
+
+        }
+    }
+
+    private void calAmount() {
+        if (Detail1Data != null) {
+            double amount = 0;
+            for (SalesOrderDetail1Data salesOrderDetail1Data : Detail1Data) {
+                amount += salesOrderDetail1Data.getAmount();
+            }
+            totalAmount.setText(decimalFormat.format(amount));
+            FragmentSalesOrderHeader fragmentSalesOrderHeader = (FragmentSalesOrderHeader) getFragmentManager().findFragmentByTag("header");
+            if (fragmentSalesOrderHeader != null) {
+                if (fragmentSalesOrderHeader.getMasterData() != null) {
+                    fragmentSalesOrderHeader.getMasterData().setAmount(amount);
                 }
             }
+
 
         }
     }

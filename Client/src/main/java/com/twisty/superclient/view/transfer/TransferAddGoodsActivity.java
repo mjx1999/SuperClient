@@ -39,7 +39,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
     private TextView GoodsName, Spec, Unit;
 
     //    private PriceUtil priceUtil;
-    private BigDecimal price;
+//    private BigDecimal price;
     private int type;
     private DecimalFormat decimalFormat;
 
@@ -64,7 +64,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
 
         if (type == FragmentTransferDetail.UPDATAGOODS && currentData != null) {
             transferDetail1Data = currentData;
-            price = new BigDecimal(decimalFormat.format(currentData.getPrice()));
+//            price = new BigDecimal(decimalFormat.format(currentData.getPrice()));
 
             Barcode.setText(currentData.getBarCode());
             GoodsCode.setText(transferDetail1Data.getGoodsCode());
@@ -118,6 +118,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                                 Spec.setText(goods.getSpecs());
                                 Unit.setText(unit.getUnitName());
                                 UnitPrice.setText(unit.getSPrice().toString());
+                                transferDetail1Data.setUnitPrice(unit.getSPrice());
                                 transferDetail1Data.setGoodsCode(goods.getGoodsCode());
                                 transferDetail1Data.setGoodsName(goods.getGoodsName());
                                 transferDetail1Data.setSpecs(goods.getSpecs());
@@ -199,6 +200,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                 return true;
 
             }
+//            transferDetail1Data.setPrice(Double.valueOf(UnitPrice.getText().toString()));
             if (type == FragmentSalesBillDetail.UPDATAGOODS) {
 
 
@@ -265,6 +267,8 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                                         Quantity.setText("1");
                                         Quantity.setSelection(1);
                                         Quantity.requestFocus();
+                                        transferDetail1Data.setUnitPrice(unit.getSPrice());
+
                                         transferDetail1Data.setUnitID(unit.getUnitID());
                                         transferDetail1Data.setUnitName(unit.getUnitName());
                                         transferDetail1Data.setBarCode(unit.getBarCode());
