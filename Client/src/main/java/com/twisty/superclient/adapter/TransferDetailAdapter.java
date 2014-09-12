@@ -72,7 +72,7 @@ public class TransferDetailAdapter extends BaseAdapter {
             viewHolder.GoodsName = (TextView) convertView.findViewById(R.id.GoodsName);
 //            viewHolder.Spec = (TextView) convertView.findViewById(R.id.Spec);
             viewHolder.UnitName = (TextView) convertView.findViewById(R.id.Unit);
-            viewHolder.Quantity = (TextView) convertView.findViewById(R.id.Quantity);
+            viewHolder.UnitQuantity = (TextView) convertView.findViewById(R.id.Quantity);
             viewHolder.UnitPrice = (TextView) convertView.findViewById(R.id.UnitPrice);
             viewHolder.Amount = (TextView) convertView.findViewById(R.id.Amount);
             convertView.setTag(viewHolder);
@@ -84,7 +84,7 @@ public class TransferDetailAdapter extends BaseAdapter {
         viewHolder.GoodsName.setText(transferDetail1Data.getGoodsName() + transferDetail1Data.getSpecs());
 //        viewHolder.Spec.setText(transferDetail1Data.getSpecs());
         viewHolder.UnitName.setText(transferDetail1Data.getUnitName());
-        viewHolder.Quantity.setText(decimalFormat.format(transferDetail1Data.getUnitQuantity()));
+        viewHolder.UnitQuantity.setText(decimalFormat.format(transferDetail1Data.getUnitQuantity()));
         viewHolder.UnitPrice.setText(decimalFormat.format(transferDetail1Data.getUnitPrice()));
         viewHolder.Amount.setText(decimalFormat.format(transferDetail1Data.getAmount()));
         return convertView;
@@ -94,6 +94,6 @@ public class TransferDetailAdapter extends BaseAdapter {
         TextView ItemNo,
                 GoodsCode, GoodsName,
         /* Spec, */UnitName,
-                Quantity, UnitPrice, Amount;
+                UnitQuantity, UnitPrice, Amount;
     }
 }

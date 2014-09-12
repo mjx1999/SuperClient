@@ -35,7 +35,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
     private ArrayList<TransferDetail1Data> transferDetail1Datas = new ArrayList<TransferDetail1Data>();
     private UnitDao unitDao;
     private GoodsDao goodsDao;
-    private EditText Barcode, GoodsCode, Quantity, UnitPrice, Amount;
+    private EditText Barcode, GoodsCode, UnitQuantity, UnitPrice, Amount;
     private TextView GoodsName, Spec, Unit;
 
     //    private PriceUtil priceUtil;
@@ -54,7 +54,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
         unitDao = SuperClient.getDaoSession(this).getUnitDao();
         Barcode = (EditText) findViewById(R.id.BarCode);
         GoodsCode = (EditText) findViewById(R.id.GoodsCode);
-        Quantity = (EditText) findViewById(R.id.Quantity);
+        UnitQuantity = (EditText) findViewById(R.id.Quantity);
         UnitPrice = (EditText) findViewById(R.id.UnitPrice);
         Amount = (EditText) findViewById(R.id.Amount);
         GoodsName = (TextView) findViewById(R.id.GoodsName);
@@ -71,7 +71,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
             GoodsName.setText(transferDetail1Data.getGoodsName());
             Spec.setText(transferDetail1Data.getSpecs());
             Unit.setText(transferDetail1Data.getUnitName());
-            Quantity.setText(decimalFormat.format(transferDetail1Data.getUnitQuantity()));
+            UnitQuantity.setText(decimalFormat.format(transferDetail1Data.getUnitQuantity()));
             UnitPrice.setText(decimalFormat.format(transferDetail1Data.getUnitPrice()));
             Amount.setText(decimalFormat.format(transferDetail1Data.getAmount()));
         }
@@ -92,9 +92,9 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                 if (s.toString().contains("\n")) {
                     Barcode.setText(s.toString().trim());
                     Unit.setEnabled(false);
-                    Quantity.requestFocus();
-                    Quantity.setText("1");
-                    Quantity.setSelection(1);
+                    UnitQuantity.requestFocus();
+                    UnitQuantity.setText("1");
+                    UnitQuantity.setSelection(1);
                 }
             }
         });
@@ -139,13 +139,13 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                 }
             }
         });
-        Quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        UnitQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     try {
 
-                        BigDecimal amount = new BigDecimal(UnitPrice.getText().toString()).multiply(new BigDecimal(Quantity.getText().toString()));
+                        BigDecimal amount = new BigDecimal(UnitPrice.getText().toString()).multiply(new BigDecimal(UnitQuantity.getText().toString()));
                         transferDetail1Data.setAmount(amount.doubleValue());
                         Amount.setText(amount.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                     } catch (Exception e) {
@@ -159,7 +159,7 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
 
-                    BigDecimal amount = new BigDecimal(UnitPrice.getText().toString()).multiply(new BigDecimal(Quantity.getText().toString()));
+                    BigDecimal amount = new BigDecimal(UnitPrice.getText().toString()).multiply(new BigDecimal(UnitQuantity.getText().toString()));
                     transferDetail1Data.setAmount(amount.doubleValue());
                     Amount.setText(amount.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                 } catch (Exception e) {
@@ -181,7 +181,8 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
         int id = item.getItemId();
         if (id == R.id.commit) {
             try {
-                transferDetail1Data.setUnitQuantity(Double.valueOf(Quantity.getText().toString()));
+                transferDetail1Data.setUnitQuantity(Double.valueOf(UnitQuantity.getText().toString()));
+                transferDetail1Data.setQuantity(transferDetail1Data.getUnitQuantity() * transferDetail1Data.getUnitRate());
             } catch (NumberFormatException e) {
                 CommonUtil.showToastError(this, "调入数量不能为空或者非数字!", null);
                 return true;
@@ -264,9 +265,9 @@ public class TransferAddGoodsActivity extends BaseActivity implements View.OnCli
                                         UnitPrice.setText(unit.getSPrice().toString());
 
 
-                                        Quantity.setText("1");
-                                        Quantity.setSelection(1);
-                                        Quantity.requestFocus();
+                                        UnitQuantity.setText("1");
+                                        UnitQuantity.setSelection(1);
+                                        UnitQuantity.requestFocus();
                                         transferDetail1Data.setUnitPrice(unit.getSPrice());
 
                                         transferDetail1Data.setUnitID(unit.getUnitID());

@@ -76,7 +76,7 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
             viewHolder.GoodsName = (TextView) convertView.findViewById(R.id.GoodsName);
 //            viewHolder.Spec = (TextView) convertView.findViewById(R.id.Spec);
             viewHolder.Unit = (TextView) convertView.findViewById(R.id.Unit);
-            viewHolder.Quantity = (TextView) convertView.findViewById(R.id.Quantity);
+            viewHolder.UnitQuantity = (TextView) convertView.findViewById(R.id.Quantity);
 //            viewHolder.OrigTaxPrice = (TextView) convertView.findViewById(R.id.OrigTaxPrice);
 //            viewHolder.Disc = (TextView) convertView.findViewById(R.id.Disc);
 //            viewHolder.TaxPrice = (TextView) convertView.findViewById(R.id.TaxPrice);
@@ -121,7 +121,7 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
 //        }
         viewHolder.Unit.setText(salesOrderDetail1Data.getUnitName());
 
-        viewHolder.Quantity.setText(decimalFormat.format(salesOrderDetail1Data.getUnitQuantity()));
+        viewHolder.UnitQuantity.setText(decimalFormat.format(salesOrderDetail1Data.getUnitQuantity()));
 //        viewHolder.OrigTaxPrice.setText(salesOrderDetail1Data.getOrigTaxPrice() + "");
 //        viewHolder.TaxPrice.setText(salesOrderDetail1Data.getTaxPrice() + "");
 //        viewHolder.Disc.setText(salesOrderDetail1Data.getDisc() + "");
@@ -140,7 +140,7 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
                 GoodsName,
         /*Spec, */Unit,
 
-        Quantity, ChargeDate,
+        UnitQuantity, ChargeDate,
         /* OrigTaxPrice, Disc,
          TaxPrice,*/ UnitPrice,
                 TaxRate/*, TaxAmt*/, Amount;
