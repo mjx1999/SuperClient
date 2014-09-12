@@ -121,7 +121,7 @@ public class SalesOrderDetailAdapter extends BaseAdapter {
 //        }
         viewHolder.Unit.setText(salesOrderDetail1Data.getUnitName());
 
-        viewHolder.Quantity.setText(decimalFormat.format(salesOrderDetail1Data.getQuantity()));
+        viewHolder.Quantity.setText(decimalFormat.format(salesOrderDetail1Data.getUnitQuantity()));
 //        viewHolder.OrigTaxPrice.setText(salesOrderDetail1Data.getOrigTaxPrice() + "");
 //        viewHolder.TaxPrice.setText(salesOrderDetail1Data.getTaxPrice() + "");
 //        viewHolder.Disc.setText(salesOrderDetail1Data.getDisc() + "");
